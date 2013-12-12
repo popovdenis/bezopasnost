@@ -1,0 +1,90 @@
+@charset "utf-8";
+
+img, div { behavior: url(iepngfix.htc) }
+
+div#ml_main_active{
+background:none;
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/text_mlmain_active.png');
+}
+div#ml_article{
+margin-top:0px;
+}
+div#ml_kitchen{
+margin-top:0px;
+}
+div#ml_diary{
+margin-top:0px;
+}
+div#ml_blogs{
+margin-top:0px;
+}
+div#ml_photocontest{
+margin-top:0px;
+}
+div#ml_gallery{
+margin-top:0px;
+}
+/***********************************************************/
+div#btn_main, div#btn_contacts, div#btn_reg, div#btn_sitemap, div#text_main, div#text_contacts, div#text_reg, div#text_sitemap, div#sitelogo, div#menubricks{
+background:none;
+}
+
+div#btn_main{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/btn_main.png');
+}
+
+div#btn_contacts{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/btn_contacts.png');
+}
+
+div#btn_reg{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/btn_reg.png');
+}
+
+div#btn_sitemap{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/btn_sitemap.png');
+}
+
+div#text_main{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/text_main.png');
+}
+
+div#text_contacts{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/text_contacts.png');
+}
+
+div#text_reg{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/text_reg.png');
+}
+
+div#text_sitemap{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/text_sitemap.png');
+}
+
+div#sitelogo{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/sitelogo.png');
+}
+
+div#menubricks{
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image src='./img/menubricks.png');
+}
+
+div#orangeblock_left{
+margin-left:27px;
+overflow:hidden;
+}
+div#orangeblock{
+overflow:hidden;
+}
+
+div#shadow{
+top:-9px
+}
+div#searchbar{
+top:-23px;
+behavior:none; /* баг с инпутом */
+}
+
+div#content{
+top:-25px;
+}
