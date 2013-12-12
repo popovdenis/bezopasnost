@@ -11,7 +11,7 @@ body {
 	margin:0 auto;
 	color:#333333;
 	font-family:"Calibri", tahoma, verdana, arial, serif;
-    background: url( "../images/holder.png" ) repeat-y center;    
+    background: url( "../images/holder.png" ) repeat-y center;
 	position:relative;
 	width:900px;
 }
@@ -218,7 +218,7 @@ div.menu_search_block input{
 div.submenu {
 	clear:left;
 	float:right;
-	margin-right:20px;	
+	margin-right:20px;
 	left:214px;
 	position:absolute;
 	top:260px;
@@ -226,7 +226,7 @@ div.submenu {
 div.submenu2 {
 	clear:both;
 	float:right;
-	margin-right:20px;	
+	margin-right:20px;
 	left:214px;
 	position:absolute;
 	top:295px;
@@ -352,7 +352,7 @@ div.tl {
 }
 
 div.tr {
-	background: url("../images/tr.png") 100% 0 no-repeat; 
+	background: url("../images/tr.png") 100% 0 no-repeat;
 	padding:10px;
 }
 
@@ -360,7 +360,7 @@ div.text {
 	float:left;
 	width:590px;
     padding-left:10px;
-} 
+}
 
 div.contacts {
 	float:left;
@@ -468,7 +468,7 @@ div.button {
 div.partner_text {
 	margin:0;
 	padding-left:225px;
-} 
+}
 
 div.partner_text img {
     margin: 10px 10px 10px 0;
@@ -919,7 +919,7 @@ div.about div.data {
 div.data img{
 	margin-right:5px;
 }
-div.part {
+div.part, div.office_address {
     float:left;
 	text-align:left;
     margin:0;
@@ -950,6 +950,9 @@ div.part p {
     font-weight:normal;
     margin:0;
     padding:0;
+}
+div.office_address {
+    width: 700px;
 }
 .contact_line{
 	margin-bottom:5px;
@@ -1224,7 +1227,7 @@ div.new_product a:hover {
 	padding:0;
 }
 p, #content p, ul, ol, dl {
-	
+
 }
 ul {
 	list-style-image:none;
@@ -1235,7 +1238,7 @@ ul {
 	display:block;
 }
 #main ul.results li {
-	
+
 }
 #main ul.results li {
 	border-bottom:1px solid #E8E8E8;
@@ -1255,7 +1258,7 @@ h4 {
 	margin-bottom:0;
 }
 p, #content p, ul, ol, dl {
-	
+
 	margin:0 0 1em;
 }
 #main .meta {
@@ -1266,7 +1269,7 @@ p, #content p, ul, ol, dl {
 	text-align:right;
 }
 p, #content p, ul, ol, dl {
-	
+
 	margin:0 0 1em;
 }
 p {
