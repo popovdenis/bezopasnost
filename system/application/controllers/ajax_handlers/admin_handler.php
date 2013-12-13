@@ -118,14 +118,14 @@ class Admin_handler extends Controller
                 $item_seo_keywords = $this->input->post( 'item_seo_keywords' );
                 $item_seo_description = $this->input->post( 'item_seo_description' );
                 $product = $this->input->post( 'item' );
-                $product = (object)unserialize( $product );
+                $product = (object)json_decode( $product, true );
 
                 $content = $this->input->post( 'content' );
-                $content = (object)unserialize( $content );
+                $content = (object)json_decode( $content, true );
                 $content = utf8_decode( $content->scalar );
 
                 $charecters = $this->input->post( 'charecters' );
-                $charecters = (object)unserialize( $charecters );
+                $charecters = (object)json_decode( $charecters, true );
                 $charecters = utf8_decode( $charecters->scalar );
 
                 if ( !empty( $date_production ) )
@@ -246,11 +246,11 @@ class Admin_handler extends Controller
                 $item_seo_title = $this->input->post( 'item_seo_title' );
                 $item_seo_keywords = $this->input->post( 'item_seo_keywords' );
                 $item_seo_description = $this->input->post( 'item_seo_description' );
-                $product = (object)unserialize( $product );
-                $charecters = (object)unserialize( $this->input->post( 'charecters' ) );
+                $product = (object)json_decode( $product, true );
+                $charecters = (object)json_decode( $this->input->post( 'charecters' ), true );
                 $charecters = utf8_decode( $charecters->scalar );
 
-                $content = (object)unserialize( $this->input->post( 'content' ) );
+                $content = (object)json_decode( $this->input->post( 'content' ), true );
                 $content = utf8_decode( $content->scalar );
 
                 if ( !empty( $date_production ) )
@@ -370,7 +370,7 @@ class Admin_handler extends Controller
 
             case "delete_items_checked":
                 $items = $this->input->post( 'jsonData' );
-                $items = (object)unserialize( $items );
+                $items = (object)json_decode( $items, true );
 
                 $user_id = $this->db_session->userdata( 'user_id' );
                 $user_role = $this->db_session->userdata( 'user_role' );
@@ -535,7 +535,7 @@ class Admin_handler extends Controller
                 $category_id = $this->input->post( 'category_id' );
                 $cat_order = $this->input->post( 'cat_order' );
 
-                $cat_order = unserialize( $cat_order );
+                $cat_order = json_decode( $cat_order, true );
                 $this->load->model( 'category_mdl', 'category' );
                 $data = $this->category->reorder_categories( $category_id, $cat_order );
                 break;
@@ -554,37 +554,37 @@ class Admin_handler extends Controller
                 {
                     case "phone":
                         if ( !empty( $contacts->contact_phones ) ) {
-                            $contacts->contact_phones = unserialize( $contacts->contact_phones );
+                            $contacts->contact_phones = json_decode( $contacts->contact_phones, true );
                         }
                         else {
                             $contacts->contact_phones = array( );
                         }
                         array_push( $contacts->contact_phones, $contact_value );
-                        $contacts_data = array( 'contact_phones' => serialize( $contacts->contact_phones ) );
+                        $contacts_data = array( 'contact_phones' => json_encode( $contacts->contact_phones ) );
 
                         break;
 
                     case "fax":
                         if ( !empty( $contacts->contact_faxes ) ) {
-                            $contacts->contact_faxes = unserialize( $contacts->contact_faxes );
+                            $contacts->contact_faxes = json_decode( $contacts->contact_faxes, true );
                         }
                         else {
                             $contacts->contact_faxes = array( );
                         }
                         array_push( $contacts->contact_faxes, $contact_value );
-                        $contacts_data = array( 'contact_faxes' => serialize( $contacts->contact_faxes ) );
+                        $contacts_data = array( 'contact_faxes' => json_encode( $contacts->contact_faxes ) );
 
                         break;
 
                     case "email":
                         if ( !empty( $contacts->contact_emails ) ) {
-                            $contacts->contact_emails = unserialize( $contacts->contact_emails );
+                            $contacts->contact_emails = json_decode( $contacts->contact_emails, true );
                         }
                         else {
                             $contacts->contact_emails = array( );
                         }
                         array_push( $contacts->contact_emails, $contact_value );
-                        $contacts_data = array( 'contact_emails' => serialize( $contacts->contact_emails ) );
+                        $contacts_data = array( 'contact_emails' => json_encode( $contacts->contact_emails ) );
 
                         break;
 
@@ -625,7 +625,7 @@ class Admin_handler extends Controller
                 $contacts_data_address = array( 0 => array( "contact_address" => empty( $contact_address_1 ) ? ''
                         : $contact_address_1 ), 1 => array( "contact_address" => empty( $contact_address_2 ) ? ''
                         : $contact_address_2 ) );
-                $contacts_data_address = serialize( $contacts_data_address );
+                $contacts_data_address = json_encode( $contacts_data_address );
 
                 $contacts_data_time = array( 0 => array( 'time_from_h' => empty( $contact_time_1_f_h ) ? ''
                         : $contact_time_1_f_h, 'time_from_m' => empty( $contact_time_1_f_m ) ? ''
@@ -644,28 +644,35 @@ class Admin_handler extends Controller
                         : $contact_time_2_tm_f_m, 'time_tm_to_h' => empty( $contact_time_2_tm_t_h ) ? ''
                         : $contact_time_2_tm_t_h, 'time_tm_to_m' => empty( $contact_time_2_tm_t_m ) ? ''
                         : $contact_time_2_tm_t_m ) );
-                $contacts_data_time = serialize( $contacts_data_time );
+                $contacts_data_time = json_encode( $contacts_data_time );
 
                 $phones = array( );
                 $faxes = array( );
                 $emails = array( );
-                foreach ( $contact_elements as &$element )
-                {
-                    if ( empty( $element['item_value'] ) ) {
-                        continue;
-                    }
-                    if ( $element['item_type'] == 'phone' ) {
-                        $phones[] = $element['item_value'];
-                    }
-                    elseif ( $element['item_type'] == 'fax' ) {
-                        $faxes[] = $element['item_value'];
-                    }
-                    elseif ( $element['item_type'] == 'email' ) {
-                        $emails[] = $element['item_value'];
+                if (! empty($contact_elements)) {
+                    foreach ( $contact_elements as &$element )
+                    {
+                        if ( empty( $element['item_value'] ) ) {
+                            continue;
+                        }
+                        if ( $element['item_type'] == 'phone' ) {
+                            $phones[] = $element['item_value'];
+                        }
+                        elseif ( $element['item_type'] == 'fax' ) {
+                            $faxes[] = $element['item_value'];
+                        }
+                        elseif ( $element['item_type'] == 'email' ) {
+                            $emails[] = $element['item_value'];
+                        }
                     }
                 }
-
-                $contacts_data = array( "contact_address" => $contacts_data_address, "contact_times" => $contacts_data_time, "contact_phones" => serialize( $phones ), "contact_emails" => serialize( $emails ), "contact_faxes" => serialize( $faxes ) );
+                $contacts_data = array(
+                    "contact_address" => $contacts_data_address,
+                    "contact_times"   => $contacts_data_time,
+                    "contact_phones"  => json_encode($phones),
+                    "contact_emails"  => json_encode($emails),
+                    "contact_faxes"   => json_encode($faxes)
+                );
 
                 $this->load->model( 'contacts_mdl', 'contacts' );
                 $this->contacts->update_contacts( $contacts_data );
@@ -799,7 +806,7 @@ class Admin_handler extends Controller
 
             case "update_currency_rate":
                 $currency_id = $this->input->post( 'currency_id' );
-                $currency_names = (object)unserialize( $this->input->post( 'currency_names' ) );
+                $currency_names = (object)json_decode( $this->input->post( 'currency_names' ), true );
 
                 $this->load->model( 'currency_mdl', 'currency' );
 
@@ -936,7 +943,7 @@ class Admin_handler extends Controller
                 $gallery_id = $this->input->post( 'gallery_id' );
                 $attach_order = $this->input->post( 'attach_order' );
 
-                $attach_order = unserialize( $attach_order );
+                $attach_order = json_decode( $attach_order, true );
 
                 $this->load->model( 'gallery_mdl', 'gallery' );
                 $data = $this->gallery->reorder_attach_gallery( $gallery_id, $attach_order );
@@ -1002,7 +1009,7 @@ class Admin_handler extends Controller
 
                 if ( isset( $item->attach_preview_path ) )
                 {
-                    $img_src .= '<img alt="" border="0" src="' . base_url( ) . $item->attach_preview_path . '" />';
+                    $img_src .= '<img alt="" border="0" src="' . base_url() . index_page() . $item->attach_preview_path . '" />';
                 }
                 else
                 {
@@ -1045,7 +1052,7 @@ class Admin_handler extends Controller
             $val['items'] = $items;
             $val['cur_page'] = $this->page;
             $val['num_pages'] = $num_pages;
-            $val['paginate_args'] = array( 'total_rows' => $items_all, 'per_page' => $this->per_page, 'num_links' => 2, 'cur_page' => $this->page, 'uri_segment' => 3, 'js_function' => 'paginate_items', 'base_url' => base_url( ) . 'admin/home/' );
+            $val['paginate_args'] = array( 'total_rows' => $items_all, 'per_page' => $this->per_page, 'num_links' => 2, 'cur_page' => $this->page, 'uri_segment' => 3, 'js_function' => 'paginate_items', 'base_url' => base_url( ) . index_page() . 'admin/home/' );
 
             $items_str = $this->load->view( 'admin/_items_block', $val, true );
         }

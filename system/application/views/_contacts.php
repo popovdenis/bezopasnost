@@ -40,22 +40,22 @@
     <?php
         $address1 = null;
         if (! empty($contacts->contact_address)) {
-            $contacts->contact_address = unserialize($contacts->contact_address);
+            $contacts->contact_address = json_decode($contacts->contact_address, true);
             $address1                  = (isset($contacts->contact_address[0]) && empty($contacts->contact_address[0]['contact_address'])) ? null : $contacts->contact_address[0]['contact_address'];
         }
         $map1 = null;
         if (! empty($contacts->contact_maps)) {
-            $contacts->contact_maps = unserialize($contacts->contact_maps);
+            $contacts->contact_maps = json_decode($contacts->contact_maps, true);
             $map1                   = isset($contacts->contact_maps['contact_map1']) ? $contacts->contact_maps['contact_map1'] : null;
         }
         $photo1 = null;
         if (! empty($contacts->contact_photos)) {
-            $contacts->contact_photos = unserialize($contacts->contact_photos);
+            $contacts->contact_photos = json_decode($contacts->contact_photos, true);
             $photo1                   = isset($contacts->contact_photos['contact_photo1']) ? $contacts->contact_photos['contact_photo1'] : null;
         }
         $time1 = null;
         if (! empty($contacts->contact_times)) {
-            $contacts->contact_times = unserialize($contacts->contact_times);
+            $contacts->contact_times = json_decode($contacts->contact_times, true);
             $time1                   = isset($contacts->contact_times[0]) ? $contacts->contact_times[0] : null;
         }
     ?>
@@ -81,10 +81,10 @@
                         </div>
                     <?php } endif; ?>
                 </div>
-                <div style="float:left; margin-right:20px; margin-top:5px;">
+                <div style="float:left; margin-right:10px; margin-top:5px;">
                     Электронная почта:
                 </div>
-                <div style="float:left; margin-top:9px;">
+                <div style="float:left; margin-top:5px;">
                     <?php if (! empty($contacts->contact_emails)) : foreach ($contacts->contact_emails as $email) { ?>
                         <a href="mailto:<?= $email ?>"><?= $email ?></a>
                     <?php } endif; ?>
@@ -112,8 +112,9 @@
                     <h3>Офис:</h3>
                 </div>
                 <div class="office_address">
-                    <div class="contact_line"><img src="<?= base_url() . $photo1 ?>"
-                                                   style="max-height:370px;max-width:370px;"></div>
+                    <?php if (!empty($photo1)) { ?>
+                        <div class="contact_line"><img src="<?= base_url() . $photo1 ?>" style="max-height:370px;max-width:370px;"></div>
+                    <?php } ?>
                     <div class="contact_line"><span>Адрес: </span><span><?= $address1 ?></span></div>
                     <div class="contact_line"><span>Время работы: </span><span><?= $time_work1 ?></span></div>
                     <div class="contact_line"><span>Суббота: </span><span>10:00 - 15:00</span></div>

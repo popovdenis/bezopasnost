@@ -84,14 +84,14 @@ class Home extends Controller
                 {
                     if ( !empty( $contacts->contact_photos ) )
                     {
-                        $contacts->contact_photos = unserialize( $contacts->contact_photos );
+                        $contacts->contact_photos = json_decode( $contacts->contact_photos, true );
                     }
                     else
                     {
                         $contacts->contact_photos = array();
                     }
                     $contacts->contact_photos[$field_name] = $item_data['attach_path'];
-                    $contacts->contact_photos = serialize( $contacts->contact_photos );
+                    $contacts->contact_photos = json_encode( $contacts->contact_photos );
 
                     $contacts_data = array( "contact_photos" => $contacts->contact_photos );
                 }

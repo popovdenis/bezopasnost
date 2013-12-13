@@ -2,7 +2,7 @@
 $(function(){
 	new AjaxUpload('#categoryid_<?=$category->category_id?>', {
 		// Location of the server-side upload script
-		action: '<?=base_url()?>admin/home/upload',
+		action: '<?=base_url()?><?=index_page()?>admin/home/upload',
 		// File upload name
 		name: 'userfile',
 		// Additional data to send
@@ -19,18 +19,18 @@ $(function(){
 		        // cancel upload
 		        return false;
 		    } else {
-		    	
+
 		    	$("#category_img").html('<img alt="loading..." border="0" src="<?php echo base_url() ?>images/loading-blue.gif" />');
 		    }
 		} ,
 	  onComplete: function(file, response) {
 	  	if(response) {
-		  	
+
 	  	}
 		if(response) {
 		  	var result = window["eval"]("(" + response + ")");
 		  	$.post(
-				"<?=base_url()?>admin/home/upload",
+				"<?=base_url()?><?=index_page()?>admin/home/upload",
 				{ attach_id: result.attach_id, item_id : '<?=$category->category_id?>', upload_type: 'category_title'},
 				function(data){
 					var file = '<img src="<?=base_url()?>'+result.file_path+'" />';
@@ -99,7 +99,7 @@ $(function() {
 					<a href="#" id="categoryid_<?=$category->category_id?>">
 						<img class="verticalMiddle" alt="" border="0" src="<?=base_url()?>images/upload-green-arrow.gif"/>
 						<img class="marLeft5 verticalMiddle" alt="" border="0" onclick="javascript:$('#categoryid_<?=$category->category_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
-					<span>Логотип категории</span>	
+					<span>Логотип категории</span>
 					</a>
 				</div>
 			</div>

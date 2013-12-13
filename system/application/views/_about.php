@@ -43,23 +43,15 @@
 											</div>
 											<?php
 												$address1 = null;
-												$address2 = null;	
 												if(!empty($contacts->contact_address)){
-													$contacts->contact_address = unserialize($contacts->contact_address);
+													$contacts->contact_address = json_decode($contacts->contact_address, true);
 													$address1 = (isset($contacts->contact_address[0]) && empty($contacts->contact_address[0]['contact_address'])) ? null : $contacts->contact_address[0]['contact_address'];
-													$address2 = (isset($contacts->contact_address[1]) && empty($contacts->contact_address[1]['contact_address'])) ? null : $contacts->contact_address[1]['contact_address'];				
 												}
 											?>
 											<div style="font-size:10px;">&nbsp;</div>
-											<div class="left_part">Офис 1:</div>
+											<div class="left_part">Офис:</div>
 											<div class="right_part">
 												<p><?=$address1?></p>
-												<a class="link" href="<?=base_url()?>contacts/">Схема проезда</a>
-											</div>
-											<div style="font-size:10px;">&nbsp;</div>
-											<div class="left_part">Офис 2:</div>
-											<div class="right_part">
-												<p><?=$address2?></p>
 												<a class="link" href="<?=base_url()?>contacts/">Схема проезда</a>
 											</div>
 										</div>
@@ -98,7 +90,7 @@ hs.graphicsDir = '<?=base_url()?>js/highslide/graphics/';
 
 </script>
 		<div class="highslide-gallery certificates">
-			<?php 
+			<?php
 			if($gallery) {
 				$image_str = '';
 				foreach ($gallery as $attach) {
@@ -106,7 +98,7 @@ hs.graphicsDir = '<?=base_url()?>js/highslide/graphics/';
 									<img src="'.base_url().$attach->attach_preview_path.'" alt="Highslide JS" title="Click to enlarge" /></a></div>';
 				}
 				echo $image_str;
-			}			
+			}
 			?>
 		</div>
 		<div style="clear:both;">&nbsp;</div>
