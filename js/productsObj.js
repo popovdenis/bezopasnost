@@ -18,7 +18,7 @@ var productsObj = {
     initImageGalleryUploader: function (itemId) {
         if ($('#imggallery_' + itemId).length > 0) {
             new AjaxUpload('#imggallery_' + itemId, {
-                action: '/index.php/admin/home/upload',
+                action: '/admin/home/upload',
                 name: 'userfile',
                 data: {
                     upload_type: 'item_gallery'
@@ -32,7 +32,7 @@ var productsObj = {
                     var result = '';
                     if (response) {
                         result = window["eval"]("(" + response + ")");
-                        $.post("/index.php/admin/home/upload", { new_gal_title: $('#new_gal_title').val(), new_gal_desc: $('#new_gal_desc').val(), attach_id: result.attach_id, item_id: itemId, upload_type: 'item_gallery', file_type: $("#gallery_file_tyles option:selected").val() }, function (data) {
+                        $.post("/admin/home/upload", { new_gal_title: $('#new_gal_title').val(), new_gal_desc: $('#new_gal_desc').val(), attach_id: result.attach_id, item_id: itemId, upload_type: 'item_gallery', file_type: $("#gallery_file_tyles option:selected").val() }, function (data) {
                                 var result = window["eval"]("(" + data + ")");
                                 $('#new_gal_title').val('');
                                 $('#new_gal_desc').val('');
@@ -62,7 +62,7 @@ var productsObj = {
             itemId = (typeof itemId != "undefined") ? itemId : (imgTitleElement.attr('id').split('_')[1]);
             new AjaxUpload(imgTitleElement.attr('id'), {
                 // Location of the server-side upload script
-                action: '/index.php/admin/home/upload',
+                action: '/admin/home/upload',
                 // File upload name
                 name: 'userfile',
                 data: {
@@ -77,7 +77,7 @@ var productsObj = {
                 onComplete: function (file, response) {
                     if (response) {
                         var result = window["eval"]("(" + response + ")");
-                        $.post("/index.php/admin/home/upload", { attach_id: result.attach_id, item_id: itemId, upload_type: 'product_title'}, function (data) {
+                        $.post("/admin/home/upload", { attach_id: result.attach_id, item_id: itemId, upload_type: 'product_title'}, function (data) {
                                 result = window["eval"]("(" + data + ")");
                                 var file = '<img width="235" src="/' + result.file_path + '" />';
                                 $('#item_title_img').html(file);

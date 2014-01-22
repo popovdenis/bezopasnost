@@ -1,5 +1,5 @@
 var base_url = base_help_url;
-var ajax_admin_path = base_url + "index.php/ajax_handlers/admin_handler/ajax_actions/";
+var ajax_admin_path = base_url + "ajax_handlers/admin_handler/ajax_actions/";
 var image_loading = '<img id="loading" border="0" src="' + base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>';
 function htmlspecialchars(content) {
     content = str_replace(content, '&', '');
