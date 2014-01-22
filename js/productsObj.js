@@ -123,6 +123,13 @@ var productsObj = {
         if ($('#item_charecters').length > 0) {
             CKEDITOR.replace('item_charecters', config);
         }
+        if ($('#new_post_content').length > 0) {
+            CKEDITOR.replace('new_post_content', config);
+        }
+        if ($('#new_item_charecters').length > 0) {
+            CKEDITOR.replace('new_post_content', config);
+        }
+
     },
 
     initDatePicker: function() {

@@ -1,10 +1,3 @@
-<script type="text/javascript">
-	var oFCKeditor = new FCKeditor("post_content"); // привязка к textarea с id="body"
-    oFCKeditor.ToolbarSet="Default"; // число кнопочек на инструментальной панели
-    oFCKeditor.BasePath="<?=base_url()?>js/fckeditor/"; //путь к fckeditor
-    oFCKeditor.Height = "245";
-    oFCKeditor.ReplaceTextarea(); 
-</script>
 <style type="text/css">
 div.jqi{
 	width:1000px;
@@ -24,7 +17,7 @@ div.jqi{
 			<div>
 				<span><strong>Описание статьи</strong></span>
 				<textarea name="post_content" id="post_content" style="min-height:330px;">&nbsp;</textarea>
-			</div>			
+			</div>
 			<div style="margin:10px 0 10px 0;">
 				<div class="seo_params_block">
                     <span class="seo_params">Seo параметры</span>
@@ -44,7 +37,7 @@ div.jqi{
 				<div>
 					<span><strong>Метки</strong>&nbsp;<i>(для быстрого поиска статей)</i></span><br />
 					<input type="text" id="item_marks" name="item_marks" value="" style="width:500px;" />
-				</div>				
+				</div>
 			</div>
 		</div>
 		<!--<div>
@@ -54,14 +47,14 @@ div.jqi{
 	<div style="float: right; margin-right: 5px; overflow-y: auto; height: 400px; overflow-x: hidden; width: 235px;padding-right:15px;">
 		<div>
 			<div style="margin: 0pt auto; width: 185px; float: left;">
-				<span>Категория продукта</span>				
+				<span>Категория продукта</span>
 			</div>
 			<div id="chboxes" style="float: left;">
 			<?php
 				$cat_str = '';
 				$level = null;
 				foreach ($categories as $index=>$category) {
-					$margin = 10*$category->level; 
+					$margin = 10*$category->level;
 					$style = 'style="margin-left:'.$margin.'px;"';
 					$cat_str .= '<div '.$style.'><input type="checkbox" id="ch_door" value="'.$category->category_id.'" />
 							'.$category->category_title.'</div>';
