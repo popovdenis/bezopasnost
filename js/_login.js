@@ -1,5 +1,5 @@
 var base_url = "http://" + window.location.hostname + "/";
-var ajax_actions_path = base_url + "users/ajax_actions";
+var ajax_actions_path = base_url + "index.php/users/ajax_actions";
 
 $(document).ready(function() {
     $("#login_email, #password").focus(function(){ $(this).css({'background-color':'#ffffff'}); });

@@ -222,19 +222,21 @@
      */
     function create_watermark($main_img, $text, $font, $r = 128, $g = 128, $b = 128, $alpha_level = 100)
     {
-        $main_img_obj = imagecreatefromjpeg($main_img);
-        $width  = imagesx($main_img_obj);
-        $height = imagesy($main_img_obj);
-        $angle  = - rad2deg(atan2((- $height), ($width)));
-        $text = " " . $text . " ";
-        $c    = imagecolorallocatealpha($main_img_obj, $r, $g, $b, $alpha_level);
-        $size = (($width + $height) / 2) * 2 / strlen($text);
-        $box  = imagettfbbox($size, $angle, $font, $text);
-        $x    = $width / 2 - abs($box[4] - $box[0]) / 2;
-        $y    = $height / 2 + abs($box[5] - $box[1]) / 2;
-        imagettftext($main_img_obj, $size, $angle, $x, $y, $c, $font, $text);
-        imagejpeg($main_img_obj, $main_img);
-        imagedestroy($main_img_obj);
+        if (file_exists($main_img)) {
+            $main_img_obj = imagecreatefromjpeg($main_img);
+            $width  = imagesx($main_img_obj);
+            $height = imagesy($main_img_obj);
+            $angle  = - rad2deg(atan2((- $height), ($width)));
+            $text = " " . $text . " ";
+            $c    = imagecolorallocatealpha($main_img_obj, $r, $g, $b, $alpha_level);
+            $size = (($width + $height) / 2) * 2 / strlen($text);
+            $box  = imagettfbbox($size, $angle, $font, $text);
+            $x    = $width / 2 - abs($box[4] - $box[0]) / 2;
+            $y    = $height / 2 + abs($box[5] - $box[1]) / 2;
+            imagettftext($main_img_obj, $size, $angle, $x, $y, $c, $font, $text);
+            imagejpeg($main_img_obj, $main_img);
+            imagedestroy($main_img_obj);
+        }
     }
 
     function get_menu_categories()
