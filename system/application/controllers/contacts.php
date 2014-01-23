@@ -11,6 +11,7 @@ class Contacts extends Controller
     {
         parent::Controller( );
         $this->benchmark->mark( 'code_start' );
+        $this->output->cache(60);
     }
 
     /**
