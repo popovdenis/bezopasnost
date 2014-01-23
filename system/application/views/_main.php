@@ -40,9 +40,6 @@
 	<div class="content">
 		<div>
 			<div class="text">
-				<h2><a href="<?=base_url()?>contacts">О Компании</a></h2>
-				<?php $about_desc = $about->item_preview; ?>
-				<p><?=$about_desc?></p>
 	            <div class="categories">
                   <a href="<?php if(!empty($links_cat['safes'])) { echo base_url().'products/category/'.$links_cat['safes'][0]->category_id; } ?>"><img src="<?=base_url()?>images/categories/safes.png"/></a>
                   <a href="<?php if(!empty($links_cat['locks'])) { echo base_url().'products/category/'.$links_cat['locks'][0]->category_id; } ?>"><img src="<?=base_url()?>images/categories/locks.png"/></a>

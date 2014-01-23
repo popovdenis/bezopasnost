@@ -3,7 +3,7 @@
 /*------------------------------------------------------*/
 body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre, a,
-img, sub, sup, ol, ul, li, fieldset, form, label, 
+img, sub, sup, ol, ul, li, fieldset, form, label,
 legend, table, caption, tbody, thead, tr, th, td, button {
 	margin: 0;
 	padding: 0;
@@ -223,7 +223,7 @@ select {
 	margin:0 10px 10px 0;
 	position:relative;
 	border:1px solid #CCCCCC;
-	padding:4px;	
+	padding:4px;
 }
 #rate_productpage_header span{
 	margin:0 3px 0 3px;
@@ -242,6 +242,7 @@ select {
 }
 #ui-datepicker-div{
 	z-index:1100!important;
+    border: none !important;
 }
 #settings_block{
 	float:left;
@@ -340,7 +341,7 @@ select {
 	width:184px;
 }
 #map1_img, #map2_img{
-	
+
 	margin-left:5px;
 	margin-right:5px;
 	margin-top:10px;
@@ -369,7 +370,7 @@ select {
 	width:100%;
 }
 .gallery_block, .gallery_block div{
-	margin-top: 5px;		
+	margin-top: 5px;
 }
 .gallery_image_block{
 	float: left;
@@ -600,7 +601,7 @@ div.page_container a {
 	color:#8f8f8f;
 }
 
-.page_number_end {	
+.page_number_end {
 	width:50px;
 	float:left;
 	height:28px;
@@ -694,17 +695,17 @@ div.page_number_selected {
 .postbox h3, #poststuff .postbox h3, #poststuff .stuffbox h3 {
     background:url("images/gray-grad.png") repeat-x scroll left top #DFDFDF;
     text-shadow:0 1px 0 #FFFFFF;
-} 
+}
 .postbox h3{
     font-size:12px;
     font-weight:bold;
     line-height:1;
     margin:0;
     padding:7px 9px;
-} 
+}
 .postbox h3 {
     color:#464646;
-}  
+}
 .headtable_left {
     font-weight:bold;
     margin-left:14%;

@@ -18,7 +18,7 @@ $(function(){
 		        alert('Error: invalid file extension');
 		        // cancel upload
 		        return false;
-		    } else {		    	
+		    } else {
 		    	$("#loader").show();
 		    }
 		} ,
@@ -26,12 +26,12 @@ $(function(){
 	  	var result = '';
 	  	if(response) {
 		  	result = window["eval"]("(" + response + ")");
-		  	
+
 		  	var img_del_gal = '<img title="Удалить картинку из текущей галереи" style="cursor:pointer;width:15px;height:15px;" src="<?=base_url()?>images/icons/cancel.png" onclick="javascript:if(confirm(\'Картинка будет удалена из текущей галереи. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \''+result.item_id+'\', \'false\');return false;" /><img title="Удалить картинку из всех галерей" style="cursor:pointer;width:21px;height:21px;" src="<?=base_url()?>images/icons/trash.png" onclick="javascript:if(confirm(\'Картинка будет удалена из всех галерей. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \'null\', \'true\');return false;" />';
-		  	
+
 		  	var file = '<div id="gallery_img_id_'+result.attach_id+'" class="gallery_image_block"><div class="heading">'+result.attach_title+'</div><a href="<?=base_url()?>'+result.file_full_path+'" class="highslide" onclick="return hs.expand(this)"><img src="<?=base_url()?>'+result.file_path+'" title="Click to enlarge" /></a><div class="highslide-caption">'+result.attach_desc+'</div>'+img_del_gal+'</div>';
 		  	$("#loader").hide();
-		  	$("#new_gallery_block").hide();		  	
+		  	$("#new_gallery_block").hide();
 		  	$('#imggallery_img').append(file);
 	  	}
 	  	$.post(
@@ -66,7 +66,7 @@ $(function(){
 		        // cancel upload
 		        return false;
 		    } else {
-		    	
+
 		    	$("#item_title_img").html('<img alt="loading..." border="0" src="<?php echo base_url() ?>images/loading-blue.gif" />');
 		    }
 		} ,
@@ -79,13 +79,6 @@ $(function(){
 	  }
 	});
 });
-</script>
-<script type="text/javascript">
-	var oFCKeditor = new FCKeditor("post_content"); // привязка к textarea с id="body"
-    oFCKeditor.ToolbarSet="Default"; // число кнопочек на инструментальной панели
-    oFCKeditor.BasePath="<?=base_url()?>js/fckeditor/"; //путь к fckeditor
-    oFCKeditor.Height = "245";
-    oFCKeditor.ReplaceTextarea(); 
 </script>
 <style type="text/css">
 div.jqi{
@@ -126,9 +119,9 @@ div.jqi{
 				<div>
 					<span><strong>Метки</strong>&nbsp;<i>(для быстрого поиска статей)</i></span><br />
 					<input type="text" id="item_marks" name="item_marks" value="<?=$item->item_marks?>" style="width:500px;" />
-				</div>				
+				</div>
 			</div>
-		</div>		
+		</div>
 		<div class="gallery_block">
 			<div class="innerTableHeaderGreen">
 				<div id="" class="left padAll5">Галлерея статьи</div>
@@ -147,14 +140,14 @@ div.jqi{
 						<a href="#" id="imggallery_<?=$item->item_id?>">
 							<img class="verticalMiddle" alt="" border="0" src="<?=base_url()?>images/upload-green-arrow.gif"/>
 							<img class="marLeft5 verticalMiddle" alt="" border="0" onclick="javascript:$('#imggallery_<?=$item->item_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
-							<span>Загрузить картинку</span>	
+							<span>Загрузить картинку</span>
 						</a><br/>
 						<img id="loader" alt="loading..." border="0" src="<?php echo base_url() ?>images/add-note-loader.gif" style="display:none;" />
 					</div>
 				</div>
 			</div>
 			<div id="imggallery_img">
-			<?php if(isset($gallery)) echo $gallery; ?>		
+			<?php if(isset($gallery)) echo $gallery; ?>
 			</div>
 		</div>
 	</div>
@@ -171,7 +164,7 @@ div.jqi{
 				<div style="float:left;margin-left:7px;bottom:7px;"><select id="item_mode_<?=$item->item_id?>">
 					<option value="open" <?php if($item->item_mode == 'open') echo "selected"; ?>>Опубликована</option>
 					<option value="close" <?php if($item->item_mode == 'close') echo "selected"; ?>>Закрыта</option>
-				</select></div>				
+				</select></div>
 			</div>
 			<div id="item_title_img">
 			<?php
@@ -183,7 +176,7 @@ div.jqi{
 				<a href="#" id="imgtitle_<?=$item->item_id?>">
 					<img class="verticalMiddle" alt="" border="0" src="<?=base_url()?>images/upload-green-arrow.gif"/>
 					<img class="marLeft5 verticalMiddle" alt="" border="0" onclick="javascript:$('#imgtitle_<?=$item->item_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
-				<span>Логотип статьи</span>	
+				<span>Логотип статьи</span>
 				</a>
 			</div><br/>
 			<?php if(isset($categories) && !empty($categories)) { ?>
@@ -204,16 +197,16 @@ div.jqi{
 				<input type="text" id="category_title" style="width:180px;"/><br /><a href="#" onclick="javascript:add_category();" style="float:right;">Добавить</a>
 			</div>
 			<div id="chboxes" style="float: left;overflow-y: auto; height: 400px; overflow-x: hidden; width: 230px;padding-right:15px;margin-top:10px;">
-			<?php			
+			<?php
 				$cat_str = '';
 				$level = null;
 				foreach ($categories as $index=>$category) {
 					$checked = "";
 					$level = $category->level;
 					unset($category->level);
-					
+
 					if(in_array($category, $items_cats)) $checked = "checked";
-					$margin = 10*$level; 
+					$margin = 10*$level;
 					$style = 'style="margin-left:'.$margin.'px;"';
 					$cat_str .= '<div '.$style.'><input type="checkbox" id="ch_door" value="'.$category->category_id.'" '.$checked.' />
 							'.$category->category_title.'</div>';

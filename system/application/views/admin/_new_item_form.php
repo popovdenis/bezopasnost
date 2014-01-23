@@ -1,10 +1,3 @@
-<script type="text/javascript">
-	var oFCKeditor = new FCKeditor("post_content"); // привязка к textarea с id="body"
-    oFCKeditor.ToolbarSet="Default"; // число кнопочек на инструментальной панели
-    oFCKeditor.BasePath="<?=base_url()?>js/fckeditor/"; //путь к fckeditor
-    oFCKeditor.Height = "345";
-    oFCKeditor.ReplaceTextarea(); 
-</script>
 <div style="margin-bottom:10px;">
 	<label><strong>Полное название</strong></label><input type="text" id="item_title" name="item_title" value="" style="width:500px;" />
 </div>

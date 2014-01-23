@@ -48,7 +48,6 @@ function get_new_page(page) {
             'flag': 'new'
         },
         beforeSend: function () {
-            FCKeditorAPI = null;
             __FCKeditorNS = null;
             $('iframe').remove();
             $('div[class^="uploadfile"]').remove();
@@ -69,30 +68,6 @@ function get_new_page(page) {
             if (data == 5) window.location = base_url + "admin/home"; else
                 $("#" + page).html(data);
         },
-        /*beforeSend: function()
-         {
-         FCKeditorAPI = null;
-         __FCKeditorNS = null;
-         $("#add_item_img").show();
-         },*/
-        /*success: function(data)
-         {
-         $("#add_item_img").hide();
-         $.prompt(data,{
-         buttons:{'Применить':true},
-         submit:function(v,m, f){
-         an = m.children('#new_item_title');
-         if(f.new_item_title == ""){
-         alert('Статья не может быть сохранена, так как вы не ввели название для этой статьи.');
-         return false;
-         } else {
-         add_item(page);
-         return true;
-         }
-         }
-         });
-
-         },*/
         error: function (data) {
             $("#add_item_img").hide();
             $("#" + page).html('');
@@ -112,7 +87,6 @@ function get_page(page, item_id, page_rus) {
             'flag': 'exist'
         },
         beforeSend: function () {
-            FCKeditorAPI = null;
             __FCKeditorNS = null;
             $('iframe').remove();
             $('div[class^="uploadfile"]').remove();
@@ -177,12 +151,10 @@ function add_item(page) {
                 val: $(this).val()
             });
         });
-        var content = FCKeditorAPI.GetInstance('new_post_content').GetXHTML();
-        content = htmlspecialchars(content);
+        var content = htmlspecialchars($('#new_post_content').val());
         var charecters = "";
         if (document.getElementById('new_item_charecters') != null) {
-            charecters = FCKeditorAPI.GetInstance('new_item_charecters').GetXHTML();
-            charecters = htmlspecialchars(charecters);
+            charecters = htmlspecialchars($('#new_item_charecters').val());
         }
         $.ajax({
             type: "POST",
@@ -206,7 +178,6 @@ function add_item(page) {
                 'item': serialize(product)
             },
             beforeSend: function () {
-                FCKeditorAPI = null;
                 __FCKeditorNS = null;
                 $('iframe').remove();
                 $('div[class^="uploadfile"]').remove();

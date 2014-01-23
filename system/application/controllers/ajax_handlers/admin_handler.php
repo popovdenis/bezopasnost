@@ -295,7 +295,7 @@ class Admin_handler extends Controller
                         $this->items->save_item_category($category['val'], $product_id);
                     }
                 } else {
-                    $product_data['item_mode'] = 'close';
+//                    $product_data['item_mode'] = 'close';
                     $product_id                = $this->items->save_item($product_data, $item_id);
                 }
 
