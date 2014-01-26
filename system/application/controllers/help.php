@@ -290,4 +290,3 @@ class Help extends Controller {
 		
 	}
 }
-?>

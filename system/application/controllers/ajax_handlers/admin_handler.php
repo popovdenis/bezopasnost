@@ -799,7 +799,7 @@ class Admin_handler extends Controller
                 $this->load->model( 'items_mdl', 'items' );
                 $this->items->save_item( array( "item_price" => $price_uah ), $item_id );
 
-                $data = 1;
+                $data = json_encode(array('result' => true));
                 break;
 
             case "add_gallery":

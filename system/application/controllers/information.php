@@ -305,4 +305,3 @@
 			else redirect('information');
 		}
 	}
-?>
