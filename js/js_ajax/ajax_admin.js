@@ -17,7 +17,7 @@ function change_price(item_id) {
         dataType: "html",
         data: {
             'action': 'change_price',
-            'price_uah': $('#cr_uah_' + item_id).val(),
+            'price_uah': $('#cr_uah_' + item_id).text(),
             'item_id': item_id
         },
         beforeSend: function () {
@@ -25,8 +25,9 @@ function change_price(item_id) {
         },
         success: function (data) {
             $('#loader_' + item_id).hide();
-            $('#price_item_' + item_id).text($('#cr_uah_' + item_id).val());
-            $('#item_price_' + item_id).val($('#cr_uah_' + item_id).val());
+			var uahItem = $('#cr_uah_' + item_id);
+            $('#price_item_' + item_id).text(uahItem.text());
+            $('#item_price_' + item_id).val(uahItem.text());
             return hs.close($('#hs_' + item_id).attr('id'));
         },
         error: function (data) {

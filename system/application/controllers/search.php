@@ -142,5 +142,3 @@ class Search extends Controller
         return array( 'template' => $search_template, 'count' => $items['count_common'], 'paginate_args' => '', 'main_category' => $search_category );
     }
 }
-
-?>

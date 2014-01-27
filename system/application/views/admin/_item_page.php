@@ -111,11 +111,11 @@ div.jqi{
 			<div style="float:left;margin:7px 0 7px 5px;width:150px;">
 				<div style="font-weight:bold;margin-bottom:5px;">Текущий курс:</div>
 				<div style="margin-bottom:5px;margin-left:10px;">
-					<div><span id="cr_uah">1</span>&nbsp;<span><strong>UAH</strong> =</span></div>
+					<div><strong>UAH</strong> = </span></div>
 					<?php
 					foreach ($currency_all as $currency) { if($currency->currency_value == 'UAH') continue; ?>
 					<div>
-						<span><?=$currency->currency_value?></span> -
+						<span><?=$currency->currency_value?></span> =
 						<span id="cr_<?=strtolower($currency->currency_value)?>">
 							<?=$currency->rate?>
 						</span>
@@ -216,7 +216,9 @@ div.jqi{
 		<div>
 			<div style="margin:5px auto;">
 				<input size="10" id="cr_val_<?=$item->item_id?>" value="" onkeyup="javascript:change_price_value('<?=$item->item_id?>', 'change');">&nbsp;
-				<strong>UAH</strong></div>
+				<strong>UAH</strong>
+                <input type="hidden" name="price_select_change_<?=$item->item_id?>" id="price_select_change_<?=$item->item_id?>" value="uah">
+            </div>
 			<div style="margin:5px auto;"><strong>UAH</strong> - <span id="cr_uah_<?=$item->item_id?>"></span></div>
 			<div style="margin:5px auto;"><strong>USD</strong> - <span id="cr_usd_<?=$item->item_id?>"></span></div>
 			<div style="margin:5px auto;"><strong>EUR</strong> - <span id="cr_eur_<?=$item->item_id?>"></span></div>

@@ -28,5 +28,3 @@ class Start extends Controller {
 		}
 	}
 }
-
-?>

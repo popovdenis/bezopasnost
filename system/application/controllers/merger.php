@@ -584,4 +584,3 @@
 		function __destruct() {}
 		
 	}
-?>

@@ -9,8 +9,8 @@ class Contacts extends Controller
      */
     function __construct()
     {
-        parent::Controller( );
-        $this->benchmark->mark( 'code_start' );
+        parent::Controller();
+        $this->benchmark->mark('code_start');
         $this->output->cache(60);
     }
 
@@ -19,11 +19,9 @@ class Contacts extends Controller
     function index()
     {
         $config['meta_tags']['title'] = 'Контакты';
-        $data = array();
-        $data['contacts'] = get_contacts();
-        $data['meta_tags'] = build_meta_tags( null, $config['meta_tags'] );
-
-        $this->load->view( '_contacts', $data );
+        $data                         = array();
+        $data['contacts']             = get_contacts();
+        $data['meta_tags']            = build_meta_tags(null, $config['meta_tags']);
+        $this->load->view('_contacts', $data);
     }
 }
-?>

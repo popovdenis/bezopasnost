@@ -13,7 +13,8 @@ $(document).ready(function() {
 });
 
 function show_form(id){
-    $("#msg").html(""); $(id).toggle("blind");
+    $("#msg").html("");
+	$('#' + id).toggle("blind");
 }
 
 function authorize() {

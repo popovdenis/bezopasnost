@@ -31,4 +31,3 @@ class About extends Controller {
         $this->load->view('_about', $data);
     }
 }
-?>
