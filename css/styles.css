@@ -1335,3 +1335,10 @@ a, :focus, :active {
     margin-right: 18px;
     text-align: center;
 }
+.fixed {
+    left: 182px;
+    max-width: none;
+    position: fixed;
+    top: -225px;
+    width: 900px;
+}

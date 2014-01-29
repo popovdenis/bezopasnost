@@ -25,11 +25,22 @@
         }).mouseout(function () {
             $('#sub_' + $(this).attr('id')).hide();
         });
-        $("main_keywords").click(function () {});
+
+        var $window         = $(window),
+            $headerMenu     = $('.header_thread');
+
+        $window.scroll(function() {
+            if (!$headerMenu.hasClass("fixed") && ($window.scrollTop() > 226)) {
+                $headerMenu.addClass("fixed");
+            }
+            else if ($headerMenu.hasClass("fixed") && ($window.scrollTop() < 226)) {
+                $headerMenu.removeClass("fixed");
+            }
+        });
     });
 </script>
 <div class="header">
-    <div>
+    <div class="header_thread">
         <div id="search_menuitems" class="menu_item">
             <form id="quickSearch" action="<?= base_url() ?>search" method="post"
                   enctype="application/x-www-form-urlencoded">
