@@ -1,36 +1,6 @@
 <script type="text/javascript">
 $(function(){
-	new AjaxUpload('#imgtitle_<?=$item->item_id?>', {
-		// Location of the server-side upload script
-		action: '<?=base_url()?>admin/home/upload',
-		// File upload name
-		name: 'userfile',
-		// Additional data to send
-		data: {
-			item_id : '<?=$item->item_id?>',
-			upload_type: 'partner_title'
-		},
-	  responseType: false,
-	  onChange: function(file, extension){},
-	  onSubmit : function(file , ext){
-		    if (! (ext && /^(jpeg|jpg|gif|bmp|png)$/.test(ext))){
-		        // extension is not allowed
-		        alert('Error: invalid file extension');
-		        // cancel upload
-		        return false;
-		    } else {
-
-		    	$("#item_title_img").html('<img alt="loading..." border="0" src="<?php echo base_url() ?>images/loading-blue.gif" />');
-		    }
-		} ,
-	  onComplete: function(file, response) {
-	  	if(response) {
-		  	var result = window["eval"]("(" + response + ")");
-		  	var file = '<img src="<?=base_url()?>'+result.file_path+'" />';
-		  	$('#item_title_img').html(file);
-	  	}
-	  }
-	});
+    productsObj.initImageTitleUploader();
 });
 </script>
 <div>

@@ -1,47 +1,6 @@
 <script type="text/javascript">
 $(function(){
-	new AjaxUpload('#categoryid_<?=$category->category_id?>', {
-		// Location of the server-side upload script
-		action: '<?=base_url()?><?=index_page()?>admin/home/upload',
-		// File upload name
-		name: 'userfile',
-		// Additional data to send
-		data: {
-			item_id : '<?=$category->category_id?>',
-			upload_type: 'category_title'
-		},
-	  responseType: false,
-	  onChange: function(file, extension){},
-	  onSubmit : function(file , ext){
-		    if (! (ext && /^(jpeg|jpg|gif|bmp|png)$/.test(ext))){
-		        // extension is not allowed
-		        alert('Error: invalid file extension');
-		        // cancel upload
-		        return false;
-		    } else {
-
-		    	$("#category_img").html('<img alt="loading..." border="0" src="<?php echo base_url() ?>images/loading-blue.gif" />');
-		    }
-		} ,
-	  onComplete: function(file, response) {
-	  	if(response) {
-
-	  	}
-		if(response) {
-		  	var result = window["eval"]("(" + response + ")");
-		  	$.post(
-				"<?=base_url()?><?=index_page()?>admin/home/upload",
-				{ attach_id: result.attach_id, item_id : '<?=$category->category_id?>', upload_type: 'category_title'},
-				function(data){
-					var file = '<img src="<?=base_url()?>'+result.file_path+'" />';
-					$('#category_img').html(file);
-				}
-			)
-	  	} else {
-	  		alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
-	  	}
-	  }
-	});
+    productsObj.initImageGalleryUploader();
 });
 </script>
 <script type="text/javascript" src="<?=base_url()?>js/ui/ui.sortable.js"></script>

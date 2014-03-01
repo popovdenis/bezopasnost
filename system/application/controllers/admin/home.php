@@ -33,6 +33,12 @@ class Home extends Controller
         }
     }
 
+    private function microtime_float()
+    {
+        list($usec, $sec) = explode(" ", microtime());
+        return intval((float)$usec + (float)$sec);
+    }
+
     function upload()
     {
         $attach_id  = null;
@@ -44,17 +50,18 @@ class Home extends Controller
             $this->load->model('attachment', 'attachment');
             $upload_data = $this->upload_attach('userfile');
 
+            $newFileName = $this->microtime_float() . '_picture';
             if (file_exists($upload_data['full_path'])) {
-                rename($upload_data['full_path'], "files/" . date("YmdHis") . $upload_data['file_ext']);
+                rename($upload_data['full_path'], "files/" . $newFileName . $upload_data['file_ext']);
             }
 
             $upload_data['full_path'] = str_replace(
                 $upload_data['file_name'],
-                date("YmdHis") . $upload_data['file_ext'],
+                $newFileName . $upload_data['file_ext'],
                 $upload_data['full_path']
             );
-            $upload_data['file_name'] = date("YmdHis") . $upload_data['file_ext'];
-            $upload_data['raw_name']  = date("YmdHis");
+            $upload_data['file_name'] = $newFileName . $upload_data['file_ext'];
+            $upload_data['raw_name']  = $newFileName;
             $item_data = array(
                 'attach_name'       => $upload_data['raw_name'],
                 'attach_path'       => strstr($upload_data['full_path'], "files/"),

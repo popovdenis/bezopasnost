@@ -1,48 +1,6 @@
 <script type="text/javascript">
 $(function(){
-	new AjaxUpload('#imggallery_<?=$item->item_id?>', {
-		// Location of the server-side upload script
-		action: '<?=base_url()?>admin/home/upload',
-		// File upload name
-		name: 'userfile',
-		// Additional data to send
-		data: {
-			item_id : '<?=$item->item_id?>',
-			upload_type: 'item_gallery'
-		},
-	  responseType: false,
-	  onChange: function(file, extension){},
-	  onSubmit : function(file , ext){
-		    if (! (ext && /^(jpeg|jpg|gif|bmp|png)$/.test(ext))){
-		        // extension is not allowed
-		        alert('Error: invalid file extension');
-		        // cancel upload
-		        return false;
-		    } else {
-		    	$("#loader").show();
-		    }
-		} ,
-	  onComplete: function(file, response) {
-	  	var result = '';
-	  	if(response) {
-		  	result = window["eval"]("(" + response + ")");
-
-		  	var img_del_gal = '<img title="Удалить картинку из текущей галереи" style="cursor:pointer;width:15px;height:15px;" src="<?=base_url()?>images/icons/cancel.png" onclick="javascript:if(confirm(\'Картинка будет удалена из текущей галереи. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \''+result.item_id+'\', \'false\');return false;" /><img title="Удалить картинку из всех галерей" style="cursor:pointer;width:21px;height:21px;" src="<?=base_url()?>images/icons/trash.png" onclick="javascript:if(confirm(\'Картинка будет удалена из всех галерей. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \'null\', \'true\');return false;" />';
-
-		  	var file = '<div id="gallery_img_id_'+result.attach_id+'" class="gallery_image_block"><a href="<?=base_url()?>'+result.file_full_path+'" class="highslide" onclick="return hs.expand(this)"><img src="<?=base_url()?>'+result.file_path+'" title="Click to enlarge" /></a>'+img_del_gal+'</div>';
-		  	$("#loader").hide();
-		  	$("#new_gallery_block").hide();
-		  	$('#imggallery_img').append(file);
-	  	}
-	  	$.post(
-			"<?=base_url()?>admin/home/upload",
-			{ new_img_gal_title: $('#new_img_gal_title').val(), attach_id: result.attach_id, item_id : '<?=$item->item_id?>', upload_type: 'item_gallery' },
-			function(data){
-				$('#new_img_gal_title').val('');
-			}
-		)
-	  }
-	});
+    productsObj.initImageGalleryUploader();
 });
 </script>
 <script type="text/javascript" src="<?=base_url()?>js/highslide/highslide.js"></script>

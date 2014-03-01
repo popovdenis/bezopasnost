@@ -49,7 +49,6 @@ function get_new_page(page) {
             'flag': 'new'
         },
         beforeSend: function () {
-            __FCKeditorNS = null;
             $('iframe').remove();
             $('div[class^="uploadfile"]').remove();
             $("li").removeClass("active");
@@ -88,7 +87,6 @@ function get_page(page, item_id, page_rus) {
             'flag': 'exist'
         },
         beforeSend: function () {
-            __FCKeditorNS = null;
             $('iframe').remove();
             $('div[class^="uploadfile"]').remove();
             $("li").removeClass("active");
@@ -179,7 +177,6 @@ function add_item(page) {
                 'item': serialize(product)
             },
             beforeSend: function () {
-                __FCKeditorNS = null;
                 $('iframe').remove();
                 $('div[class^="uploadfile"]').remove();
                 $("li").removeClass("active");
