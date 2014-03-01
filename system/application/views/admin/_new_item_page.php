@@ -1,10 +1,7 @@
 <script type="text/javascript">
-$(function() {
-	$("#datepicker_<?=$item_type?>").datepicker({
-		showOn: 'button',
-		buttonImage: '<?=base_url()?>images/icons/calendar.png',
-		buttonImageOnly: true
-	});
+$(document).ready(function(){
+    productsObj.initCKeditors();
+    productsObj.initDatePicker();
 });
 </script>
 

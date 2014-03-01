@@ -4,7 +4,7 @@
 	<title>Bezopasnost.kh.ua</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/styles_login.css" />
-	<script type="text/javascript" src="<?=base_url()?>js/jquery-1.3.2.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="<?=base_url()?>js/_login.js"></script>
 </head>
 	<body>
