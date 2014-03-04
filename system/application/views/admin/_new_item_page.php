@@ -1,10 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function(){
-    productsObj.initCKeditors();
-    productsObj.initDatePicker();
-});
-</script>
-
 <input type="hidden" id="item_type" name="item_type" value="<?=$item_type?>" />
 <div style="float:left;margin-bottom:25px;width:995px;">
 	<div style="border-left:1px solid #CCCCCC;float:left;padding-left:10px;padding-top:10px;width:720px;padding:10px 0 10px 10px;">

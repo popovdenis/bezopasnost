@@ -24,15 +24,24 @@
 
         function authorize($login, $password)
         {
+            $result = [
+                'status'            => 0,
+                'login_err'         => '',
+                'password_err'      => '',
+                'auth_success_path' => '/main'
+            ];
             $this->load->library('form_validation');
             $this->load->config('form_validation');
             $cfg = $this->config->item('users/authorize', 'form_validation');
             $this->form_validation->set_rules($cfg);
+
             if ($this->form_validation->run() == true) {
                 $this->load->model('user_mdl', 'user');
                 $this->load->model('currency_mdl', 'currency');
+
                 $currency_all = $this->currency->get_currency();
                 $currency_uah = $this->currency->get_currency(null, 'UAH');
+
                 if ($currency_uah) {
                     if (is_array($currency_uah)) {
                         $currency_uah = $currency_uah[0];
@@ -44,7 +53,9 @@
                     $this->db_session->set_userdata('currency_rate', $currency_rate);
                     $this->db_session->set_userdata('currency_all', $currency_all);
                 }
+
                 $auth_user = $this->user->authorize($login, $password);
+
                 if ($auth_user) {
                     $this->db_session->set_userdata('user_id', $auth_user->user_id);
                     $this->db_session->set_userdata('user_login', $auth_user->user_login);
@@ -55,24 +66,30 @@
                         'user_last_login',
                         ($auth_user->last_login_date) ? $auth_user->last_login_date : null
                     );
+
                     $auth_success_path = "/main";
+
                     if ($auth_user->last_login_date) {
-                        $landingUrl        = base_url() . 'start';
-                        $auth_success_path = $landingUrl;
-                        $data              = "{'status' : '1', 'login_err':'', 'password_err':'', 'auth_success_path':'" . $auth_success_path . "' }";
+                        $landingUrl                  = base_url() . 'start';
+                        $auth_success_path           = $landingUrl;
+
+                        $result['status']            = 1;
+                        $result['auth_success_path'] = $auth_success_path;
                     } else {
-                        $data = "{'status' : '2', 'login_err':'', 'password_err':'', 'auth_success_path':'" . $auth_success_path . "' }";
+                        $result['status']            = 2;
+                        $result['auth_success_path'] = $auth_success_path;
                     }
                 } else {
-                    $data = "{'status' : '0', 'login_err':'Логин не верный', 'password_err':'Пароль не верный' }";
+                    $result['login_err']    = 'Логин не верный';
+                    $result['password_err'] = 'Пароль не верный';
                 }
             } else {
-                $data = "{'status' : '-1',
-                      'login_err':'" . $this->form_validation->error('login', '<span>', '</span>') . "',
-                      'password_err':'" . $this->form_validation->error('password', '<span>', '</span>') . "'
-                      }";
+                $result['status']       = -1;
+                $result['login_err']    = $this->form_validation->error('login', '<span>', '</span>');
+                $result['password_err'] = $this->form_validation->error('password', '<span>', '</span>');
             }
-            return $data;
+
+            return json_encode($result);
         }
 
         function authorize_step2()

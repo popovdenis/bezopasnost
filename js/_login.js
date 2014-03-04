@@ -27,22 +27,13 @@ function authorize() {
             $("#login_process").html('<img alt="loading..." border="0" src="'+ base_url +'images/loading-blue.gif" />');
         },
         success: function(data) {
-            if(data.status<=0) {
-                err = data.login_err+'<br/>'+data.password_err;
-                if( data.login_err!='' ) $("#login_email").css({'background-color':'#eecccc'});
-                if( data.password_err!='' ) $("#password").css({'background-color':'#eecccc'});
-            }
-            else if(data.status==1) {
-                location = data.auth_success_path;
-            }
-            else if(data.status==2) {
-                acceptance(data);
-            }
-        },
-        complete:  function(data) {
-            if (err=='') return;
             $("#login_process").hide();
-            $("#login_feedback").html(err);
+            if (data.status == 1) {
+                window.location.href = base_url + 'admin';
+            } else {
+                $("#login_email").css({'background-color':'#eecccc'});
+                $("#password").css({'background-color':'#eecccc'});
+            }
         }
     });
 }

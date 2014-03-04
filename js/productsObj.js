@@ -11,8 +11,6 @@ var productsObj = {
     {
         this.initImageGalleryUploader(itemId);
         this.initImageTitleUploader(itemId);
-//        this.initHighslide();
-        this.initCKeditors();
     },
 
     initImageGalleryUploader: function (itemId) {
@@ -118,18 +116,30 @@ var productsObj = {
         };
 
         if ($('#post_content').length > 0) {
-            CKEDITOR.replace('post_content', config);
+            this.initEditor('post_content', config);
         }
         if ($('#item_charecters').length > 0) {
-            CKEDITOR.replace('item_charecters', config);
+            this.initEditor('item_charecters', config);
         }
         if ($('#new_post_content').length > 0) {
-            CKEDITOR.replace('new_post_content', config);
+            this.initEditor('new_post_content', config);
         }
         if ($('#new_item_charecters').length > 0) {
-            CKEDITOR.replace('new_post_content', config);
+            this.initEditor('new_item_charecters', config);
         }
+    },
 
+    initEditor: function(editorId, config) {
+        try {
+            var instance = CKEDITOR.instances[editorId];
+            if (instance) {
+                instance.destroy();
+            }
+        }
+        catch(e) {}
+        finally {
+            CKEDITOR.replace(editorId, config);
+        }
     },
 
     initDatePicker: function() {

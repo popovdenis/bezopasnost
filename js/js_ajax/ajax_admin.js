@@ -65,8 +65,13 @@ function get_new_page(page) {
             $("#" + page).html('<img border="0" src="' + base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
         },
         success: function (data) {
-            if (data == 5) window.location = base_url + "admin/home"; else
+            if (data == 5) {
+                window.location = base_url + "admin/home";
+            }  else {
                 $("#" + page).html(data);
+            }
+            productsObj.initCKeditors();
+            productsObj.initDatePicker();
         },
         error: function (data) {
             $("#add_item_img").hide();
@@ -109,9 +114,6 @@ function get_page(page, item_id, page_rus) {
                 $("#" + page).html(data);
             }
 
-            productsObj.initCKeditors();
-            productsObj.initDatePicker();
-
             switch (page) {
                 case 'about':
                 case 'information':
@@ -124,6 +126,9 @@ function get_page(page, item_id, page_rus) {
                 default:
                 break;
             }
+
+            productsObj.initCKeditors();
+            productsObj.initDatePicker();
         },
         error: function (data) {
             $("#" + page).html('');
@@ -230,30 +235,29 @@ function save_item(product_id, item_type) {
                 val: $(this).val()
             });
         });
-        var content = htmlspecialchars($('#post_content').val());
-        var charecters = "";
-        if ($('#item_charecters').val() != undefined)
-            charecters = htmlspecialchars($('#item_charecters').val());
+
+        var params = {
+            'action': 'save_item',
+            'item_title': $("#item_title").val(),
+            'item_preview': $("#item_preview").val(),
+            'item_marks': $("#item_marks").val(),
+            'item_seo_title': $("#item_seo_title").val(),
+            'item_seo_keywords': $("#item_seo_keywords").val(),
+            'item_seo_description': $("#item_seo_description").val(),
+            'item_date_production': $("#datepicker_" + product_id).val(),
+            'hour': $("#hour_" + product_id).val(),
+            'minute': $("#minute_" + product_id).val(),
+            'item_mode': $("#item_mode_" + product_id + " option:selected").val(),
+            'charecters': CKEDITOR.instances['item_charecters'].getData(),
+            'content': CKEDITOR.instances['post_content'].getData(),
+            'item': item
+        };
+
         $.ajax({
             type: "POST",
             url: ajax_admin_path,
             dataType: "html",
-            data: {
-                'action': 'save_item',
-                'item_title': $("#item_title").val(),
-                'item_preview': $("#item_preview").val(),
-                'item_marks': $("#item_marks").val(),
-                'item_seo_title': $("#item_seo_title").val(),
-                'item_seo_keywords': $("#item_seo_keywords").val(),
-                'item_seo_description': $("#item_seo_description").val(),
-                'item_date_production': $("#datepicker_" + product_id).val(),
-                'hour': $("#hour_" + product_id).val(),
-                'minute': $("#minute_" + product_id).val(),
-                'item_mode': $("#item_mode_" + product_id + " option:selected").val(),
-                'charecters': charecters,
-                'content': content,
-                'item': item
-            },
+            data: params,
             beforeSend: function () {
                 $("#" + item_type).html('<img border="0" src="' + base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
             },
