@@ -71,25 +71,23 @@
                 </div>
             </div>
             <?php
-                /*echo "<pre>";
-                    var_dump($categories);
-                echo "</pre>";*/
                 if (isset($categories) && $categories != null) {
+            ?>
                     <div style="margin: 0pt auto; width: 185px; float: left;">
                         <span>Категория продукта</span>
                     </div>
                     <div id="chboxes" style="float: left;margin-left:10px;">
                         <?php
-
                             $cat_str = '';
-                            $cat_str .= '<div style="position:relative;right:12px;"><input type="checkbox" value="' . $category_main->category_id . '" />' . $category_main->category_title . '</div>';
-
+                            $cat_str .= '<div style="position:relative;right:12px;">
+                                <input type="checkbox" value="' . $category_main->category_id . '" />' . $category_main->category_title .
+                            '</div>';
                             $level = null;
                             foreach ($categories as $index => $category) {
                                 $margin = 10 * $category->level;
                                 $style  = 'style="margin-left:' . $margin . 'px;"';
                                 $cat_str .= '<div ' . $style . '><input type="checkbox" id="ch_door" value="' . $category->category_id . '" />
-							' . $category->category_title . '</div>';
+                                ' . $category->category_title . '</div>';
                             }
                             echo $cat_str;
                         ?>
