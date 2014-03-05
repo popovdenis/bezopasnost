@@ -138,6 +138,7 @@ var productsObj = {
         }
         catch(e) {}
         finally {
+            CKEDITOR.disableAutoInline = true;
             CKEDITOR.replace(editorId, config);
         }
     },
