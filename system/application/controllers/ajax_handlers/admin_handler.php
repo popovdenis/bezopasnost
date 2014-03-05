@@ -286,23 +286,20 @@ class Admin_handler extends Controller
                 break;
 
             case "delete_items_checked":
-                $items = $this->input->post('jsonData');
-                $items = (object)json_decode($items, true);
-
-                $user_id = $this->db_session->userdata('user_id');
-                $user_role = $this->db_session->userdata('user_role');
-
-                if (empty($user_id) || empty($user_role)) {
-                    $data = 5;
-                } else {
-                    $this->load->model('items_mdl', 'items');
-
-                    $items = $items->chb;
-                    foreach ($items as $item) {
-                        $this->items->delete_item($item['item_id']);
+                $result = false;
+                $items = $this->input->post('chb');
+                if (!empty($items) && is_array($items)) {
+                    $user_id   = $this->db_session->userdata('user_id');
+                    $user_role = $this->db_session->userdata('user_role');
+                    if (!empty($user_id) && !empty($user_role)) {
+                        $this->load->model('items_mdl', 'items');
+                        foreach ($items as $itemId) {
+                            $this->items->delete_item(intval($itemId));
+                        }
+                        $result = true;
                     }
-                    $data = true;
                 }
+                $data = json_encode(['success' => $result]);
                 break;
 
             case "delete_item":

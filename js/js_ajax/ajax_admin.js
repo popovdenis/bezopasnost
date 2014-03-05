@@ -155,15 +155,10 @@ function add_item(page) {
                 val: $(this).val()
             });
         });
-        var content = htmlspecialchars($('#new_post_content').val());
-        var charecters = "";
-        if (document.getElementById('new_item_charecters') != null) {
-            charecters = htmlspecialchars($('#new_item_charecters').val());
-        }
         $.ajax({
             type: "POST",
             url: ajax_admin_path,
-            dataType: "html",
+            dataType: "json",
             data: {
                 'action': 'add_item',
                 'item_title': $("#new_item_title").val(),
@@ -177,9 +172,9 @@ function add_item(page) {
                 'hour': $("#hour_" + page).val(),
                 'minute': $("#minute_" + page).val(),
                 'item_mode': $("#new_item_mode option:selected").val(),
-                'content': serialize(content),
-                'charecters': serialize(charecters),
-                'item': serialize(product)
+                'content': CKEDITOR.instances['new_post_content'].getData(),
+                'charecters': CKEDITOR.instances['new_item_charecters'].getData(),
+                'item': product
             },
             beforeSend: function () {
                 $('iframe').remove();
@@ -274,45 +269,34 @@ function save_item(product_id, item_type) {
     }
 }
 function delete_items_checked() {
-    var num = $('input[id^="item_chb_delete_"]').length;
-    if (num == 0) {
+    var checkedItems = $('input[id^="item_chb_delete_"]:checked');
+    if (checkedItems.length == 0) {
         alert('Вы должны выбрать хотя бы одну статью!');
         return false;
     }
-    var item_obj = new Object();
-    var checkboxes = new Array(num);
-    var j = 0;
-    $('input[id^="item_chb_delete_"]').each(function () {
-        var ch_id = $(this).attr('id');
-        var item = ch_id.split("_");
-        var item_id = item[3];
-        var itemobj = new Object();
-        var is_checked = $(this).attr('checked');
-        if (is_checked) {
-            itemobj.item_id = item_id;
-            checkboxes[j] = itemobj;
-            j ++;
-        }
+    var checkboxes = [];
+    checkedItems.each(function () {
+        checkboxes.push($(this).val());
     });
-    item_obj.chb = checkboxes;
     $.ajax({
         type: "POST",
         url: ajax_admin_path,
-        dataType: "html",
-        data: 'action=delete_items_checked&jsonData=' + serialize(item_obj),
-        success: function (data) {
-            if (data == 5) window.location = base_url + "admin/home"; else {
-                $('input[id^="item_chb_delete_"]').each(function () {
-                    var is_checked = $(this).attr('checked');
-                    if (is_checked) {
-                        var item = $(this).attr('id').split("_");
-                        var item_id = item[3];
-                        $("#item_block_" + item_id).remove();
-                    }
-                });
+        dataType: "json",
+        data: {
+            action: "delete_items_checked",
+            chb: checkboxes
+        },
+        success: function (response) {
+            if (! response) {
+                alert('Ошибка!');
+            } else {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    $("#item_block_" + checkboxes[i]).remove();
+                }
             }
         },
         error: function (data) {
+            alert('Ошибка!');
         }
     });
 }
@@ -627,14 +611,14 @@ function add_contact() {
 }
 function update_contacts() {
     var num = $('div[id^="contact_block_"]').length;
-    var contact_obj = new Object();
+    var contact_obj = {};
     var contact_elements = new Array(num);
     var j = 0;
     $('div[id^="contact_block_"]').each(function () {
         var ch_id = $(this).attr('id');
         var item = ch_id.split("_");
         var id = item[2];
-        var itemobj = new Object();
+        var itemobj = {};
         itemobj.item_type = $("#contact_type_" + id + " option:selected").val();
         itemobj.item_value = $("#contact_value_" + id).val();
         contact_elements[j] = itemobj;
@@ -884,7 +868,7 @@ function update_currency_rate(currency_id) {
     var i = 0;
     if (num > 0) {
         $('input[id^="currencyname_"]').each(function () {
-            var currency = new Object();
+            var currency = {};
             var c_id = $(this).attr('id').split("_");
             currency.name = c_id[1];
             currency.value = $(this).val();
