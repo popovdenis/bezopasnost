@@ -146,7 +146,12 @@ var productsObj = {
     initDatePicker: function() {
         var datePickerElement = $("input[id^='datepicker_']");
         if (datePickerElement.length > 0) {
-            datePickerElement.datepicker({showOn: 'button', buttonImage: '/images/icons/calendar.png', buttonImageOnly: true});
+            datePickerElement.datepicker({
+                showOn: 'button',
+                buttonImage: '/images/icons/calendar.png',
+                buttonImageOnly: true,
+                dateFormat: 'dd-mm-yy'
+            });
         }
     }
 };

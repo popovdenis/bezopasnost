@@ -138,31 +138,31 @@ function get_page(page, item_id, page_rus) {
 }
 
 function add_item(page) {
-    if ($("#new_item_title").val() == '') {
+    var itemTitle = $("#new_item_title").val();
+    if (itemTitle == '') {
         alert('Статья не может быть сохранена, так как вы не ввели название для этой статьи.');
         return false;
     }
-    if ($("#new_item_title").val().replace(/\s+/g, '').length) {
-        // categories
-        var product = {
-            chb: []
-        };
-        $('input[id^="ch_"]:checked').each(function () {
-            var ch_id = $(this).attr('id');
-            product.chb.push({
-                id: ch_id,
-                is_checked: $(this).attr('checked') ? 1 : 0,
-                val: $(this).val()
-            });
+    if (itemTitle.replace(/\s+/g, '').length) {
+        var categories = [];
+        $('#chboxes').find('input:checked').each(function () {
+            categories.push($(this).val());
         });
+        var content = CKEDITOR.instances.hasOwnProperty('new_post_content')
+                ? CKEDITOR.instances['new_post_content'].getData()
+                : '';
+        var charecters = CKEDITOR.instances.hasOwnProperty('new_item_charecters')
+            ? CKEDITOR.instances['new_item_charecters'].getData()
+            : '';
+
         $.ajax({
             type: "POST",
             url: ajax_admin_path,
             dataType: "json",
             data: {
                 'action': 'add_item',
-                'item_title': $("#new_item_title").val(),
-                'post_preview': $("#new_post_preview").val(),
+                'item_title': itemTitle,
+                'item_preview': $("#new_post_preview").val(),
                 'item_marks': $("#new_item_marks").val(),
                 'item_seo_title': $("#item_seo_title").val(),
                 'item_seo_keywords': $("#item_seo_keywords").val(),
@@ -172,9 +172,9 @@ function add_item(page) {
                 'hour': $("#hour_" + page).val(),
                 'minute': $("#minute_" + page).val(),
                 'item_mode': $("#new_item_mode option:selected").val(),
-                'content': CKEDITOR.instances['new_post_content'].getData(),
-                'charecters': CKEDITOR.instances['new_item_charecters'].getData(),
-                'item': product
+                'content': content,
+                'charecters': charecters,
+                'categories': categories
             },
             beforeSend: function () {
                 $('iframe').remove();
@@ -192,9 +192,11 @@ function add_item(page) {
                 $('div[class^="highslide-container"]').remove();
                 $("#" + page).html('<img border="0" src="' + base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
             },
-            success: function (data) {
-                if (data == 5) window.location = base_url + "admin/home"; else {
+            success: function (response) {
+                if (response && response.hasOwnProperty('success') && response.success) {
                     get_page(page);
+                } else {
+                    window.location.reload();
                 }
             },
             error: function (data) {
@@ -202,38 +204,31 @@ function add_item(page) {
                 $("#" + page).html('');
             }
         });
-        return true;
     } else {
         alert('Статья не может быть сохранена, так как вы не ввели название для этой статьи.');
     }
 }
 function save_item(product_id, item_type) {
-    if ($("#item_title").val() == '') {
+    var itemTitle = $("#item_title").val();
+    if (itemTitle == '') {
         alert('Статья не может быть сохранена, так как вы не ввели название для этой статьи.');
         return;
     }
-    if ($("#item_title").val().replace(/\s+/g, '').length) {
-        // categories
-        var item = {
-            chb: []
-        };
-        if (product_id != undefined)
-            item.product_id = product_id;
-        if (item_type != undefined)
-            item.item_type = item_type;
-
-        $('input[id^="ch_"]:checked').each(function () {
-            var ch_id = $(this).attr('id');
-            item.chb.push({
-                id: ch_id,
-                is_checked: 1,
-                val: $(this).val()
-            });
+    if (itemTitle.replace(/\s+/g, '').length) {
+        var categories = [];
+        $('#chboxes').find('input:checked').each(function () {
+            categories.push($(this).val());
         });
+        var content = CKEDITOR.instances.hasOwnProperty('post_content')
+            ? CKEDITOR.instances['post_content'].getData()
+            : '';
+        var charecters = CKEDITOR.instances.hasOwnProperty('item_charecters')
+            ? CKEDITOR.instances['item_charecters'].getData()
+            : '';
 
         var params = {
             'action': 'save_item',
-            'item_title': $("#item_title").val(),
+            'item_title': itemTitle,
             'item_preview': $("#item_preview").val(),
             'item_marks': $("#item_marks").val(),
             'item_seo_title': $("#item_seo_title").val(),
@@ -243,22 +238,27 @@ function save_item(product_id, item_type) {
             'hour': $("#hour_" + product_id).val(),
             'minute': $("#minute_" + product_id).val(),
             'item_mode': $("#item_mode_" + product_id + " option:selected").val(),
-            'charecters': CKEDITOR.instances['item_charecters'].getData(),
-            'content': CKEDITOR.instances['post_content'].getData(),
-            'item': item
+            'charecters': charecters,
+            'content': content,
+            'categories': categories,
+            'item_id': product_id
         };
 
         $.ajax({
             type: "POST",
             url: ajax_admin_path,
-            dataType: "html",
+            dataType: "json",
             data: params,
             beforeSend: function () {
-                $("#" + item_type).html('<img border="0" src="' + base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
+                $("#" + item_type).html(
+                    '<img border="0" src="' + base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
             },
-            success: function (data) {
-                if (data == 5) window.location = base_url + "admin/home"; else
-                    $("#" + item_type).html(data);
+            success: function (response) {
+                if (response && response.hasOwnProperty('success') && response.success) {
+                    get_page(item_type, product_id);
+                } else {
+                    window.location.reload();
+                }
             },
             error: function (data) {
             }
@@ -320,7 +320,6 @@ function delete_item(item_id, redirect, item_type) {
             }
         },
         error: function (data) {
-            //				$("#chboxes").html('');
         }
     });
 }

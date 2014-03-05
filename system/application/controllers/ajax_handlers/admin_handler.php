@@ -85,204 +85,63 @@ class Admin_handler extends Controller
                 break;
 
             case "add_item":
-                $item_title = $this->input->post('item_title');
-                $item_preview = $this->input->post('post_preview');
-                $item_marks = $this->input->post('item_marks');
-                $item_tags = $this->input->post('item_tags');
-                $item_type = $this->input->post('item_type');
-                $date_production = $this->input->post('item_date_production');
-                $minute_production = $this->input->post('minute');
-                $hour_production = $this->input->post('hour');
-                $item_mode = $this->input->post('item_mode');
-                $item_seo_title = $this->input->post('item_seo_title');
-                $item_seo_keywords = $this->input->post('item_seo_keywords');
+            case "save_item":
+                $item_title           = $this->input->post('item_title');
+                $item_preview         = $this->input->post('item_preview');
+                $item_marks           = $this->input->post('item_marks');
+                $item_tags            = $this->input->post('item_tags');
+                $item_type            = $this->input->post('item_type');
+                $date_production      = $this->input->post('item_date_production');
+                $minute_production    = $this->input->post('minute');
+                $hour_production      = $this->input->post('hour');
+                $item_mode            = $this->input->post('item_mode');
+                $item_seo_title       = $this->input->post('item_seo_title');
+                $item_seo_keywords    = $this->input->post('item_seo_keywords');
                 $item_seo_description = $this->input->post('item_seo_description');
-                $product = $this->input->post('item');
-                $product = (object)json_decode($product, true);
+                $categories           = $this->input->post('categories');
+                $content              = $this->input->post('content');
+                $charecters           = $this->input->post('charecters');
+                $itemId               = $this->input->post('item_id', null);
 
-                $content = $this->input->post('content');
-                $content = (object)json_decode($content, true);
-                $content = utf8_decode($content->scalar);
-
-                $charecters = $this->input->post('charecters');
-                $charecters = (object)json_decode($charecters, true);
-                $charecters = utf8_decode($charecters->scalar);
-
+                $dateTimeProduction = new DateTime();
                 if (!empty($date_production)) {
-                    $date = explode(".", $date_production);
-                    $date_production = $date[2] . "-" . $date[1] . "-" . $date[0];
-                    if (!empty($hour_production) && !empty($minute_production)) {
-                        $date_production .= " " . $hour_production . ":" . $minute_production . ":00";
-                    } else {
-                        $date_production .= " 00:00:00";
+                    $dateTimeProduction = new DateTime($date_production);
+                    if ($dateTimeProduction) {
+                        $dateTimeProduction->setTime($hour_production, $minute_production);
                     }
-                } else {
-                    $date_production = date("Y-m-d H:i:s");
                 }
-                $date_production = date("Y-m-d H:i:s", strtotime($date_production));
-
-                mb_language('uni');
-                mb_internal_encoding('UTF-8');
-
-                $content = html_entity_decode($content, ENT_QUOTES, 'UTF-8');
-                $content = str_replace(array("&mdash;", "mdash;"), '-', $content);
-                $content = str_replace(array("&ndash;", "ndash;"), '-', $content);
-                $content = str_replace(array("&lsquo;", "lsquo;", "&rsquo;", "rsquo;"), "'", $content);
-                $content = str_replace(array("&laquo;", "laquo;", "&raquo;", "raquo;", "quot;"), '"', $content);
-                $content = str_replace(array("&lt;", "lt;"), '<', $content);
-                $content = str_replace(array("&gt;", "gt;"), '>', $content);
-                $content = str_replace("nbsp;", '', $content);
-                $content = str_replace("amp;", '&', $content);
-                $content = str_replace("amp;", '&', $content);
-                $content = str_replace("002B", '+', $content);
-                $content = str_replace("NBSP", '&', $content);
-                $content = str_replace("ordm;", '&#176;', $content);
-
-                $charecters = html_entity_decode($charecters, ENT_QUOTES, 'UTF-8');
-                $charecters = str_replace(array("&mdash;", "mdash;"), '-', $charecters);
-                $charecters = str_replace(array("&ndash;", "ndash;"), '-', $charecters);
-                $charecters = str_replace(array("&lsquo;", "lsquo;", "&rsquo;", "rsquo;"), "'", $charecters);
-                $charecters = str_replace(array("&laquo;", "laquo;", "&raquo;", "raquo;", "quot;"), '"', $charecters);
-                $charecters = str_replace(array("&lt;", "lt;"), '<', $charecters);
-                $charecters = str_replace(array("&gt;", "gt;"), '>', $charecters);
-                $charecters = str_replace("nbsp;", '', $charecters);
-                $charecters = str_replace("amp;", '&', $charecters);
-                $charecters = str_replace("amp;", '&', $charecters);
-                $charecters = str_replace("002B", '+', $charecters);
-                $charecters = str_replace("NBSP", '&', $charecters);
-                $charecters = str_replace("ordm;", '&#176;', $charecters);
 
                 $item_data = array(
-                    'item_title' => $item_title,
-                    'item_preview' => $item_preview,
-                    'item_content' => $content,
-                    'item_characters' => $charecters,
-                    'item_added' => date("Y-m-d H:i:s"),
-                    'item_update' => date("Y-m-d H:i:s"),
-                    'item_production' => $date_production,
-                    'item_type' => $item_type,
-                    'item_tags' => $item_tags,
-                    'item_marks' => $item_marks,
-                    'item_mode' => $item_mode,
-                    'item_seo_title' => $item_seo_title,
-                    'item_seo_keywords' => $item_seo_keywords,
-                    'item_seo_description' => $item_seo_description
+                    'item_title'           => trim($item_title),
+                    'item_preview'         => htmlspecialchars(trim($item_preview)),
+                    'item_content'         => htmlspecialchars($content),
+                    'item_characters'      => htmlspecialchars($charecters),
+                    'item_added'           => date("Y-m-d H:i:s"),
+                    'item_update'          => date("Y-m-d H:i:s"),
+                    'item_production'      => $dateTimeProduction->format("Y-m-d H:i:s"),
+                    'item_type'            => $item_type,
+                    'item_tags'            => $item_tags,
+                    'item_marks'           => $item_marks,
+                    'item_mode'            => $item_mode,
+                    'item_seo_title'       => $item_seo_title,
+                    'item_seo_keywords'    => $item_seo_keywords,
+                    'item_seo_description' => $item_seo_description,
                 );
 
-                if ($product->chb == 0) {
-                    $product_data['item_mode'] = 'close';
-                }
                 $this->load->model('items_mdl', 'items');
 
-                $item_id = $this->items->save_item($item_data, null);
+                if (!empty($itemId)) {
+                    $this->items->delete_item_category($itemId);
+                }
 
-                // categories
-                $cats = 0;
-                if ($product->chb > 0) {
-                    $categories = (object)$product->chb;
-                    if (!empty($categories)) {
-                        foreach ($categories as $category) {
-                            $category = (object)$category;
-                            if ($category->is_checked) {
-                                $this->items->save_item_category($category->val, $item_id);
-                                $cats++;
-                            }
-                        }
+                $itemId = $this->items->save_item($item_data, $itemId);
+
+                if (!empty($categories) && is_array($categories)) {
+                    foreach ($categories as $categoryId) {
+                        $this->items->save_item_category(intval($categoryId), $itemId);
                     }
                 }
-
-                if ($cats == 0) {
-                    $product_data['item_mode'] = 'close';
-                    $this->items->save_item($product_data, $item_id);
-                }
-
-                $data = $this->_items_block($item_type, false);
-
-                break;
-
-            case "save_item":
-                $post_title = $this->input->post('item_title');
-                $item_preview = $this->input->post('item_preview');
-                $item_marks = $this->input->post('item_marks');
-                $item_tags = $this->input->post('item_tags');
-                $date_production = $this->input->post('item_date_production');
-                $minute_production = $this->input->post('minute');
-                $hour_production = $this->input->post('hour');
-                $item_mode = $this->input->post('item_mode');
-                $product = $this->input->post('item');
-                $item_seo_title = $this->input->post('item_seo_title');
-                $item_seo_keywords = $this->input->post('item_seo_keywords');
-                $item_seo_description = $this->input->post('item_seo_description');
-                $charecters = $this->input->post('charecters');
-                $content = $this->input->post('content');
-
-                $date_production = !empty($date_production) ? new DateTime($date_production) : new DateTime();
-                $date_production->setTime(intval($hour_production), intval($minute_production));
-
-                mb_language('uni');
-                mb_internal_encoding('UTF-8');
-                $content = html_entity_decode($content, ENT_QUOTES, 'UTF-8');
-                $content = str_replace(array("&mdash;", "mdash;"), '-', $content);
-                $content = str_replace(array("&ndash;", "ndash;"), '-', $content);
-                $content = str_replace(array("&lsquo;", "lsquo;", "&rsquo;", "rsquo;"), "'", $content);
-                $content = str_replace(array("&laquo;", "laquo;", "&raquo;", "raquo;", "quot;"), '"', $content);
-                $content = str_replace(array("&lt;", "lt;"), '<', $content);
-                $content = str_replace(array("&gt;", "gt;"), '>', $content);
-                $content = str_replace("nbsp;", '', $content);
-                $content = str_replace("amp;", '&', $content);
-                $content = str_replace("amp;", '&', $content);
-                $content = str_replace("002B", '+', $content);
-                $content = str_replace("NBSP", '&', $content);
-                $content = str_replace("ordm;", '&#176;', $content);
-                $product_data = array(
-                    'item_title' => $post_title,
-                    'item_preview' => $item_preview,
-                    'item_characters' => $charecters,
-                    'item_content' => $content,
-                    'item_update' => date("Y-m-d H:i:s"),
-                    'item_production' => $date_production->format('Y-m-d H:i:s'),
-                    'item_type' => 'products',
-                    'item_tags' => $item_tags,
-                    'item_marks' => $item_marks,
-                    'item_mode' => $item_mode,
-                    'item_seo_title' => $item_seo_title,
-                    'item_seo_keywords' => $item_seo_keywords,
-                    'item_seo_description' => $item_seo_description
-                );
-
-                $item_id = null;
-                if (isset($product['product_id'])) {
-                    $item_id = $product['product_id'];
-                }
-                $this->load->model('items_mdl', 'items');
-                $product_id = $this->items->save_item($product_data, $item_id);
-
-                // categories
-                if (!empty($product['chb']) && count($product['chb']) > 0) {
-                    $this->items->delete_item_category($product_id);
-                    foreach ($product['chb'] as $category) {
-                        $this->items->save_item_category($category['val'], $product_id);
-                    }
-                } else {
-//                    $product_data['item_mode'] = 'close';
-                    $product_id = $this->items->save_item($product_data, $item_id);
-                }
-
-                $item = $this->get_item($product_id);
-                if ($item && !empty($item) && is_array($item)) {
-                    $item = $item[0];
-                    if (!empty($item->item_content)) {
-                        if (strlen($item->item_content) > 80) {
-                            $item_desc = mb_substr($item->item_content, 0, 75) . "...";
-                        } else {
-                            $item_desc = $item->item_content;
-                        }
-                        $item->item_content = $item_desc;
-                    }
-                    $data = $this->_items_block($product['item_type']);
-                } else {
-                    $data = 0;
-                }
+                $data = json_encode(['success' => true]);
                 break;
 
             case "delete_items_checked":
