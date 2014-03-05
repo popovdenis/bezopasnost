@@ -804,29 +804,20 @@ class Admin_handler extends Controller
         return $this->items->get_item($item_id, $item_type, $item_mode, $category, $per_page, $page, $with_count);
     }
 
-    function _items_block($item_type = 'partners', $with_page = true, $category_id = null, $page_rus = '')
+    public function _items_block($item_type = 'partners', $with_page = true, $category_id = null, $page_rus = '')
     {
         mb_internal_encoding("UTF-8");
-        $items_str = "";
-        $val = array();
 
+        $items_str = "";
+        $val       = array();
         $val['item_type'] = $item_type;
 
-        $items = $this->get_item(null, $item_type, false, $category_id, $this->per_page, $this->page, true);
+        $items     = $this->get_item(null, $item_type, false, $category_id, $this->per_page, $this->page, true);
         $items_all = $items['count'];
         unset($items['count']);
 
         if ($items) {
             foreach ($items as &$item) {
-                $img_src = '';
-                $item_desc = '&nbsp;';
-
-                if (isset($item->attach_preview_path)) {
-                    $img_src .= '<img alt="" border="0" src="' . base_url() . index_page(
-                        ) . $item->attach_preview_path . '" />';
-                } else {
-                    $img_src .= '&nbsp;';
-                }
                 if (!empty($item->item_preview)) {
                     $item_desc = preg_replace("/<p><img(.*?)\/><\/p>/si", "", $item->item_preview);
                     $item_desc = str_replace(array('<p>', '</p>', '<h1>', '</h1>', '<h3>', '</h3>'), '', $item_desc);
@@ -852,31 +843,32 @@ class Admin_handler extends Controller
                 }
                 $item->cat_str = $cat_str;
             }
+
             $num_pages = (int)($items_all / $this->per_page);
             if ($num_pages <= 0) {
                 $num_pages = 1;
             }
 
             $val['currency_rate'] = $this->db_session->userdata('currency_rate');
-            $val['items'] = $items;
-            $val['cur_page'] = $this->page;
-            $val['num_pages'] = $num_pages;
+            $val['items']         = $items;
+            $val['cur_page']      = $this->page;
+            $val['num_pages']     = $num_pages;
             $val['paginate_args'] = array(
-                'total_rows' => $items_all,
-                'per_page' => $this->per_page,
-                'num_links' => 2,
-                'cur_page' => $this->page,
+                'total_rows'  => $items_all,
+                'per_page'    => $this->per_page,
+                'num_links'   => 2,
+                'cur_page'    => $this->page,
                 'uri_segment' => 3,
                 'js_function' => 'paginate_items',
-                'base_url' => base_url() . index_page() . 'admin/home/'
+                'base_url'    => base_url() . index_page() . 'admin/home/'
             );
-
             $items_str = $this->load->view('admin/_items_block', $val, true);
         }
+
         if ($with_page) {
             $this->load->model('category_mdl', 'category');
-
             $category_current = $this->category->get_category(null, null, $page_rus);
+
             if ($category_current) {
                 if (is_array($category_current)) {
                     $category_current = $category_current[0];
@@ -884,7 +876,8 @@ class Admin_handler extends Controller
                 $categories = $this->category->get_category(null, $category_current->category_id);
                 array_push($categories, $category_current);
             }
-            $val['categories'] = $categories;
+
+            $val['categories']  = $categories;
             $val['items_block'] = $items_str;
             return $this->load->view('admin/_items', $val, true);
         } else {

@@ -21,10 +21,20 @@ class Items_mdl extends Model
      * @param string $groupby
      * @return bool|array
      */
-    function get_item( $item_id = null, $type = null, $item_mode = true, $category_id = null, $per_page = 0, $page = 1, $with_count = false, $extras = '', $orderby = 'order by i.item_added desc', $groupby = 'group by i.item_id' )
-    {
-        $page = empty( $page ) ? 1 : $page;
-        $limit = empty( $per_page ) ? '' : ' limit ' . $per_page * ( $page - 1 ) . ',' . $per_page;
+    function get_item(
+        $item_id = null,
+        $type = null,
+        $item_mode = true,
+        $category_id = null,
+        $per_page = 0,
+        $page = 1,
+        $with_count = false,
+        $extras = '',
+        $orderby = 'order by i.item_added desc',
+        $groupby = 'group by i.item_id'
+    ) {
+        $page = empty($page) ? 1 : $page;
+        $limit = empty($per_page) ? '' : ' limit ' . $per_page * ($page - 1) . ',' . $per_page;
 
         $query = "select SQL_CALC_FOUND_ROWS i.*, it.item_type, a.*
             from items i
@@ -34,41 +44,37 @@ class Items_mdl extends Model
             left JOIN item_category ic on (ic.item_id = i.item_id)
             left JOIN categories c on (c.category_id = ic.category_id) where 1 ";
 
-        if ( $item_id )
-        {
-            $query .= " and i.item_id = " . clean( $item_id );
+        if ($item_id) {
+            $query .= " and i.item_id = " . clean($item_id);
         }
-        if ( $item_mode )
-        {
+        if ($item_mode) {
             $query .= " and i.item_mode = 'open' and i.item_production <= now() ";
         }
-        if ( $type )
-        {
-            $query .= " and it.item_type = " . clean( $type );
+        if ($type) {
+            $query .= " and it.item_type = " . clean($type);
         }
-        if ( isset( $category_id ) )
-        {
-            $query .= " and ic.category_id = " . clean( $category_id );
+        if (!empty($category_id)) {
+            $query .= " and ic.category_id = " . clean($category_id);
         }
+
         $query .= " " . $extras . " " . $groupby . " " . $orderby;
         $query .= $limit;
 
-        $query = $this->db->query( $query );
-        if ( !$query )
-        {
-            return FALSE;
+        $query = $this->db->query($query);
+        if (!$query) {
+            return [];
         }
+
         $result = $query->result();
 
-        if ( $with_count )
-        {
-            $query = $this->db->query( "select found_rows() as count" );
-            if ( !$query )
-            {
-                return FALSE;
+        if ($with_count) {
+            $query = $this->db->query("select found_rows() as count");
+            if (!$query) {
+                return [];
             }
             $result['count'] = $query->row()->count;
         }
+
         return $result;
     }
 
