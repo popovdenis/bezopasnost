@@ -113,9 +113,9 @@ class Admin_handler extends Controller
 
                 $item_data = array(
                     'item_title'           => trim($item_title),
-                    'item_preview'         => htmlspecialchars(trim($item_preview)),
-                    'item_content'         => htmlspecialchars($content),
-                    'item_characters'      => htmlspecialchars($charecters),
+                    'item_preview'         => $this->input->xss_clean($item_preview),
+                    'item_content'         => $this->input->xss_clean($content),
+                    'item_characters'      => $this->input->xss_clean($charecters),
                     'item_added'           => date("Y-m-d H:i:s"),
                     'item_update'          => date("Y-m-d H:i:s"),
                     'item_production'      => $dateTimeProduction->format("Y-m-d H:i:s"),
