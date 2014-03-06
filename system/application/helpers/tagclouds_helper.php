@@ -1,37 +1,53 @@
 <?php
-	/**
-	 * get_tag_clouds
-	 *
-	 * get tag clouds by TagClouds library
-	 *
-	 * @author  Popov
-	 * @access  public
-	 * @param   array     $items 
-	 * @return  string  $tag_clouds
-	 */
-	function get_tag_clouds() {		
-		static $ci;
-		if (!is_object($ci)) $ci = &get_instance();
+    /**
+     * get_tag_clouds
+     *
+     * @author  Popov
+     * @access  public
+     */
+    function get_tag_clouds()
+    {
+        static $ci;
+        if (!is_object($ci)) {
+            $ci = & get_instance();
+        }
+        $ci->load->model('items_mdl', 'items');
+        $items = $ci->items->get_item_marks();
 
-		$ci->load->model('items_mdl','items');
-		$items = $ci->items->get_item_search();	
-		
-		if(!$items) return null;
-		
-		$tags_array = array();
-		
-		foreach ($items as $item) {
-			if(empty($item->item_marks)) continue;
-			
-			$marks = explode(",", $item->item_marks);
-			foreach ($marks as $key=>$mark) {
-				array_push($tags_array, $mark);
-			}
-		}
-		if(empty($tags_array)) return null;
-		
-		$mycloud = new Tagclouds($tags_array);
-		return $mycloud->get_cloud();
-	}
+        if (!$items) {
+            return null;
+        }
+        $tagsArray = array();
+        foreach ($items as $item) {
+            $tagsArray = array_merge($tagsArray, explode(",", $item->item_marks));
+        }
+        $tagsArray = array_count_values($tagsArray);
+        foreach ($tagsArray as $index => $count) {
+            if ($count < 10) {
+                unset($tagsArray[$index]);
+            }
+        }
+        return generateTagCloud($tagsArray);
+    }
 
-?>
+    function generateTagCloud($tags) {
+        $max_size = 25; // max font size in pixels
+        $min_size = 12; // min font size in pixels
+
+        $max_qty = max(array_values($tags));
+        $min_qty = min(array_values($tags));
+
+        $spread = $max_qty - $min_qty;
+        if ($spread == 0) { // we don't want to divide by zero
+            $spread = 1;
+        }
+        $step = ($max_size - $min_size) / ($spread);
+        $str = '';
+        foreach ($tags as $word => $value) {
+            $size = round($min_size + (($value - $min_qty) * $step));
+            $str .= '<li style="font-size:'.$size.'px">
+                <a style="font-size:'.$size.'px" href="'.base_url().'search#find:'.$word.'" title="'.$value.'" alt="'.$value.'"> '.$word.' </a>
+            </li>';
+        }
+        return $str;
+    }

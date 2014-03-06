@@ -13,15 +13,10 @@ class Information extends Controller
         parent::Controller();
         $this->benchmark->mark('code_start');
         $this->load->helper('tagclouds');
-        $this->output->cache(60);
+//        $this->output->cache(60);
     }
 
     function index()
-    {
-        $this->category();
-    }
-
-    function category()
     {
         $this->load->model('category_mdl', 'category');
         $this->load->helper('url');

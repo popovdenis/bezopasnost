@@ -142,46 +142,48 @@ class Items_mdl extends Model
      * @param bool $with_count
      * @return bool|null
      */
-    function get_item_search_common( $keywords = '', $categories = null, $per_page = 0, $page = 1, $with_count = true )
+    function get_item_search_common($keywords = '', $categories = null, $per_page = 0, $page = 1, $with_count = true)
     {
-        try
-        {
-            $page = empty( $page ) ? 1 : $page;
-            $limit = empty( $per_page ) ? '' : ' limit ' . $per_page * ( $page - 1 ) . ',' . $per_page;
-
-            if ( $categories )
-            {
-                $count_common = 0;
-                $query = "";
-                foreach ( $categories as $index => $category )
-                {
-                    $query = "select SQL_CALC_FOUND_ROWS it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-                    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_id = '" . $category->category_id . "'
-                    and (i.item_title LIKE '" . $keywords . "%'
-                    or i.item_title LIKE '%" . $keywords . "%'
-                    or i.item_content LIKE '%" . $keywords . "%') order by category_title" . $limit;
-
-                    $query = $this->db->query( $query );
-                    $category->search_result = $query->result();
-
-                    $query = $this->db->query( "select found_rows() as count" );
-                    if ( !$query )
-                    {
-                        return FALSE;
-                    }
-                    $category->search_count = $query->row()->count;
-                    $count_common += $category->search_count;
+        try {
+            $page  = empty($page) ? 1 : $page;
+            $limit = empty($per_page) ? '' : ' limit ' . $per_page * ($page - 1) . ',' . $per_page;
+            if (!empty($categories)) {
+                $categoryIds = [];
+                foreach ($categories as $category) {
+                    $categoryIds[] = $category->category_id;
                 }
-                $categories['count_common'] = $count_common;
-                return $categories;
-            }
-            return null;
+                $query = "SELECT SQL_CALC_FOUND_ROWS
+                    it.item_type,
+                    c.category_id, c.category_title,
+                    i.*
+                    FROM items i
+                    LEFT JOIN item_category ic ON ic.item_id=i.item_id
+                    LEFT JOIN item_type it ON it.item_type_id=i.item_type_id
+                    LEFT JOIN categories c ON ic.category_id=c.category_id
+                    WHERE
+                        item_mode = 'open'
+                    AND c.category_id IN (" . implode(',', $categoryIds) . ")
+                    AND (i.item_title LIKE '" . $keywords . "%'
+                    OR i.item_title LIKE '%" . $keywords . "%'
+                    OR i.item_content LIKE '%" . $keywords . "%')
+                    ORDER BY category_title, c.category_id " . $limit;
 
-        } catch ( Exception $e )
-        {
-            log_message( 'error', $e->getMessage() . '\n' . $e->getFile() . '\n' . $e->getCode() );
+                $query        = $this->db->query($query);
+                $searchResult = $query->result();
+
+                $query = $this->db->query("select found_rows() as count");
+                if (!$query) {
+                    return [];
+                }
+                return [
+                    'all'   => $searchResult,
+                    'count' => $query->row()->count
+                ];
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage() . '\n' . $e->getFile() . '\n' . $e->getCode());
         }
-        return false;
+        return [];
     }
 
     /**
@@ -260,6 +262,32 @@ class Items_mdl extends Model
             log_message( 'error', $e->getMessage() . '\n' . $e->getFile() . '\n' . $e->getCode() );
         }
         return false;
+    }
+
+    public function get_item_marks()
+    {
+        $query = '
+            select
+                i.item_marks
+            from
+                items i
+            inner JOIN item_category ic on (ic.item_id = i.item_id)
+            inner JOIN categories c on (ic.category_id = c.category_id)
+            where
+                i.item_marks != \'\'
+            and
+                ic.category_id in (
+                    select c.category_id
+                    from categories c
+                    where c.category_parent = (
+                        select category_id from categories where category_title = \'Продукция\'
+                    )
+                )';
+        $query = $this->db->query($query);
+        if (!$query) {
+            return false;
+        }
+        return $query->result();
     }
 
     /**
