@@ -25,6 +25,6 @@
 	<script type="text/javascript" src="/js/ajaxupload.js"></script>
 
     <script type="text/javascript" src="/js/highslide/highslide.js"></script>
-    <script type="text/javascript" src="<?=base_url()?>js/productsObj.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>js/admin/productsObj.js"></script>
 </head>
 <body>

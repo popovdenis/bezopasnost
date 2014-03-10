@@ -1350,3 +1350,11 @@ a, :focus, :active {
     top: -225px;
     width: 900px;
 }
+#filter_img {
+    margin-right: 5px;
+    position: relative;
+    text-align: center;
+    top: 3px;
+    text-align: center;
+    display: none;
+}

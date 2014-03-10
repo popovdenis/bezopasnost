@@ -1,11 +1,10 @@
 <?php require_once("_head.php"); ?>
-<?php modules::load_file('ajax_search.php', APPPATH . '/js_ajax/'); ?>
     <script type="text/javascript">
         jQuery().ready(function () {
             if (window.location.hash.search(/^\#find:/) == 0) {
                 var cId = window.location.hash.substr(6);
                 //window.location.hash = '';
-                search_by_tag(cId);
+                searchObj.search_by_tag(cId);
             }
         });
     </script>

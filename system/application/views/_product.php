@@ -8,7 +8,6 @@
 </script>
 <!-- Header implementation -->
 <?php require_once("_header.php"); ?>
-<?php modules::load_file('ajax_products.php', APPPATH . '/js_ajax/'); ?>
 <!-- Content implementation -->
 <div class="content">
     <!-- Содержание -->
@@ -66,7 +65,7 @@
                     <?php } ?>
                     <?php if ($product->item_title != 'АКЦИЯ') { ?>
                         <div style="float:right;margin-top:10px;text-align:right;">
-                            <a onclick="open_compare('<?= $current_catid ?>', '<?= $product->item_id ?>');return false;"
+                            <a onclick="productObj.open_compare('<?= $current_catid ?>', '<?= $product->item_id ?>');return false;"
                                href="#">Сравнить</a>
                         </div>
                     <?php } ?>
