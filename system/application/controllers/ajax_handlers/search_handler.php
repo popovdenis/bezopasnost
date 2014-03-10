@@ -49,25 +49,14 @@ class Search_handler extends Controller
             case "search_by_tag":
                 $tag = $this->input->post('tag');
                 $tag = $this->input->xss_clean($tag);
-                $items_block    = $this->_get_items_block(1, $tag, '');
-
-                $page_container = array(
-                    'total_rows'  => $items_block['count'],
-                    'per_page'    => $this->per_page,
-                    'num_links'   => $this->num_links,
-                    'cur_page'    => 1,
-                    'uri_segment' => $this->uri_segment,
-                    'base_url'    => base_url() . 'information/page/'
-                );
-                $item_main      = $items_block['items'];
-                $page_container = paginate_ajax($page_container);
-                $data = (Object)array('items_block' => $item_main, 'page_container' => $page_container);
-                $data = json_encode($data);
+                $items_block    = $this->_get_items_block($tag);
+                $data = json_encode(['items_block' => $items_block['template']]);
                 break;
             case "quick_search":
                 $category_id = $this->input->post('category_id');
-                $data        = (Object)$this->_get_items_block(1, $keywords, $category_id, null);
-                $data        = json_encode($data);
+                $data = json_encode(
+                    $this->_get_items_block(1, $keywords, $category_id, null)
+                );
                 break;
             case "main_quick_search":
                 $items_str = "";
@@ -123,65 +112,15 @@ class Search_handler extends Controller
         $this->output->set_output($data);
     }
 
-    function _get_items_block($page = 1, $keywords = "", $category_id = null, $type = 'main')
+    function _get_items_block($keywords = "", $page = 1)
     {
         $this->load->model('items_mdl', 'items');
-        $this->load->model('category_mdl', 'category');
-        if (empty($category_id)) {
-            $category_products = $this->category->get_category(null, null, 'Продукция');
-        } else {
-            $category_products = $this->category->get_category($category_id);
-        }
-        if ($type == 'main') {
-            $items = $this->items->get_item_search_common($keywords, $category_products, $this->per_page, $page, true);
-        } else {
-            $items = $this->items->get_item_search_category($keywords, $category_products, $this->per_page, $page, true);
-        }
-        $items_all = $items['count_common'];
-        unset($items['count_common']);
+        $items = $this->items->getItemsByTag($keywords);
 
-        $search_category = "";
-        if (!empty($items)) {
-            $search_category .= '<li class="selected">';
-            $search_category .= '<a class="selected" id="all-categories-trigger"
-                    href="#results-all" onclick="sort_search_result(\'all\'); return false;">Все категории</a>';
-            $search_category .= '</li>';
-            foreach ($items as $index => $item) {
-                if (!isset($item->category_title)) {
-                    continue;
-                }
-                $class   = '';
-                $trigger = $item->category_id;
-                $search_category .=
-                '<li ' . $class . '>
-                    <a ' . $class . ' id="' . $trigger . '-categories-trigger" href="#results-' . $trigger . '"
-                    onclick="javascript: sort_search_result(\'' . $trigger . '\'); return false;">' .
-                    $item->category_title . '</a>
-                </li>';
-            }
-        }
-
-        $paginate_args = array(
-            'total_rows'  => $items_all,
-            'per_page'    => $this->per_page,
-            'num_links'   => $this->num_links,
-            'cur_page'    => $page,
-            'uri_segment' => $this->uri_segment,
-            'base_url'    => base_url() . 'information/page/'
-        );
-        $data = array(
-            'items'    => $items,
-            'type'     => $type,
-            'per_page' => $this->per_page * $page,
-        );
-
+        $params = ['items' => $items, 'keywords' => $keywords];
         $info = array(
-            'template'      => $this->load->view('_search_common', $data, true),
-            'count'         => $items_all,
-            'paginate_args' => paginate_ajax($paginate_args),
-            'main_category' => $search_category,
-            'page'          => $page,
-            'per_page'      => $this->per_page
+            'template'      => $this->load->view('_search_common', $params, true),
+            'items'         => $items
         );
         return $info;
     }

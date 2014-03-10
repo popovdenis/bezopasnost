@@ -1326,10 +1326,18 @@ a, :focus, :active {
 .search_lens {
     cursor: pointer;
     height: 30px;
-    left: 595px;
+    left: 845px;
     position: absolute;
     top: 52px;
     width: 30px;
+}
+.search_box {
+    float: left;
+    width: 840px;
+    background: #EFEFEF none repeat scroll 0 0;
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 14px 20px;
 }
 .search_input {
     margin-right: 18px;

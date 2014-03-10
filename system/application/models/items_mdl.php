@@ -587,6 +587,31 @@ class Items_mdl extends Model
         }
         return false;
     }
-}
 
-?>
+    public function getItemsByTag($tag)
+    {
+        if (empty($tag)) {
+            return [];
+        }
+
+        $query = 'SELECT
+            DISTINCT i.item_id, i.item_title, i.item_preview,
+            it.item_type,
+            GROUP_CONCAT(ic.category_id) as categories
+        FROM
+            items i
+        INNER JOIN item_category ic ON (ic.item_id = i.item_id)
+        INNER JOIN item_type it ON (it.item_type_id = i.item_type_id)
+        WHERE
+          i.item_marks LIKE "%' . $tag . '%"
+        GROUP BY i.item_id
+        ORDER BY i.item_id desc';
+
+        $query = $this->db->query($query);
+
+        if (!$query) {
+            return false;
+        }
+        return $query->result_array();
+    }
+}
