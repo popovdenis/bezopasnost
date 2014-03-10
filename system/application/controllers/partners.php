@@ -5,7 +5,7 @@ class Partners extends Controller
     {
         parent::Controller();
         $this->benchmark->mark('code_start');
-        $this->output->cache(60);
+//        $this->output->cache(60);
     }
 
     function index()
@@ -52,10 +52,10 @@ class Partners extends Controller
     function category()
     {
         $this->load->helper('url');
-        $partner_id = $this->uri->segment(3);
+        $partnerId = $this->uri->segment(3);
         $this->load->model('category_mdl', 'category');
 
-        $cat_partners = $this->category->get_category_partner($partner_id);
+        $cat_partners = $this->category->get_category_partner($partnerId);
 
         if (! empty($cat_partners)) {
             if (is_array($cat_partners)) {

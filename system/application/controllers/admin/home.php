@@ -165,7 +165,7 @@ class Home extends Controller
                         $item_data['attach_preview_path'] = strstr($new_file, "files/");
                         create_watermark(
                             $new_file,
-                            "Bezopasnost.kh.ua",
+                            config_item('base_name'),
                             WATERMANR_FONT_PATH,
                             WATERMANR_R_CHANNEL,
                             WATERMANR_G_CHANNEL,
@@ -188,7 +188,7 @@ class Home extends Controller
                             $item_data['attach_single_path'] = strstr($new_file, "files/");
                             create_watermark(
                                 $new_file,
-                                "Bezopasnost.kh.ua",
+                                config_item('base_name'),
                                 WATERMANR_FONT_PATH,
                                 WATERMANR_R_CHANNEL,
                                 WATERMANR_G_CHANNEL,
@@ -211,7 +211,7 @@ class Home extends Controller
                             $item_data['attach_preview_main_path'] = strstr($new_file, "files/");
                             create_watermark(
                                 $new_file,
-                                "Bezopasnost.kh.ua",
+                                config_item('base_name'),
                                 WATERMANR_FONT_PATH,
                                 WATERMANR_R_CHANNEL,
                                 WATERMANR_G_CHANNEL,
@@ -248,7 +248,7 @@ class Home extends Controller
                         $res = $this->attachment->update_attachment_item($attach_id, $item_id, $upload_type);
                         create_watermark(
                             $image_path . $attachment->attach_name . $attachment->attach_ext,
-                            "Bezopasnost.kh.ua",
+                            config_item('base_name'),
                             WATERMANR_FONT_PATH,
                             WATERMANR_R_CHANNEL,
                             WATERMANR_G_CHANNEL,

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head style="color: #9AB8F3">
-	<title>Bezopasnost.kh.ua</title>
+	<title><?= config_item('base_name') ?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<link type="text/css" href="<?=base_url()?>css/jquery/demos.css" rel="stylesheet" />
 	<link type="text/css" href="<?=base_url()?>css/admin_style.css" rel="stylesheet" />

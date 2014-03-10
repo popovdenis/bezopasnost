@@ -282,12 +282,13 @@
             $ci->load->model('category_mdl', 'category');
         }
         $main = $ci->category->get_category(null, null, "root");
+        $main_cats = [];
         if ($main) {
             if (is_array($main)) {
                 $main = $main[0];
             }
             $main_cats = $ci->category->get_category(null, $main->category_id, null, "category_position");
-            foreach ($main_cats as $mcat) {
+            foreach ($main_cats as &$mcat) {
                 $subcat       = $ci->category->get_category(null, $mcat->category_id, null, "category_position");
                 $mcat->subcat = empty($subcat) ? null : $subcat;
             }
