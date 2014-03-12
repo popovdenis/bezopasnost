@@ -18,8 +18,7 @@
 ?>
 
 <script language="JavaScript" type="text/javascript">
-    $.ready(function ()
-    {
+    $(document).ready(function(){
         $("#products_menuitems, #partners_menuitems, #information_menuitems").mouseover(function () {
             $('#sub_' + $(this).attr('id')).show();
         }).mouseout(function () {

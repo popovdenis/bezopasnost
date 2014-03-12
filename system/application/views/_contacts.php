@@ -1,11 +1,4 @@
 <?php require_once("_head.php"); ?>
-<!--<script type="text/javascript" src="<?/*=base_url()*/?>js/highslide/highslide-with-html.js"></script>
-<link rel="stylesheet" type="text/css" href="<?/*=base_url()*/?>js/highslide/highslide.css" />
-
-<script type="text/javascript">
-	hs.graphicsDir = '<?/*=base_url()*/?>js/highslide/graphics/';
-	hs.outlineType = 'rounded-white';
-</script>-->
 <script
     src="http://api-maps.yandex.ru/1.1/index.xml?key=ADzw600BAAAAnOQ8NQIAxBFbuoPzi14fQXTpnbMudNRqTVEAAAAAAAAAAAA9JEyR6NjLBemwhkInmnzXQBeRQw=="
     type="text/javascript"></script>
@@ -29,8 +22,7 @@
             YMaps.load(init2);
         }
     }
-    jQuery(document).ready(function ()
-    {
+    $(document).ready(function(){
         action_map('office2', 'show');
         action_map('office1', 'show');
     });
