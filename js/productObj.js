@@ -8,7 +8,7 @@ var productObj = {
     paginate: function (page) {
         $.ajax({
             type: "POST",
-            url: ajax_product_path,
+            url: '/ajax_handlers/products_handler/ajax_actions',
             dataType: "json",
             data: { 'action': 'paginate_items',
                 'page': page,
@@ -32,7 +32,7 @@ var productObj = {
     quick_search: function() {
         $.ajax({
             type: "POST",
-            url: ajax_product_path,
+            url: '/ajax_handlers/products_handler/ajax_actions',
             dataType: "json",
             data: { 'action': 'quick_search',
                 'keywords': $('#quick_search_field').val(),
@@ -58,7 +58,7 @@ var productObj = {
     open_compare: function(current_catid, item_id) {
         $.ajax({
             type: "POST",
-            url: ajax_product_path,
+            url: '/ajax_handlers/products_handler/ajax_actions',
             dataType: "html",
             data: {
                 'action': 'compare',

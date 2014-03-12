@@ -53,22 +53,22 @@ class Items_mdl extends Model
         if ($type) {
             $query .= " and it.item_type = " . clean($type);
         }
-        if (isset($category_id)) {
+        if (!empty($category_id)) {
             $query .= " and ic.category_id = " . clean($category_id);
         }
         $query .= " " . $extras . " " . $groupby . " " . $orderby;
         $query .= $limit;
-        $query = $this->db->query($query);
-        if (!$query) {
+        $response = $this->db->query($query);
+        if (!$response) {
             return false;
         }
-        $result = $query->result();
+        $result = $response->result();
         if ($with_count) {
-            $query = $this->db->query("select found_rows() as count");
-            if (!$query) {
+            $response = $this->db->query("select found_rows() as count");
+            if (!$response) {
                 return false;
             }
-            $result['count'] = $query->row()->count;
+            $result['count'] = $response->row()->count;
         }
         return $result;
     }
