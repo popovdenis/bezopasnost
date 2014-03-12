@@ -13,5 +13,5 @@
 	<?php }?>
 </div>
 <div id="update_currency_block">
-	<input type="button" onclick="javascript:update_currency_rate('<?=$currency_id?>');" value="Обновить" />	
+	<input type="button" onclick="update_currency_rate('<?=$currency_id?>');" value="Обновить" />
 </div>

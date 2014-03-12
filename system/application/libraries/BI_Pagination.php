@@ -280,7 +280,7 @@ class BI_Pagination extends CI_Pagination {
 		// Render the "First" link
 		if  ($this->cur_page > ($this->num_links + 1))
 		{
-			$output .= '<a href="#" onclick="javascript:'.$this->js_function.'(\'1\'); return false;">'.$this->first_tag_open.$this->first_link.$this->first_tag_close.'</a>';
+			$output .= '<a href="#" onclick="'.$this->js_function.'(\'1\'); return false;">'.$this->first_tag_open.$this->first_link.$this->first_tag_close.'</a>';
 		}
 
 		// Render the "previous" link
@@ -289,7 +289,7 @@ class BI_Pagination extends CI_Pagination {
 			//$i = $uri_page_number - $this->per_page;
 			$i = $uri_page_number - 1;
 			if ($i == 0) $i = '1';
-			$output .= '<a href="#" onclick="javascript:'.$this->js_function.'(\''.$i.'\'); return false;">'.$this->prev_tag_open.$this->prev_link.$this->prev_tag_close.'</a>';
+			$output .= '<a href="#" onclick="'.$this->js_function.'(\''.$i.'\'); return false;">'.$this->prev_tag_open.$this->prev_link.$this->prev_tag_close.'</a>';
 		}
 
 		// Write the digit links
@@ -308,7 +308,7 @@ class BI_Pagination extends CI_Pagination {
 				{
 					//$n = ($i == 0) ? '' : $i;
 					$n = ($i == 0) ? '1' : $i;
-					$output .= '<a href="#" onclick="javascript:'.$this->js_function.'(\''.$n.'\'); return false;">'.$this->num_tag_open.$loop.$this->num_tag_close.'</a>';
+					$output .= '<a href="#" onclick="'.$this->js_function.'(\''.$n.'\'); return false;">'.$this->num_tag_open.$loop.$this->num_tag_close.'</a>';
 				}
 			}
 		}
@@ -318,7 +318,7 @@ class BI_Pagination extends CI_Pagination {
 		{
 			//$i = $this->cur_page * $this->per_page;
 			$i = $this->cur_page + 1;
-			$output .= '<a href="#" onclick="javascript:'.$this->js_function.'(\''.$i.'\'); return false;">'.$this->next_tag_open.$this->next_link.$this->next_tag_close.'</a>';
+			$output .= '<a href="#" onclick="'.$this->js_function.'(\''.$i.'\'); return false;">'.$this->next_tag_open.$this->next_link.$this->next_tag_close.'</a>';
 		}
 
 		// Render the "Last" link
@@ -326,7 +326,7 @@ class BI_Pagination extends CI_Pagination {
 		{
 			//$i = (($num_pages * $this->per_page) - $this->per_page);
 			$i = $num_pages;
-			$output .= '<a href="#" onclick="javascript:'.$this->js_function.'(\''.$i.'\'); return false;">'.$this->last_tag_open.$this->last_link.$this->last_tag_close.'</a>';
+			$output .= '<a href="#" onclick="'.$this->js_function.'(\''.$i.'\'); return false;">'.$this->last_tag_open.$this->last_link.$this->last_tag_close.'</a>';
 		}
 
 		// Kill double slashes.  Note: Sometimes we can end up with a double slash

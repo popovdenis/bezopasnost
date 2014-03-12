@@ -193,7 +193,7 @@ if ( ! function_exists('anchor_popup'))
 
 		if ($attributes === FALSE)
 		{
-			return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank');\">".$title."</a>";
+			return "<a href='void(0);' onclick=\"window.open('".$site_url."', '_blank');\">".$title."</a>";
 		}
 
 		if ( ! is_array($attributes))
@@ -212,7 +212,7 @@ if ( ! function_exists('anchor_popup'))
 			$attributes = _parse_attributes($attributes);
 		}
 
-		return "<a href='javascript:void(0);' onclick=\"window.open('".$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\"$attributes>".$title."</a>";
+		return "<a href='void(0);' onclick=\"window.open('".$site_url."', '_blank', '"._parse_attributes($atts, TRUE)."');\"$attributes>".$title."</a>";
 	}
 }
 

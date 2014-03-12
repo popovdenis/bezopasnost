@@ -1,6 +1,6 @@
 <div id="partners_block">
 	<div id="new_partner">
-	<span><a href="#" onclick="javascript:new_item_form('partners');return false;">Новый партнер</a></span>
+	<span><a href="#" onclick="new_item_form('partners');return false;">Новый партнер</a></span>
 	</div>
 	<div id="partners_title">
 		<span class="spn_num">№</span>

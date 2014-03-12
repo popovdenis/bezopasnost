@@ -2,7 +2,7 @@
     if(!empty($gallery)) {
         if(isset($gallery->attachments) && !empty($gallery->attachments)) {
 
-        	$gallery_str = '<div id="gallery_reorder_apply"><a href="#" onclick="javascript:reorder_attach_gallery('.$gallery->gallery_id.');return false;">Применить</a>
+        	$gallery_str = '<div id="gallery_reorder_apply"><a href="#" onclick="reorder_attach_gallery('.$gallery->gallery_id.');return false;">Применить</a>
 			</div><ul id="sortable_gallery">';
 
         	foreach($gallery->attachments as $attachment) {
@@ -14,7 +14,7 @@
                     	<div><strong>Название: </strong>'.$attachment->attach_title.'</div>
                     	<div><strong>Описание: </strong>'.$attachment->attach_desc.'</div>
                     </div>
-                    <img class="sortable_img" src="'.base_url().'images/icons/cancel.png" onclick="javascript:delete_attach_gallery('.$gallery->gallery_id.','.$attachment->attach_id.');">
+                    <img class="sortable_img" src="'.base_url().'images/icons/cancel.png" onclick="delete_attach_gallery('.$gallery->gallery_id.','.$attachment->attach_id.');">
                 </li>';
             }
             $gallery_str .= '</ul>';
@@ -66,7 +66,7 @@ $(function(){
                     var file = '<li class="ui-state-default" id="'+result.attach_id+
                     '"><a href="<?=base_url()?>'+result.file_full_path+'" class="highslide" onclick="return hs.expand(this)">'+
                     '<img style="width:100px;height:90px;" src="<?=base_url()?>'+result.file_full_path+
-                    '"></a><div class="highslide-caption"><div><strong>Название: </strong>'+ result.attach_title +'</div><div><strong>Описание: </strong>'+ result.attach_desc +'</div></div><img class="sortable_img" src="<?=base_url()?>images/icons/cancel.png" onclick="javascript:delete_attach_gallery(\'<?=$gallery->gallery_id?>\', \''+ result.attach_id +'\');"></li>';
+                    '"></a><div class="highslide-caption"><div><strong>Название: </strong>'+ result.attach_title +'</div><div><strong>Описание: </strong>'+ result.attach_desc +'</div></div><img class="sortable_img" src="<?=base_url()?>images/icons/cancel.png" onclick="delete_attach_gallery(\'<?=$gallery->gallery_id?>\', \''+ result.attach_id +'\');"></li>';
                     $('#sortable_gallery').append(file);
                     $("#loader_gallery").hide();
                 }
@@ -96,7 +96,7 @@ $(function(){
     <div class="innerTableHeaderGreen">
         <div id="" class="left padAll5">
             <img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-            <a id="" onclick="javascript: return add_form('gallery_file');" href="#">Добавить файл в галлерею</a>
+            <a id="" onclick="return add_form('gallery_file');" href="#">Добавить файл в галлерею</a>
         </div>
     </div>
     <div id="gallery_block_header" style="float: left; width: 100%;">
@@ -111,7 +111,7 @@ $(function(){
                 <div style="float:left;margin:0 0 0 5px;">
                     <a href="#" id="imggallery_<?=$gallery->gallery_id?>">
                         <img class="verticalMiddle" alt="" border="0" src="<?=base_url()?>images/upload-green-arrow.gif"/>
-                        <img class="marLeft5 verticalMiddle" alt="" border="0" onclick="javascript:$('#imggallery_<?=$gallery->gallery_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
+                        <img class="marLeft5 verticalMiddle" alt="" border="0" onclick="$('#imggallery_<?=$gallery->gallery_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
                         <span>Загрузить</span>
                     </a><br/>
                 </div>

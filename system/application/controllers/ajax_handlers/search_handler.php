@@ -54,9 +54,8 @@ class Search_handler extends Controller
                 break;
             case "quick_search":
                 $category_id = $this->input->post('category_id');
-                $data = json_encode(
-                    $this->_get_items_block(1, $keywords, $category_id, null)
-                );
+                $data = (Object)$this->_get_items_block(1, $keywords, $category_id, null);
+                $data = json_encode($data);
                 break;
             case "main_quick_search":
                 $items_str = "";
@@ -102,7 +101,7 @@ class Search_handler extends Controller
                         $items_str .= '<li style="border: medium none ;"><a href="' . base_url(
                             ) . 'search#' . urlencode(
                                 $keywords
-                            ) . '" onclick="javascript:go_to_search();return false;">Подробнее</a></li>';
+                            ) . '" onclick="go_to_search();return false;">Подробнее</a></li>';
                     }
                 }
                 $data = $items_str;
@@ -112,16 +111,57 @@ class Search_handler extends Controller
         $this->output->set_output($data);
     }
 
-    function _get_items_block($keywords = "", $page = 1)
+    function _get_items_block($page=1, $keywords = "", $category_id=null, $type='main')
     {
-        $this->load->model('items_mdl', 'items');
-        $items = $this->items->getItemsByTag($keywords);
+        $this->load->model('items_mdl','items');
+        $this->load->model('category_mdl','category');
 
-        $params = ['items' => $items, 'keywords' => $keywords];
-        $info = array(
-            'template'      => $this->load->view('_search_common', $params, true),
-            'items'         => $items
+        if(empty($category_id)) {
+            $category_products = $this->category->get_category(null, null , 'Продукция');
+
+        } else {
+            $category_products = $this->category->get_category($category_id);
+        }
+        if($category_products && is_array($category_products)) $category_products = $category_products[0];
+
+        if($type == 'main')
+            $items = $this->items->get_item_search_common($keywords, $category_id, $this->per_page, $page, true);
+        else
+            $items = $this->items->get_item_search_category($keywords, $category_id, $this->per_page, $page, true);
+
+        $items_all = $items['count_common'];
+        unset($items['count_common']);
+
+        $data['items'] = $items;
+        $data['type'] = $type;
+        $data['per_page'] = $this->per_page*$page;
+        $search_result = $this->load->view('_search_common', $data, true);
+
+        $paginate_args = array(
+            'total_rows' => $items_all,
+            'per_page' => $this->per_page,
+            'num_links' => $this->num_links,
+            'cur_page' => $page,
+            'uri_segment' => $this->uri_segment,
+            'base_url' => base_url().'information/page/'
         );
+
+        $search_category = "";
+        if(!empty($items)){
+            $search_category .= '<li class="selected">';
+            $search_category .= '<a class="selected" id="all-categories-trigger" href="#results-all" onclick="sort_search_result(\'all\'); return false;">Все категории</a>';
+            $search_category .= '</li>';
+            foreach($items as $index=>$item) {
+                if(!isset($item->category_title)) continue;
+                $class = '';
+                $trigger = $item->category_id;
+                $search_category .= '<li '.$class.'>';
+                $search_category .= '<a '.$class.' id="'.$trigger.'-categories-trigger" href="#results-'.$trigger.'" onclick="sort_search_result(\''.$trigger.'\'); return false;">'.$item->category_title .'</a>';
+                $search_category .= '</li>';
+            }
+        }
+
+        $info = array('template' => $search_result, 'count' => $items_all, 'paginate_args' => paginate_ajax($paginate_args), 'main_category' => $search_category, 'page' => $page, 'per_page' => $this->per_page);
         return $info;
     }
 }

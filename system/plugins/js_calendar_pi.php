@@ -33,7 +33,7 @@ Then to show the actual calendar you'll do this:
 <?php echo js_calendar_write('entry_date', time(), true);?>
 <form name="my_form">
 <input type="text" name="entry_date" value="" onblur="update_calendar(this.name, this.value);" />
-<p><a href="javascript:void(0);" onClick="set_to_time('entry_date', '<?php echo time();?>')" >Today</a></p>
+<p><a href="void(0);" onClick="set_to_time('entry_date', '<?php echo time();?>')" >Today</a></p>
 </form>
 
 
@@ -250,7 +250,7 @@ function build_calendar()
 		}
 		else  // Unselected days
 		{
-			str += '<td id="" class="caldaycells" onClick="set_date(this,\'' + this.id + '\'); return false;"  onMouseOver="javascript:cell_highlight(this,\'' + displayNum + '\',\'' + this.id + '\');" onMouseOut="javascript:cell_reset(this,\'' + displayNum + '\',\'' + this.id + '\');" >' + displayNum + '<\/td>';
+			str += '<td id="" class="caldaycells" onClick="set_date(this,\'' + this.id + '\'); return false;"  onMouseOver="cell_highlight(this,\'' + displayNum + '\',\'' + this.id + '\');" onMouseOut="cell_reset(this,\'' + displayNum + '\',\'' + this.id + '\');" >' + displayNum + '<\/td>';
 		}
 		
 		if (j % 7 == 6)

@@ -74,11 +74,11 @@
         </div>
         <div class="floatL"><?= $product->item_content ?></div>
         <div class="floatR">
-            <?php $next_link = "javascript:;";
+            <?php $next_link = ";";
                 if ($next) {
                     $next_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $next;
                 } ?>
-            <?php $prev_link = "javascript:;";
+            <?php $prev_link = ";";
                 if ($prev) {
                     $prev_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $prev;
                 } ?>

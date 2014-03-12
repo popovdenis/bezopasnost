@@ -12,7 +12,7 @@
 	if(isset($save_btn) && $save_btn == true) {
 	?>
 	<div>
-		<a href="#" onclick="javascript:add_item();return false;">Сохранить</a>
+		<a href="#" onclick="add_item();return false;">Сохранить</a>
 	</div>
 	<?php
 	}

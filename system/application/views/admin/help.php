@@ -27,7 +27,7 @@
 					<div class="clear"></div>
 					<div class="helpSelectButton">
 						<div class="helpFilterSelect"><span>Сортировать по:</span>
-							<select onchange="javascript: filter_qeustions();" id="help_pages_filter">
+							<select onchange="filter_qeustions();" id="help_pages_filter">
 								<option value="0">имя страницы</option>
 								<option value="general">общие вопросы</option>
 								<option value="about">О Компании</option>
@@ -39,9 +39,9 @@
 							</select>
 						</div>
 						<div class="saveButtHelpAdmin">
-							<a onclick="javascript: save_records();" href="#" class="button"><span>Сохранить</span></a>
+							<a onclick="save_records();" href="#" class="button"><span>Сохранить</span></a>
 						</div>				
-						<img onclick="javascript:clear_all();" title="New" src="<?=base_url()?>images/big-plus.gif" style="cursor: pointer;" class="right" alt="">
+						<img onclick="clear_all();" title="New" src="<?=base_url()?>images/big-plus.gif" style="cursor: pointer;" class="right" alt="">
 						<span>Вопрос в раздел:</span>
 						<select id="help_pages">
 							<option value="0">имя страницы</option>
@@ -61,6 +61,6 @@
 	</div>
 	<input id="help_action" type="hidden" value="open" />
 	<input id="help_question_id" type="hidden" value="" />
-	<p class="slide"><a href="#" class="btn-slide" onclick="javascript: get_records();">HELP</a></p>
+	<p class="slide"><a href="#" class="btn-slide" onclick="get_records();">HELP</a></p>
 </div>
 <!-- / HelpBox Section -->

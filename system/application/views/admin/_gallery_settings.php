@@ -3,7 +3,7 @@
         <div id="" class="left padAll5">Галлереи</div>
         <div class="padAll5 right">
             <img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-            <a id="" onclick="javascript: return add_form('gallery');" href="#">Добавить Новую Галлерею</a>
+            <a id="" onclick="return add_form('gallery');" href="#">Добавить Новую Галлерею</a>
         </div>            
     </div>
     <div id="gallery_block_header" style="float: left; width: 100%;">
@@ -14,7 +14,7 @@
                         <input type="text" id="new_gal_title" value="" />
                     </div>
                     <div style="margin: 10px 0pt 0pt 5px; float: left;">
-                        <input type="button" value="Создать" onclick="javascript:add_gallery();" />
+                        <input type="button" value="Создать" onclick="add_gallery();" />
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             echo $gallery_str;    
         ?>
             </select>
-            <input type="button" onclick="javascript:get_gallery();" value="Найти" />
+            <input type="button" onclick="get_gallery();" value="Найти" />
         </div>
         <span><img id="gallery_img" border="0" src="<?=base_url()?>images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;display:none;"/></span>
     </div>

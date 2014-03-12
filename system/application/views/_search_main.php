@@ -1,10 +1,10 @@
 <?php require_once("_head.php"); ?>
+<script type="text/javascript" src="<?=base_url()?>js/searchObj.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             if (window.location.hash.search(/^\#find:/) == 0) {
                 var cId = window.location.hash.substr(6);
-                //window.location.hash = '';
-                search_by_tag(cId);
+                searchObj.search_by_tag(cId);
             }
         });
     </script>
@@ -28,7 +28,7 @@
                           enctype="multipart/form-data">
                         <input id="keywords" class="idleField search_input" type="text" value="" name="keywords"/>
                         <img src="<?= base_url() ?>images/search.png" class="search_lens"
-                             onclick="javascript: jQuery( '#searchform' ).submit();">
+                             onclick="jQuery( '#searchform' ).submit();">
                     </form>
                 </div>
             </div>
@@ -37,27 +37,6 @@
             <div class="page_container"><?php echo paginate_ajax($search_result['paginate_args']); ?></div>
         </div>
         <?php require_once('_search_block.php'); ?>
-        <!-- Тэги -->
-        <!--<div class="infobox" style="clear:left; margin-top:15px;">
-			<div class="t">
-				<div class="b">
-					<div class="l">
-						<div class="r">
-							<div class="bl">
-								<div class="br">
-
-									<div class="tl">
-										<div class="tr">
-											<div class="tags"><ul><?= $tagclouds ?></ul></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>-->
         <div style="clear:both;">&nbsp;</div>
     </div>
 <?php require_once('_footer.php'); ?>

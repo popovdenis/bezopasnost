@@ -46,7 +46,7 @@ class Search extends Controller
         $this->db_session->userdata('user_id');
 
         if (!empty($keywords)) {
-            $items = $this->get_items_main_block($keywords, 1);
+            $items = $this->get_items_main_block(1, $keywords);
         } else {
             $items = array('template' => '', 'count' => 0, 'paginate_args' => '', 'main_category' => '');
         }
@@ -61,26 +61,13 @@ class Search extends Controller
         $this->load->view('_search_main', $data);
     }
 
-    function get_items_main_block($keywords = "", $page = 1)
-    {
-        $this->load->model('items_mdl', 'items');
-        $items = $this->items->getItemsByTag($keywords);
-
-        $params = ['items' => $items, 'keywords' => $keywords];
-        $info = array(
-            'template'      => $this->load->view('_search_common', $params, true),
-            'items'         => $items
-        );
-        return $info;
-    }
-
     /**
      * @param int    $page
      * @param string $keywords
      *
      * @return array
      */
-    function get_items_main_block2($page = 1, $keywords = "")
+    function get_items_main_block($page = 1, $keywords = "")
     {
         mb_internal_encoding("UTF-8");
 
@@ -118,7 +105,7 @@ class Search extends Controller
         $search_category = "";
         if (!empty($items)) {
             $search_category .= '<li class="selected">';
-            $search_category .= '<a class="selected" id="all-categories-trigger" href="#results-all" onclick="javascript: sort_search_result(\'all\'); return false;">Все категории</a>';
+            $search_category .= '<a class="selected" id="all-categories-trigger" href="#results-all" onclick="sort_search_result(\'all\'); return false;">Все категории</a>';
             $search_category .= '</li>';
 
             foreach ($items as $item) {
@@ -127,7 +114,7 @@ class Search extends Controller
                 }
                 $trigger = $item->category_id;
                 $search_category .= '<li>';
-                $search_category .= '<a id="' . $trigger . '-categories-trigger" href="#results-' . $trigger . '" onclick="javascript: sort_search_result(\'' . $trigger . '\'); return false;">' . $item->category_title . '</a>';
+                $search_category .= '<a id="' . $trigger . '-categories-trigger" href="#results-' . $trigger . '" onclick="sort_search_result(\'' . $trigger . '\'); return false;">' . $item->category_title . '</a>';
                 $search_category .= '</li>';
             }
         }

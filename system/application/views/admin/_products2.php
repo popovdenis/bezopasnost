@@ -1,7 +1,7 @@
 <div id="products_block">
 	<div id="new_partner">
 		<div style="float:left;">
-			<span><a href="#" onclick="javascript:new_product_item_form();return false;">Добавить</a></span>
+			<span><a href="#" onclick="new_product_item_form();return false;">Добавить</a></span>
 		</div>
 		<div style="float:right;">
 			<div class="delete_all_btn"><span>Удалить отмеченные</span></div>

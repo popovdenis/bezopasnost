@@ -25,11 +25,11 @@
 							<div id="login_process"></div>
 							<div><input id="login_button" type="submit" value="Войти" /></div>
 						</div>						
-						<p class="clearboth" style="bottom:3px;position:absolute;"><a style="color:black;" href="#" onclick="javascript: show_form('forgot_password');return false;">Восстановить ваш пароль?</a></p>
+						<p class="clearboth" style="bottom:3px;position:absolute;"><a style="color:black;" href="#" onclick="show_form('forgot_password');return false;">Восстановить ваш пароль?</a></p>
 						<div id="forgot_password" class="f-elements clearfix" style="display:none;">
 					    	<span>Ваш email: </span>
 					    	<input type="text" id="username" name="username" class="usernameFP first" / >
-					    	<input class="buttonFP" type="button" value="Submit" onclick="javascript: forgot_password();" />				            	
+					    	<input class="buttonFP" type="button" value="Submit" onclick="forgot_password();" />
 					   	</div>
 					   	<div id="msg"></div>
 					</form>
