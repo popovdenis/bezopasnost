@@ -12,7 +12,7 @@ class Products extends Controller
     {
         parent::Controller();
         $this->benchmark->mark('code_start');
-//        $this->output->cache(60);
+        $this->output->cache(60);
     }
 
     // products main

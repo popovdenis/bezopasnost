@@ -5,7 +5,7 @@ class Partners extends Controller
     {
         parent::Controller();
         $this->benchmark->mark('code_start');
-//        $this->output->cache(60);
+        $this->output->cache(10);
     }
 
     function index()
