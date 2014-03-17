@@ -112,7 +112,8 @@ var productsObj = {
     {
         var config = {
             toolbar: 'Basic',
-            uiColor: '#CB6615'
+            uiColor: '#CB6615',
+            filebrowserUploadUrl: '/ajax_handlers/admin_handler/upload'
         };
 
         if ($('#post_content').length > 0) {
