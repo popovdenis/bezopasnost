@@ -7,7 +7,7 @@ var searchObj = {
     search_by_tag: function(tag) {
         $.ajax({
             type: "POST",
-            url: ajax_search_path,
+            url: '/ajax_handlers/search_handler/ajax_actions',
             dataType: "json",
             data: {
                 'action': 'search_by_tag',

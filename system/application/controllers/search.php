@@ -24,6 +24,9 @@ class Search extends Controller
     }
 
     /**
+     * main index
+     *
+     * @return Controller
      */
     function index()
     {
@@ -34,7 +37,7 @@ class Search extends Controller
 
         if (!empty($main_keywords)) {
             $keywords = $main_keywords;
-        } else{
+        } else {
             if ($this->db_session->flashdata('keywords')) {
                 $keywords = $this->db_session->flashdata('keywords');
             } elseif ($this->db_session->userdata('keywords')) {
@@ -48,11 +51,16 @@ class Search extends Controller
         if (!empty($keywords)) {
             $items = $this->get_items_main_block(1, $keywords);
         } else {
-            $items = array('template' => '', 'count' => 0, 'paginate_args' => '', 'main_category' => '');
+            $items = [
+                'template'      => '',
+                'count'         => 0,
+                'paginate_args' => '',
+                'main_category' => ''
+            ];
         }
 
         $config['meta_tags']['title'] = 'Поиск';
-        $data                         = array();
+        $data                         = [];
         $data['search_result']        = $items;
         $data['keywords']             = $keywords;
         $data['tagclouds']            = get_tag_clouds();

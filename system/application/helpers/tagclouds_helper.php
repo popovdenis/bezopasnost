@@ -13,11 +13,10 @@
         }
         $ci->load->model('items_mdl', 'items');
         $items = $ci->items->get_item_marks();
-
         if (!$items) {
             return null;
         }
-        $tagsArray = array();
+        $tagsArray = [];
         foreach ($items as $item) {
             $tagsArray = array_merge($tagsArray, explode(",", $item->item_marks));
         }
@@ -46,7 +45,14 @@
         foreach ($tags as $word => $value) {
             $size = round($min_size + (($value - $min_qty) * $step));
             $str .= '<li style="font-size:'.$size.'px">
-                <a style="font-size:'.$size.'px" href="'.base_url().'search#find:'.$word.'" title="'.$value.'" alt="'.$value.'"> '.$word.' </a>
+                <a style="font-size:'
+                . $size . 'px" href="'
+                . base_url()
+                . 'search#find:'
+                . $word . '" title="'
+                . $value . '" alt="'
+                . $value . '"> '
+                . $word . ' </a>
             </li>';
         }
         return $str;
