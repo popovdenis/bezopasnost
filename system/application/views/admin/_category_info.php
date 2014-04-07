@@ -1,7 +1,6 @@
 <script type="text/javascript">
-$(function(){
     productsObj.initImageGalleryUploader();
-});
+    productsObj.initCategoryUploader();
 </script>
 <script type="text/javascript" src="<?=base_url()?>js/ui/ui.sortable.js"></script>
 <style type="text/css">

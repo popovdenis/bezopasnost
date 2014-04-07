@@ -1046,24 +1046,25 @@ class Admin_handler extends Controller
         $this->load->model('items_mdl', 'items');
         $this->load->helper('bk');
 
-        $categories = get_categories_tree(-1, array(), -1);
+        $categories   = get_categories_tree(-1, array(), -1);
         $currencylist = $this->_search_currency_list();
-        $userlist = $this->_search_user_list();
-        $items = $this->get_item(null, 'products');
-        $ann_items = $this->get_ann_items();
+        $userlist     = $this->_search_user_list();
+        $items        = $this->get_item(null, 'products');
+        $ann_items    = $this->get_ann_items();
 
         $cat_str = '';
         foreach ($categories as $category) {
             $indention = str_repeat("&nbsp;&nbsp;", $category->level);
             $cat_str .= '<option value="' . $category->category_id . '">' . $indention . $category->category_title . '</option>';
         }
-        $val = array();
-        $val['ann_items'] = $ann_items;
-        $val['items'] = $items;
-        $val['categories'] = $cat_str;
-        $val['userlist'] = $userlist;
-        $val['currencylist'] = $currencylist;
 
+        $val = [
+            'items'        => $items,
+            'ann_items'    => $ann_items,
+            'categories'   => $cat_str,
+            'userlist'     => $userlist,
+            'currencylist' => $currencylist
+        ];
         return $this->load->view('admin/_settings_main_page', $val, true);
     }
 
@@ -1118,20 +1119,17 @@ class Admin_handler extends Controller
             $indention = str_repeat("&nbsp;&nbsp;", $cat->level);
             $cat_str .= '<option value="' . $cat->category_id . '" ' . $selected . '>' . $indention . $cat->category_title . '</option>';
         }
-        $val = array();
-        $header = "";
-        $content = "";
 
-        $val['categories'] = $cat_str;
-        $val['category'] = $category;
-        $val['partners'] = $partners;
-        $val['cat_partners'] = $cat_partners;
-        $val['sub_cats'] = $sub_cats;
-
-        if ($get_header) {
-            $header = $this->load->view('admin/_category_header', $val, true);
-        }
+        $val = [
+            'categories'   => $cat_str,
+            'category'     => $category,
+            'partners'     => $partners,
+            'cat_partners' => $cat_partners,
+            'sub_cats'     => $sub_cats
+        ];
+        $header = ($get_header) ? $this->load->view('admin/_category_header', $val, true) : '';
         $content = $this->load->view('admin/_category_info', $val, true);
+
         return array('header' => $header, 'content' => $content);
     }
 

@@ -54,6 +54,42 @@ var productsObj = {
         }
     },
 
+    initCategoryUploader: function () {
+        var imgTitleElement = $("a[id^='categoryid_']");
+        var uploadType = 'category_title';
+
+        if (imgTitleElement.length > 0) {
+            itemId = (typeof itemId != "undefined") ? itemId : (imgTitleElement.attr('id').split('_')[1]);
+            new AjaxUpload(imgTitleElement.attr('id'), {
+                // Location of the server-side upload script
+                action: '/admin/home/upload',
+                // File upload name
+                name: 'userfile',
+                data: {
+                    item_id: itemId,
+                    upload_type: uploadType
+                },
+                responseType: false,
+                onChange: function (file, extension) {
+                },
+                onSubmit: function (file, ext) {
+                },
+                onComplete: function (file, response) {
+                    if (response) {
+                        var result = window["eval"]("(" + response + ")");
+                        $.post("/admin/home/upload", { attach_id: result.attach_id, item_id: itemId, upload_type: uploadType},
+                            function (data) {
+                                result = window["eval"]("(" + data + ")");
+                                $('#category_img').html('<img width="235" src="/' + result.file_path + '" />');
+                            })
+                    } else {
+                        alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
+                    }
+                }
+            });
+        }
+    },
+
     initImageTitleUploader: function (itemId) {
         var imgTitleElement = $("a[id^='imgtitle_']");
         if (imgTitleElement.length > 0) {
