@@ -47,8 +47,10 @@ class Search_handler extends Controller
                 break;
             case "search_by_tag":
                 $tag = $this->input->post('tag');
-                $tag = $this->input->xss_clean($tag);
-                $items_block    = $this->_get_items_block(1, $tag, '');
+                $this->db_session->set_userdata('keywords', $this->input->xss_clean($tag));
+                redirect('/search/');
+
+                /*$items_block    = $this->_get_items_block(1, $tag, '');
                 $page_container = array(
                     'total_rows'  => count($items_block['items_all']),
                     'per_page'    => $this->per_page,
@@ -60,7 +62,7 @@ class Search_handler extends Controller
                 $item_main      = $items_block['items'];
                 $page_container = paginate_ajax($page_container);
                 $data = (Object)array('items_block' => $item_main, 'page_container' => $page_container);
-                $data = json_encode($data);
+                $data = json_encode($data);*/
                 break;
             case "quick_search":
                 //log_message('error', 'quick_search');

@@ -62,6 +62,11 @@
     <?php require_once('_search_block.php'); ?>
     <!-- Тэги -->
     <!-- Тэги -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            searchObj.init();
+        });
+    </script>
 	<div class="infobox" style="clear:left; margin-top:15px;">
 		<div class="t">
 			<div class="b">

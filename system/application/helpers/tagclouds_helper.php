@@ -45,11 +45,8 @@
         foreach ($tags as $word => $value) {
             $size = round($min_size + (($value - $min_qty) * $step));
             $str .= '<li style="font-size:'.$size.'px">
-                <a style="font-size:'
-                . $size . 'px" href="'
-                . base_url()
-                . 'search#find:'
-                . $word . '" title="'
+                <a class="search-tag" style="font-size:'
+                . $size . 'px" href="javascript:void(0);" title="'
                 . $value . '" alt="'
                 . $value . '"> '
                 . $word . ' </a>

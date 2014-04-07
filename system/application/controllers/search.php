@@ -132,4 +132,11 @@ class Search extends Controller
                      'main_category' => $search_category
         );
     }
+
+    public function tags()
+    {
+        $tag = $this->input->xss_clean($this->uri->segment(3));
+        $this->db_session->set_userdata('keywords', $tag);
+        redirect('/search/');
+    }
 }

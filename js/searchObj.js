@@ -4,27 +4,17 @@
  * Time: 13:48
  */
 var searchObj = {
-    search_by_tag: function(tag) {
-        $.ajax({
-            type: "POST",
-            url: '/ajax_handlers/search_handler/ajax_actions',
-            dataType: "json",
-            data: {
-                'action': 'search_by_tag',
-                'tag': tag
-            },
-            beforeSend: function () {
-                /*$(".page_container").html('<div style="float:left;"><img border="0" src="<?php echo base_url(); ?>images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;padding-left:145px;text-align:center;"/></div>');*/
-            },
-            success: function (data) {
-                $("#items_block").html(data.items_block);
-            },
-            error: function (data) {
-                $("#items_block").html('');
-                $(".page_container").html('');
-            }
-        });
+    init: function () {
+        this.initAjaxHandlers();
+    },
 
-        return true;
+    initAjaxHandlers: function () {
+        $('.search-tag').click(function() {
+            searchObj.search_by_tag($(this).text());
+        });
+    },
+
+    search_by_tag: function(tag) {
+        window.location.href = '/search/tags/' + tag;
     }
 };

@@ -2,10 +2,11 @@
 <script type="text/javascript" src="<?=base_url()?>js/searchObj.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            if (window.location.hash.search(/^\#find:/) == 0) {
-                var cId = window.location.hash.substr(6);
-                searchObj.search_by_tag(cId);
-            }
+//            searchObj.init();
+//            if (window.location.hash.search(/^\#find:/) == 0) {
+//                var cId = window.location.hash.substr(6);
+//                searchObj.search_by_tag(cId);
+//            }
         });
     </script>
     <!-- Header implementation -->
