@@ -26,5 +26,6 @@
 
     <script type="text/javascript" src="/js/highslide/highslide.js"></script>
     <script type="text/javascript" src="<?=base_url()?>js/admin/productsObj.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>js/admin/productObj.js"></script>
 </head>
 <body>
