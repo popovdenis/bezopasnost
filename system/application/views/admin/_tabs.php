@@ -40,14 +40,14 @@
 <div style="float:left;margin:0 auto;position:relative;width:1100px;">
 	<div style="float:left;">
 		<ul class="tab">
-			<li id="li_about" class="active"><a href="#about" onclick="get_page('about', 0, 'О Компании');return false;"><span>О Компании</span></a></li>
-		    <li id="li_information"><a href="#information" onclick="get_page('information', 0, 'Информация');return false;"><span>Информация</span></a></li>
-			<li id="li_partners"><a href="#partners" onclick="get_page('partners', 0, 'Партнеры');return false;"><span>Партнеры</span></a></li>
-		    <li id="li_products"><a href="#products" onclick="get_page('products', 0, 'Продукция');return false;"><span>Продукция</span></a></li>
-            <li id="li_contacts"><a href="#contacts" onclick="get_page('contacts', 0, 'Контакты');return false;"><span>Контакты</span></a></li>
-			<li id="li_gallery"><a href="#gallery" onclick="get_page('gallery', 0, 'Галлереи');return false;"><span>Галлереи</span></a></li>
-			<li id="li_settings"><a href="#settings" onclick="get_page('settings', 0, 'Настройки');return false;"><span>Настройки</span></a></li>
-<!--			<li id="li_tools"><a href="#tools" onclick="get_page('tools', 0, 'Инструменты');return false;"><span>Инструменты</span></a></li>-->
+			<li id="li_about" class="active"><a href="#about" onclick="adminObj.get_page('about', 0, 'О Компании');return false;"><span>О Компании</span></a></li>
+		    <li id="li_information"><a href="#information" onclick="adminObj.get_page('information', 0, 'Информация');return false;"><span>Информация</span></a></li>
+			<li id="li_partners"><a href="#partners" onclick="adminObj.get_page('partners', 0, 'Партнеры');return false;"><span>Партнеры</span></a></li>
+		    <li id="li_products"><a href="#products" onclick="adminObj.get_page('products', 0, 'Продукция');return false;"><span>Продукция</span></a></li>
+            <li id="li_contacts"><a href="#contacts" onclick="adminObj.get_page('contacts', 0, 'Контакты');return false;"><span>Контакты</span></a></li>
+			<li id="li_gallery"><a href="#gallery" onclick="adminObj.get_page('gallery', 0, 'Галлереи');return false;"><span>Галлереи</span></a></li>
+			<li id="li_settings"><a href="#settings" onclick="adminObj.get_page('settings', 0, 'Настройки');return false;"><span>Настройки</span></a></li>
+<!--			<li id="li_tools"><a href="#tools" onclick="adminObj.get_page('tools', 0, 'Инструменты');return false;"><span>Инструменты</span></a></li>-->
 		</ul>
 	</div>
 	<div class="logout">

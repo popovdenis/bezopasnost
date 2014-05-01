@@ -90,7 +90,7 @@ h2 {
                 </tbody>
             </table>
             <p class="submit">
-                <div style="margin-top: 35px; width: 200px;" onclick="save_item('2', 'about');return false;" class="apply_all_btn">
+                <div style="margin-top: 35px; width: 200px;" onclick="adminObj.save_item('2', 'about');return false;" class="apply_all_btn">
                     <span>Сохранить</span>
                 </div>
             </p>

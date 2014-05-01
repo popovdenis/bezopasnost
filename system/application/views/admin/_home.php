@@ -1,5 +1,4 @@
 <?php require_once("_head.php"); ?>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/ajax_admin.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/ajax_gallery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -7,7 +6,7 @@ $(document).ready(function(){
 		$("#panel").slideToggle("slow");
 		$(this).toggleClass("active"); return false;
 	});
-	get_page('about'); 
+	adminObj.get_page('about');
 });
 </script>
 <script type="text/javascript">

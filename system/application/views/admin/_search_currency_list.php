@@ -8,4 +8,4 @@ if($currency) {
 	echo $options;
 }
 ?>
-</select>&nbsp;<input type="button" onclick="get_currency();" value="Найти" />
+</select>&nbsp;<input type="button" onclick="adminObj.get_currency();" value="Найти" />

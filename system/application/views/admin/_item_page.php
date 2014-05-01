@@ -8,24 +8,24 @@
     <div>
         <div class="product_element">
             <span style="float: left; width: 100%;"><strong>Название статьи</strong></span>
-            <input type="text" id="item_title" name="item_title" value="<?= htmlspecialchars($item->item_title) ?>"
+            <input type="text" id="item_title_<?= $item->item_id ?>" name="item_title_<?= $item->item_id ?>" value="<?= htmlspecialchars($item->item_title) ?>"
                    style="width:500px;"/>
         </div>
         <div class="product_element">
             <span><strong>Краткое описание статьи</strong></span><br/>
-            <textarea name="item_preview" id="item_preview"
+            <textarea class="editor" name="item_preview" id="item_preview"
                       style="min-height:70px;width:775px;"><?= $item->item_preview ?></textarea>
         </div>
         <?php if ($item_type == 'products') { ?>
             <div class="product_element">
                 <span><strong>Характеристики</strong></span><br/>
-                <textarea name="item_charecters" id="item_charecters"
+                <textarea class="editor" name="item_charecters" id="item_charecters"
                           style="min-height:70px;width:775px;"><?= $item->item_characters ?></textarea>
             </div>
         <?php } ?>
         <div>
             <span><strong>Описание статьи</strong></span>
-            <textarea name="post_content" id="post_content"
+            <textarea class="editor" name="post_content" id="post_content"
                       style="min-height:330px;"><?= $item->item_content ?></textarea>
         </div>
         <div class="product_element">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="seo_description">
                     <span><strong>Description (описание)</strong>&nbsp;<i>(150-200 знаков)</i></span>
-                    <textarea type="text" id="item_seo_description" name="item_seo_description" cols="97"
+                    <textarea class="editor" type="text" id="item_seo_description" name="item_seo_description" cols="97"
                               rows="7"><?= $item->item_seo_description ?></textarea>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             <div class="left padAll5">Галлерея статьи</div>
             <div class="padAll5 right">
                 <img class="marRight5" src="<?= base_url() ?>images/big-plus.gif" alt=""/>
-                <a onclick=" add_form('gallery');return false;" href="#">Добавить</a>
+                <a onclick="adminObj.add_form('gallery');return false;" href="#">Добавить</a>
             </div>
         </div>
         <div id="new_gallery_block" style="float:left;width:700px;margin-bottom:10px;display:none;">
@@ -81,7 +81,7 @@
                         }
                         ?>
                         <input type="button" value="Привязать галерею к статье"
-                               onclick="javascropt: assign_gallery_to_item('<?= $item->item_id ?>');"/>
+                               onclick="adminObj.assign_gallery_to_item('<?= $item->item_id ?>');"/>
                     </div>
                 </div>
             </div>
@@ -94,17 +94,17 @@
         <div style="font-weight:bold;font-size:16px;margin-bottom:15px;color:red;">
             <input type="hidden" id="item_id" value="<?= $item->item_id ?>"/>
             <div class="delete_all_btn"
-                 onclick="save_item('<?= $item->item_id ?>', '<?= $item_type ?>');return false;"
+                 onclick="adminObj.save_item('<?= $item->item_id ?>', '<?= $item_type ?>');return false;"
                  style="width:200px;">
                 <span>Сохранить</span>
             </div>
             <div class="delete_btn"
-                 onclick="if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) delete_item('<?= $item->item_id ?>', true, '<?= $item_type ?>');"
+                 onclick="if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) adminObj.delete_item('<?= $item->item_id ?>', true, '<?= $item_type ?>');"
                  style="float:left;">
                 <span class="delete_btn_span">Удалить</span>
             </div>
             <div class="delete_btn"
-                 onclick="get_page('<?= $item_type ?>', '<?= $item->item_id ?>');return false;"
+                 onclick="adminObj.get_page('<?= $item_type ?>', '<?= $item->item_id ?>');return false;"
                  style="float:left;">
                 <span class="delete_btn_span">Обновить</span>
             </div>
@@ -143,14 +143,14 @@
                     <div class="price_head">
                         <div>
                             <div class="price_name_head_cost price_name"
-                                 onclick="change_price_value('<?= $item->item_id ?>', 'hs_set'); return hs.htmlExpand(this, {contentId:'hs_<?= $item->item_id ?>'})">
+                                 onclick="adminObj.change_price_value('<?= $item->item_id ?>', 'hs_set'); return hs.htmlExpand(this, {contentId:'hs_<?= $item->item_id ?>'})">
                                 <span id="price_item_<?= $item->item_id ?>"><?= $item->item_price ?></span>
                                 <input type="hidden" id="item_price_<?= $item->item_id ?>"
                                        value="<?= $item->item_price ?>"/>
                             </div>
                             <div class="price_name_head_value">
                                 <select id="price_select_<?= $item->item_id ?>"
-                                        onchange="change_price_value('<?= $item->item_id ?>', 'display')">
+                                        onchange="adminObj.change_price_value('<?= $item->item_id ?>', 'display')">
                                     <option value="uah">UAH</option>
                                     <option value="usd">USD</option>
                                     <option value="eur">EUR</option>
@@ -217,9 +217,8 @@
                         echo $str_cat;
                     ?>
                 </select>
-                <input type="text" id="category_title" style="width:180px;"/><br/><a href="#"
-                                                                                     onclick="add_category();"
-                                                                                     style="float:right;">Добавить</a>
+                <input type="text" id="category_title" style="width:180px;"/><br/>
+                <a href="#" onclick="adminObj.add_category();" style="float:right;">Добавить</a>
             </div>
             <div id="chboxes"
                  style="float: left;overflow-y: auto; height: 850px; overflow-x: hidden; width: 230px;padding-right:15px;margin-top:10px;margin-bottom:20px;">
@@ -258,7 +257,7 @@
         <div>
             <div style="margin:5px auto;">
                 <input size="10" id="cr_val_<?= $item->item_id ?>" value=""
-                       onkeyup="change_price_value('<?= $item->item_id ?>', 'change');">&nbsp;
+                       onkeyup="adminObjchange_price_value('<?= $item->item_id ?>', 'change');">&nbsp;
                 <strong>UAH</strong>
                 <input type="hidden" name="price_select_change_<?= $item->item_id ?>"
                        id="price_select_change_<?= $item->item_id ?>" value="uah">
@@ -268,7 +267,7 @@
             <div style="margin:5px auto;"><strong>EUR</strong> - <span id="cr_eur_<?= $item->item_id ?>"></span></div>
         </div>
         <div>
-            <input type="button" value="Применить" onclick="change_price('<?= $item->item_id ?>');"/>
+            <input type="button" value="Применить" onclick="adminObj.change_price('<?= $item->item_id ?>');"/>
             <img id="loader_<?= $item->item_id ?>" src="<?= base_url() ?>images/ajax-loader.gif" style="display:none;"/>
         </div>
     </div>

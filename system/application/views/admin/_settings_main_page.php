@@ -4,7 +4,7 @@
 			<div class="left padAll5">Установка валюты</div>
 			<div class="padAll5 right">
 				<img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-				<a onclick="return add_form('currency');" href="#">Добавить Новую Валюту</a>
+				<a onclick="return adminObj.add_form('currency');" href="#">Добавить Новую Валюту</a>
 			</div>			
 		</div>
 		<div id="currency_block_header" style="float: left; width: 100%;">
@@ -12,7 +12,7 @@
 				<div class="left padAll5" style="color:#676767;">Новая валюта</div>
 					<div style="width:100%;float:left;">
 					<input type="text" id="currency_value" value="" />&nbsp;
-					<input type="button" onclick="add_currency();" value="Добавить" />
+					<input type="button" onclick="adminObj.add_currency();" value="Добавить" />
 				</div>
 			</div>
 			<div id="currencyList" style="float:left;margin-bottom:10px;margin-top:10px;">
@@ -29,7 +29,7 @@
 			<div class="left padAll5">Пользователи</div>
 			<div class="padAll5 right">
 				<img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-				<a onclick="return add_form('user');" href="#">Добавить Нового Пользователя</a>
+				<a onclick="return adminObj.add_form('user');" href="#">Добавить Нового Пользователя</a>
 			</div>
 		</div>
 		<div id="users_block_header">
@@ -63,7 +63,7 @@
 				</div>
 				<div style="float: left; width: 100%;">
 					<div style="float:right;">
-						<input type="button" onclick="add_user();" value="Добавить" />
+						<input type="button" onclick="adminObj.add_user();" value="Добавить" />
 					</div>
 				</div>
 			</div>
@@ -79,7 +79,7 @@
                 <div class="left padAll5">Категории</div>
                 <div class="padAll5 right">
                     <img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-                    <a onclick="return add_form('category');" href="#">Добавить Новую Категорию</a>
+                    <a onclick="return adminObj.add_form('category');" href="#">Добавить Новую Категорию</a>
                 </div>
             </div>
             <div id="category_header">
@@ -89,7 +89,7 @@
                         <option value="0">Выберите имя категории</option>
                         <?=$categories?>
                     </select>
-                    <input type="button" onclick="search_category();" value="Найти" />
+                    <input type="button" onclick="adminObj.search_category();" value="Найти" />
                     <div id="ad_items"></div>
                 </div>
                 <div id="new_category_block" style="float:left;width:917px;margin-bottom:10px;display:none;">
@@ -112,7 +112,7 @@
                             <textarea id="new_cat_desc" style="width:700px;"></textarea>
                         </div>
                         <div style="float:right;position:relative;top:50px;">
-                            <input type="button" onclick="new_category();" value="Добавить" />
+                            <input type="button" onclick="adminObj.new_category();" value="Добавить" />
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
                     }
                 ?>
             </select>
-            <input type="button" onclick="add_ann_item();" value="Прикрепить" />
+            <input type="button" onclick="adminObj.add_ann_item();" value="Прикрепить" />
         </div>
         <div id="set_ann_item"><?=$ann_items?></div>
     </div>

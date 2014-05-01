@@ -2,7 +2,7 @@
     if(!empty($gallery)) {
         if(isset($gallery->attachments) && !empty($gallery->attachments)) {
 
-        	$gallery_str = '<div id="gallery_reorder_apply"><a href="#" onclick="reorder_attach_gallery('.$gallery->gallery_id.');return false;">Применить</a>
+        	$gallery_str = '<div id="gallery_reorder_apply"><a href="#" onclick="adminObj.reorder_attach_gallery('.$gallery->gallery_id.');return false;">Применить</a>
 			</div><ul id="sortable_gallery">';
 
         	foreach($gallery->attachments as $attachment) {
@@ -14,7 +14,7 @@
                     	<div><strong>Название: </strong>'.$attachment->attach_title.'</div>
                     	<div><strong>Описание: </strong>'.$attachment->attach_desc.'</div>
                     </div>
-                    <img class="sortable_img" src="'.base_url().'images/icons/cancel.png" onclick="delete_attach_gallery('.$gallery->gallery_id.','.$attachment->attach_id.');">
+                    <img class="sortable_img" src="'.base_url().'images/icons/cancel.png" onclick="adminObj.delete_attach_gallery('.$gallery->gallery_id.','.$attachment->attach_id.');">
                 </li>';
             }
             $gallery_str .= '</ul>';
@@ -96,7 +96,7 @@ $(function(){
     <div class="innerTableHeaderGreen">
         <div id="" class="left padAll5">
             <img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-            <a id="" onclick="return add_form('gallery_file');" href="#">Добавить файл в галлерею</a>
+            <a id="" onclick="return adminObj.add_form('gallery_file');" href="#">Добавить файл в галлерею</a>
         </div>
     </div>
     <div id="gallery_block_header" style="float: left; width: 100%;">

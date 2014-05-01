@@ -11,7 +11,7 @@
 
     <div id="new_item">
         <div class="left">
-            <div class="left add_item"><span onclick="get_new_page('<?= $item_type ?>');">Новая статья</span>
+            <div class="left add_item"><span onclick="adminObj.get_new_page('<?= $item_type ?>');">Новая статья</span>
             </div>
             <div style="float:left;">
                 <img id="add_item_img" style="position:relative;top:10px;display:none;"
@@ -21,7 +21,7 @@
         <div class="right">
             <div class="delete_all_btn" onclick="if(confirm('Выбранные статьи удалятся вместе ' +
              'с прикрепленным к ним материалом. ' +
-             'Вы уверены, что хотите удалить выбранные статьи?')) delete_items_checked();">
+             'Вы уверены, что хотите удалить выбранные статьи?')) adminObj.delete_items_checked();">
                 <span>Удалить отмеченные</span>
             </div>
         </div>
@@ -30,7 +30,7 @@
         $current = array_pop($categories); ?>
         <div class="left" style="margin:0 0 10px 10px;">
             <span id="filter_items">Фильтр:</span>
-            <select id="item_categories" onchange="filter_items_category('<?= $item_type ?>');">
+            <select id="item_categories" onchange="adminObj.filter_items_category('<?= $item_type ?>');">
                 <option id="<?= $current->category_id ?>" selected value="0"><?= $current->category_title ?></option>
                 <?php foreach ($categories as $category) { ?>
                     <option value="<?= $category->category_id ?>"><?= $category->category_title ?></option>

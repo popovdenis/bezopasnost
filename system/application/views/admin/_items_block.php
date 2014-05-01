@@ -15,7 +15,7 @@
             </span>
             <span class="spn_cat"><?= $item->cat_str ?></span>
             <span class="spn_title">
-                <a href="#item<?= $item->item_id ?>" onclick="get_page('<?= $item_type ?>', '<?= $item->item_id ?>');return false;">
+                <a href="#item<?= $item->item_id ?>" onclick="adminObj.get_page('<?= $item_type ?>', '<?= $item->item_id ?>');return false;">
                     <?= $item->item_title ?>
                 </a>
             </span>
@@ -24,14 +24,14 @@
                 <div class="price_head">
                     <div>
                         <div class="price_name_head_cost price_name"
-                             onclick="change_price_value('<?= $item->item_id ?>', 'hs_set'); return hs.htmlExpand(this, {contentId:'hs_<?= $item->item_id ?>'})">
+                             onclick="adminObj.change_price_value('<?= $item->item_id ?>', 'hs_set'); return hs.htmlExpand(this, {contentId:'hs_<?= $item->item_id ?>'})">
                             <span id="price_item_<?= $item->item_id ?>"><?= $item->item_price ?></span>
                             <input type="hidden" id="item_price_<?= $item->item_id ?>"
                                    value="<?= $item->item_price ?>"/>
                         </div>
                         <div class="price_name_head_value">
                             <select id="price_select_<?= $item->item_id ?>"
-                                    onchange="change_price_value('<?= $item->item_id ?>', 'display')">
+                                    onchange="adminObj.change_price_value('<?= $item->item_id ?>', 'display')">
                                 <option value="uah">UAH</option>
                                 <option value="usd">USD</option>
                                 <option value="eur">EUR</option>
@@ -42,7 +42,7 @@
             <?php } ?>
             <span class="spn_delete">
                 <div id="delete_btn_<?= $item->item_id ?>" class="delete_btn"
-                 onclick="if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) delete_item('<?= $item->item_id ?>', '<?= $item_type ?>');">
+                 onclick="if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) adminObj.delete_item('<?= $item->item_id ?>', '<?= $item_type ?>');">
                     <span class="delete_btn_span">Удалить</span>
                 </div>
             </span>
@@ -57,9 +57,9 @@
             <div class="highslide-body">
                 <div style="margin:5px 0;">
                     <input size="10" id="cr_val_<?= $item->item_id ?>" value=""
-                           onkeyup="change_price_value('<?= $item->item_id ?>', 'change');">&nbsp;
+                           onkeyup="adminObj.change_price_value('<?= $item->item_id ?>', 'change');">&nbsp;
                     <select id="price_select_change_<?= $item->item_id ?>"
-                            onchange="change_price_value('<?= $item->item_id ?>', 'change')"
+                            onchange="adminObj.change_price_value('<?= $item->item_id ?>', 'change')"
                             style="margin:0;width:87px;">
                         <option value="uah">UAH</option>
                         <option value="usd">USD</option>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div>
-                    <input type="button" value="Применить" onclick="change_price('<?= $item->item_id ?>');"/>
+                    <input type="button" value="Применить" onclick="adminObj.change_price('<?= $item->item_id ?>');"/>
                     <img id="loader_<?= $item->item_id ?>" src="<?= base_url() ?>images/ajax-loader.gif"
                          style="display:none;"/>
                 </div>

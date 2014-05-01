@@ -21,11 +21,11 @@
 	<script type="text/javascript">set_base_url('<?php echo base_url(); ?>');</script>
 
 	<script type="text/javascript" src="<?=base_url()?>js/bk_helper.js"></script>
-	<script type="text/javascript" src="<?=base_url()?>js/bk_admin_helper.js"></script>
 	<script type="text/javascript" src="/js/ajaxupload.js"></script>
 
     <script type="text/javascript" src="/js/highslide/highslide.js"></script>
     <script type="text/javascript" src="<?=base_url()?>js/admin/productsObj.js"></script>
     <script type="text/javascript" src="<?=base_url()?>js/admin/productObj.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/adminObj.js"></script>
 </head>
 <body>

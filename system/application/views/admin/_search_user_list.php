@@ -10,4 +10,4 @@ if($users) {
 	echo $options;
 }
 ?>
-</select>&nbsp;<input type="button" onclick="get_user();" value="Найти" />
+</select>&nbsp;<input type="button" onclick="adminObj.get_user();" value="Найти" />

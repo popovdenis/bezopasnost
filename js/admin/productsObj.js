@@ -149,6 +149,7 @@ var productsObj = {
         var config = {
             toolbar: 'Basic',
             uiColor: '#CB6615',
+            language: 'ru',
             filebrowserUploadUrl: '/ajax_handlers/admin_handler/upload'
         };
 

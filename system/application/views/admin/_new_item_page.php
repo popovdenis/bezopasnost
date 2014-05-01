@@ -49,7 +49,7 @@
         </div>
         <div
             style="background-color:#D2691E;font-weight:bold;padding-bottom:5px;padding-left:12px;padding-top:5px;width:75px;">
-            <a href="#" onclick="add_item('<?= $item_type ?>');return false;" style="color:#FFFFFF;">Сохранить</a>
+            <a href="#" onclick="adminObj.add_item('<?= $item_type ?>');return false;" style="color:#FFFFFF;">Сохранить</a>
         </div>
     </div>
     <div

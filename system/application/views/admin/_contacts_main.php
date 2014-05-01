@@ -184,7 +184,7 @@
     <div id="" class="left padAll5">Контакты</div>
     <div class="padAll5 right">
         <img class="marRight5" src="<?= base_url() ?>images/big-plus.gif" alt=""/>
-        <a id="" onclick="return add_form('contacts');" href="#">Добавить</a>
+        <a id="" onclick="return adminObj.add_form('contacts');" href="#">Добавить</a>
     </div>
 </div>
 <div id="contacts_block_header" style="float: left; width: 100%;">
@@ -196,7 +196,7 @@
                 <option value="email">e-mail</option>
             </select>
             <input type="text" id="contact_value" value=""/>&nbsp;
-            <input type="button" onclick="add_contact();" value="Добавить"/>
+            <input type="button" onclick="adminObj.add_contact();" value="Добавить"/>
         </div>
         <span><img id="contacts_img" border="0" src="<?= base_url() ?>images/add-note-loader.gif" alt="loading..."
                    style="padding-top: 7px;text-align:center;display:none;"/></span>
@@ -259,5 +259,5 @@
     </div>
 </div>
 <div style="float:right;margin-top:15px;">
-    <input type="button" onclick="update_contacts();return false;" value="Обновить контакты"/>
+    <input type="button" onclick="adminObj.update_contacts();return false;" value="Обновить контакты"/>
 </div>

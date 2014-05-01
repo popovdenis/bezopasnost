@@ -1,5 +1,5 @@
 <?php require_once("_head.php"); ?>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/ajax_admin.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/adminObj.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/ajax_gallery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

@@ -17,7 +17,7 @@
     
             $gallery_str = '<div style="float:left;width:100%;"><div id="gallery_reorder_apply" style="float:left;"><a href="#" onclick="reorder_attach_gallery('.$gallery[0]->gallery_id.');return false;">Применить</a>
             <img id="loader_gallery" alt="loading..." border="0" src="'.base_url().'images/add-note-loader.gif" style="display:none;" /></div>
-            <div style="float:right;"><a href="#" onclick="delete_item_gallery(\''.$gallery[0]->gallery_id.'\', \''.$item_id.'\');return false;">Открепить</a></div></div>
+            <div style="float:right;"><a href="#" onclick="adminObj.delete_item_gallery(\''.$gallery[0]->gallery_id.'\', \''.$item_id.'\');return false;">Открепить</a></div></div>
             <ul id="sortable_gallery">';
             
             foreach($gallery as $attachment) {
@@ -29,14 +29,10 @@
                         <div><strong>Название: </strong>'.$attachment->attach_title.'</div>
                         <div><strong>Описание: </strong>'.$attachment->attach_desc.'</div>                        
                     </div>
-                    <img class="sortable_img" src="'.base_url().'images/icons/cancel.png" onclick="delete_attach_gallery('.$attachment->gallery_id.','.$attachment->attach_id.');">
+                    <img class="sortable_img" src="'.base_url().'images/icons/cancel.png" onclick="adminObj.delete_attach_gallery('.$attachment->gallery_id.','.$attachment->attach_id.');">
                 </li>';                
             }
             $gallery_str .= '</ul>';
-            
-        /*} else {
-            $gallery_str = '<div><ul id="sortable_gallery"></ul></div>';
-        }*/
     }
     echo $gallery_str; 
 ?>
