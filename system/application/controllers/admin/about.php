@@ -6,12 +6,6 @@
  */
 class About extends Controller
 {
-    function __construct()
-    {
-        parent::Controller();
-        $this->load->model( 'category_mdl', 'category' );
-    }
-
     public function save()
     {
         $item_title           = $this->input->post('item_title');
