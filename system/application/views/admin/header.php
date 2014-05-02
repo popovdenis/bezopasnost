@@ -36,8 +36,6 @@
                 $("#panel").slideToggle("slow");
                 $(this).toggleClass("active"); return false;
             });
-            productsObj.initCKeditors();
-            productsObj.initDatePicker();
         });
     </script>
     <script type="text/javascript">

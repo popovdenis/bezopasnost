@@ -9,7 +9,7 @@
 	<?php
 		foreach ($currency_rate as $rate=>$value) {
 	?>
-	<input type="text" id="currencyname_<?=$rate?>" value="<?=round($value, 2); ?>"/> <strong><?=strtoupper($rate)?></strong><br />
+	<input type="text" class="currency" id="currencyname_<?=$rate?>" data-currency-name="<?=$rate?>" value="<?=round($value, 2); ?>"/> <strong><?=strtoupper($rate)?></strong><br />
 	<?php }?>
 </div>
 <div id="update_currency_block">

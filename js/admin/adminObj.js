@@ -886,19 +886,13 @@ var adminObj = {
     },
     
     update_currency_rate: function (currency_id) {
-        var num = $('input[id^="currencyname_"]').length;
-        var currency_names = new Array(num);
-        var i = 0;
-        if (num > 0) {
-            $('input[id^="currencyname_"]').each(function () {
-                var currency = {};
-                var c_id = $(this).attr('id').split("_");
-                currency.name = c_id[1];
-                currency.value = $(this).val();
-                currency_names[i] = currency;
-                i ++;
+        var currencies = [];
+        $('input.currency').each(function () {
+            currencies.push({
+                'name': $(this).data('currency-name'),
+                'value': $(this).val()
             });
-        }
+        });
         $.ajax({
             type: "POST",
             url: this.ajax_admin_path,
@@ -906,7 +900,7 @@ var adminObj = {
             data: {
                 'action': 'update_currency_rate',
                 'currency_id': currency_id,
-                'currency_names': adminObj.serialize(currency_names)
+                'currency_names': currencies
             },
             beforeSend: function () {
                 $("#currency_img").show();

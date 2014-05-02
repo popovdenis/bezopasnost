@@ -1,4 +1,19 @@
 <?php require_once("header.php"); ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        productsObj.init();
+        productsObj.initCKeditors();
+        productsObj.initDatePicker();
+    });
+</script>
+    <script type="text/javascript" src="<?= base_url() ?>js/highslide/highslide-with-html.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>js/highslide/highslide.css"/>
+    <script type="text/javascript">
+        hs.graphicsDir = '<?=base_url()?>js/highslide/graphics/';
+        hs.outlineType = 'rounded-white';
+        hs.wrapperClassName = 'draggable-header';
+
+    </script>
 <div style="width:100%;float:left;margin-bottom:35px;border:1px solid #CCCCCC;border-top:none;">
     <div style="float:left;width:780px; margin-left:10px;margin-top:10px;">
         <div>
@@ -152,6 +167,40 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highslide-html-content" id="hs_<?= $item->item_id ?>">
+                    <div class="highslide-header">
+                        <ul>
+                            <li class="highslide-move"><a href="#" onclick="return false">Move</a></li>
+                            <li class="highslide-close"><a href="#" onclick="return hs.close(this)"></a></li>
+                        </ul>
+                    </div>
+                    <div class="highslide-body">
+                        <div style="margin:5px 0;">
+                            <input size="10" id="cr_val_<?= $item->item_id ?>" value=""
+                                   onkeyup="adminObj.change_price_value('<?= $item->item_id ?>', 'change');">&nbsp;
+                            <select id="price_select_change_<?= $item->item_id ?>"
+                                    onchange="adminObj.change_price_value('<?= $item->item_id ?>', 'change')"
+                                    style="margin:0;width:87px;">
+                                <option value="uah">UAH</option>
+                                <option value="usd">USD</option>
+                                <option value="eur">EUR</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div style="margin:5px auto;"><strong>UAH</strong> - <span id="cr_uah_<?= $item->item_id ?>"></span>
+                            </div>
+                            <div style="margin:5px auto;"><strong>USD</strong> - <span id="cr_usd_<?= $item->item_id ?>"></span>
+                            </div>
+                            <div style="margin:5px auto;"><strong>EUR</strong> - <span id="cr_eur_<?= $item->item_id ?>"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="button" value="Применить" onclick="adminObj.change_price('<?= $item->item_id ?>');"/>
+                            <img id="loader_<?= $item->item_id ?>" src="<?= base_url() ?>images/ajax-loader.gif"
+                                 style="display:none;"/>
                         </div>
                     </div>
                 </div>

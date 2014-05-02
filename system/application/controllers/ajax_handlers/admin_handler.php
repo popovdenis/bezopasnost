@@ -613,12 +613,15 @@ class Admin_handler extends Controller
 
             case "update_currency_rate":
                 $currency_id = $this->input->post('currency_id');
-                $currency_names = (object)json_decode($this->input->post('currency_names'), true);
+                $currency_names = $this->input->post('currency_names');
 
                 $this->load->model('currency_mdl', 'currency');
 
                 foreach ($currency_names as $name) {
-                    $values = array("name" => $name['name'], "value" => $name['value']);
+                    $values = [
+                        "name" => $name['name'],
+                        "value" => $name['value']
+                    ];
                     $this->currency->update_currency_rate($currency_id, $values);
                 }
 
