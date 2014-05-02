@@ -1,4 +1,4 @@
-<?php require_once("_head.php"); ?>
+<?php require_once("header.php"); ?>
 <script type="text/javascript" src="<?= base_url() ?>js/highslide/highslide.js"></script>
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>js/highslide/highslide.css"/>
 <script type="text/javascript">

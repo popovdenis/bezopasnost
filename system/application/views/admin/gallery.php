@@ -1,4 +1,4 @@
-<?php require_once("_head.php"); ?>
+<?php require_once("header.php"); ?>
 <div id="set_gallery_block" style="float: left; width: 100%;margin-bottom:15px;">
     <div class="innerTableHeaderGreen">
         <div id="" class="left padAll5">Галлереи</div>

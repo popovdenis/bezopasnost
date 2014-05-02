@@ -1,4 +1,4 @@
-<?php require_once("_head.php"); ?>
+<?php require_once("header.php"); ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/ajax_gallery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

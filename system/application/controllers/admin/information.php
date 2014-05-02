@@ -162,11 +162,14 @@ class Information extends Controller
         $val['gallery_item'] = $this->get_gallery_item($item->item_id);
 
         $main = $this->category->get_category(null, null, 'Информация');
+        $parent_id = 0;
         if ($main && is_array($main)) {
-            $main[0]->level = 0;
+            $main = $main[0];
+            $parent_id = $main->category_id;
         }
-        $val['categories'] = $main;
+        $val['categories'] = get_categories_tree($parent_id, array(), -1);
         $val['items_cats'] = $this->items->get_item_category($item->item_id);
+        $val['gallery_price'] = $this->gallery->get_gallery($item->item_id, true, 'gallery_price');
 
         $this->load->view('admin/about', $val);
     }

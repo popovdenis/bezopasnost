@@ -1,4 +1,4 @@
-<?php require_once("_head.php"); ?>
+<?php require_once("header.php"); ?>
 <div style="width:100%;float:left;margin-bottom:35px;border:1px solid #CCCCCC;border-top:none;">
     <div style="float:left;width:780px; margin-left:10px;margin-top:10px;">
         <div>

@@ -1,4 +1,4 @@
-<?php require_once("_head.php"); ?>
+<?php require_once("header.php"); ?>
     <div id="settings_block" style="border:1px solid #CCCCCC;border-top:none;">
         <div id="set_currency_block" class="section_block">
             <div class="innerTableHeaderGreen">

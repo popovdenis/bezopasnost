@@ -26,7 +26,7 @@
     <script type="text/javascript" src="/js/highslide/highslide.js"></script>
     <script type="text/javascript" src="<?=base_url()?>js/admin/productsObj.js"></script>
     <script type="text/javascript" src="<?=base_url()?>js/admin/productObj.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/adminObj.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/admin/adminObj.js"></script>
 </head>
 <body>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/js_ajax/ajax_gallery.js"></script>
