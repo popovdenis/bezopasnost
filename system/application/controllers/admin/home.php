@@ -10,7 +10,6 @@ define( "WATERMANR_ALPHA_LEVEL", 110 );
 
 class Home extends Controller
 {
-
     function __construct()
     {
         parent::Controller();
