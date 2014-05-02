@@ -447,7 +447,9 @@ var adminObj = {
             },
             success: function (data) {
                 if (data == 5) window.location = adminObj.base_url + "admin/home";
-                if (data == 0) $("#set_cat_found").html('<font class="cat_not_found">Категория не найдена</font>'); else
+                if (data == 0)
+                    $("#set_cat_found").html('<font class="cat_not_found">Категория не найдена</font>');
+                else
                     $("#set_cat_found").html(data);
             },
             error: function (data) {

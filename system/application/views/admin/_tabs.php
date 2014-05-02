@@ -58,8 +58,8 @@
 			<li id="li_gallery" <?= ($item_type == 'gallery') ? 'class="active"' : ''; ?>>
                 <a href="<?=base_url()?>admin/gallery"><span>Галлереи</span></a>
             </li>
-			<li id="li_settings" <?= ($item_type == 'setting') ? 'class="active"' : ''; ?>>
-                <a href="<?=base_url()?>admin/setting"><span>Настройки</span></a>
+			<li id="li_settings" <?= ($item_type == 'settings') ? 'class="active"' : ''; ?>>
+                <a href="<?=base_url()?>admin/settings"><span>Настройки</span></a>
             </li>
 <!--			<li id="li_tools"><a href="#tools" onclick="adminObj.get_page('tools', 0, 'Инструменты');return false;"><span>Инструменты</span></a></li>-->
 		</ul>

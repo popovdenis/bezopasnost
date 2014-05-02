@@ -12,6 +12,14 @@
                 <textarea class="editor" name="item_preview" id="item_preview"
                           style="min-height:70px;width:775px;"><?= $item->item_preview ?></textarea>
             </div>
+            <?php
+            if ($item_type == 'products') { ?>
+                <div class="product_element">
+                    <span><strong>Характеристики</strong></span><br/>
+                    <textarea class="editor" name="item_charecters" id="item_charecters"
+                              style="min-height:70px;width:775px;"><?= $item->item_characters ?></textarea>
+                </div>
+            <?php } ?>
             <div>
                 <span><strong>Описание статьи</strong></span>
                 <textarea class="editor" name="post_content" id="post_content"
@@ -96,8 +104,58 @@
                      style="float:left;">
                     <span class="delete_btn_span">Обновить</span>
                 </div>
-
             </div>
+            <?php if ($item_type == 'products') {
+                $current_currency_id    = $currency_rate->currency_id;
+                $current_currency_value = $currency_rate->currency_value;
+                unset($currency_rate->currency_id);
+                unset($currency_rate->currency_value);
+                $currency_rate = (array)$currency_rate;
+                foreach ($currency_all as $c) {
+                    $crate   = strtolower($c->currency_value);
+                    $c->rate = round($currency_rate[$crate], 2);
+                }
+                ?>
+                <div style="float:left;margin:7px 0 7px 5px;width:150px;">
+                    <div style="font-weight:bold;margin-bottom:5px;">Текущий курс:</div>
+                    <div style="margin-bottom:5px;margin-left:10px;">
+                        <div><strong>UAH</strong> = </span></div>
+                        <?php
+                            foreach ($currency_all as $currency) {
+                                if ($currency->currency_value == 'UAH') {
+                                    continue;
+                                } ?>
+                                <div>
+                                    <span><?= $currency->currency_value ?></span> =
+                                <span id="cr_<?= strtolower($currency->currency_value) ?>">
+                                    <?= $currency->rate ?>
+                                </span>
+                                </div>
+                            <?php } ?>
+                    </div>
+                    <div style="font-weight:bold;margin-bottom:5px;">Цена на товар:</div>
+                    <div style="margin-bottom:5px;margin-left:10px;">
+                        <div class="price_head">
+                            <div>
+                                <div class="price_name_head_cost price_name"
+                                     onclick="adminObj.change_price_value('<?= $item->item_id ?>', 'hs_set'); return hs.htmlExpand(this, {contentId:'hs_<?= $item->item_id ?>'})">
+                                    <span id="price_item_<?= $item->item_id ?>"><?= $item->item_price ?></span>
+                                    <input type="hidden" id="item_price_<?= $item->item_id ?>"
+                                           value="<?= $item->item_price ?>"/>
+                                </div>
+                                <div class="price_name_head_value">
+                                    <select id="price_select_<?= $item->item_id ?>"
+                                            onchange="adminObj.change_price_value('<?= $item->item_id ?>', 'display')">
+                                        <option value="uah">UAH</option>
+                                        <option value="usd">USD</option>
+                                        <option value="eur">EUR</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
             <div style="font-weight:bold;margin-bottom:5px;float:left;"><b>Режим просмотра статьи:</b></div>
             <div style="float:left;margin-bottom:7px;">
                 <?php if (isset($item->item_mode)) {

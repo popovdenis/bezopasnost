@@ -14,7 +14,7 @@ class Products extends Controller
     function index()
     {
         $config = $this->load->config('upload');
-        $val = [];
+        $val = array();
 
         $item = $this->get_item(null, self::ITEM_TYPE);
         if ($item && is_array($item)) {
@@ -45,7 +45,7 @@ class Products extends Controller
 
         $val['galleries'] = $this->gallery_mdl->get_gallery();
         $val['gallery_item'] = $this->get_gallery_item(null);
-        //---------------
+
         $this->_items_block();
     }
 
@@ -163,12 +163,20 @@ class Products extends Controller
         $val['galleries'] = $this->gallery_mdl->get_gallery();
         $val['gallery_item'] = $this->get_gallery_item($item->item_id);
 
-        $main = $this->category->get_category(null, null, self::ITEM_NAME);
+        $this->load->model('items_mdl', 'items');
+        $this->load->model('currency_mdl', 'currency');
+
+        $main = $this->category->get_category(null, null, 'Продукция');
+        $parent_id = 0;
         if ($main && is_array($main)) {
-            $main[0]->level = 0;
+            $main = $main[0];
+            $parent_id = $main->category_id;
         }
-        $val['categories'] = $main;
+        $val['categories'] = get_categories_tree($parent_id, array(), -1);
         $val['items_cats'] = $this->items->get_item_category($item->item_id);
+        $val['currency_rate'] = $this->currency->get_currency_rate(1)[0];
+        $val['currency_all'] = $this->currency->get_currency();
+
 
         $this->load->view('admin/about', $val);
     }
