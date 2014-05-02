@@ -75,11 +75,10 @@ class About extends Controller
 
     function index()
     {
-        $page = 'about';
         $config = $this->load->config('upload');
-        $val = array();
+        $val = [];
 
-        $item = $this->get_item(null, $page);
+        $item = $this->get_item(null, 'about');
         if ($item && is_array($item)) {
             $item = $item[0];
         }
@@ -90,7 +89,7 @@ class About extends Controller
 
         $val['item'] = $item;
         $val['item_id'] = null;
-        $val['item_type'] = $page;
+        $val['item_type'] = 'about';
         $val['allowed_types'] = $config['allowed_types'];
 
         $this->load->model('attachment');

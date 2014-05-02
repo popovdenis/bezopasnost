@@ -15,7 +15,7 @@
             </span>
             <span class="spn_cat"><?= $item->cat_str ?></span>
             <span class="spn_title">
-                <a href="#item<?= $item->item_id ?>" onclick="adminObj.get_page('<?= $item_type ?>', '<?= $item->item_id ?>');return false;">
+                <a href="<?= base_url() ?>admin/<?= $item_type ?>/about/<?= $item->item_id ?>">
                     <?= $item->item_title ?>
                 </a>
             </span>
