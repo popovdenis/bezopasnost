@@ -211,7 +211,7 @@ var adminObj = {
         }
     },
     
-    save_item: function (product_id, item_type) {
+    save_item: function (product_id, item_type, action) {
         var itemTitle = $("#item_title").val(),
             that = this;
 
@@ -251,8 +251,8 @@ var adminObj = {
     
             $.ajax({
                 type: "POST",
-                url: this.ajax_admin_path,
-                dataType: "json",
+                url: action,
+//                dataType: "json",
                 data: params,
                 beforeSend: function () {
                     $("#" + item_type).html(
