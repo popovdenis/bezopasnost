@@ -4,17 +4,19 @@
  * Date: 02.05.14
  * Time: 18:09
  */
-class Information extends Controller
+class Products extends Controller
 {
     const PER_PAGE = 50;
     const PAGE = 1;
+    const ITEM_TYPE = 'products';
+    const ITEM_NAME = 'Партнетры';
 
     function index()
     {
         $config = $this->load->config('upload');
         $val = [];
 
-        $item = $this->get_item(null, 'information');
+        $item = $this->get_item(null, self::ITEM_TYPE);
         if ($item && is_array($item)) {
             $item = $item[0];
         }
@@ -25,7 +27,7 @@ class Information extends Controller
 
         $val['item'] = $item;
         $val['item_id'] = null;
-        $val['item_type'] = 'information';
+        $val['item_type'] = self::ITEM_TYPE;
         $val['allowed_types'] = $config['allowed_types'];
 
         $this->load->model('attachment');
@@ -53,9 +55,9 @@ class Information extends Controller
 
         $items_str = "";
         $val       = array();
-        $val['item_type'] = 'information';
+        $val['item_type'] = self::ITEM_TYPE;
 
-        $items     = $this->get_item(null, 'information', false, null, self::PER_PAGE, self::PAGE, true);
+        $items     = $this->get_item(null, self::ITEM_TYPE, false, null, self::PER_PAGE, self::PAGE, true);
         $items_all = $items['count'];
         unset($items['count']);
 
@@ -131,7 +133,7 @@ class Information extends Controller
         $val = [];
 
         $item_id = $this->uri->segment(4);
-        $item = $this->get_item($item_id, 'information');
+        $item = $this->get_item($item_id, self::ITEM_TYPE);
         if ($item && is_array($item)) {
             $item = $item[0];
         }
@@ -142,7 +144,7 @@ class Information extends Controller
 
         $val['item'] = $item;
         $val['item_id'] = null;
-        $val['item_type'] = 'information';
+        $val['item_type'] = self::ITEM_TYPE;
         $val['allowed_types'] = $config['allowed_types'];
 
         $this->load->model('attachment');
@@ -161,7 +163,7 @@ class Information extends Controller
         $val['galleries'] = $this->gallery_mdl->get_gallery();
         $val['gallery_item'] = $this->get_gallery_item($item->item_id);
 
-        $main = $this->category->get_category(null, null, 'Информация');
+        $main = $this->category->get_category(null, null, self::ITEM_NAME);
         if ($main && is_array($main)) {
             $main[0]->level = 0;
         }

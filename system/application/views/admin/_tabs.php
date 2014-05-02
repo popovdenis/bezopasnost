@@ -44,12 +44,23 @@
                 <a href="<?=base_url()?>admin/about"><span>О Компании</span></a>
             </li>
 		    <li id="li_information" <?= ($item_type == 'information') ? 'class="active"' : ''; ?>>
-                <a href="<?=base_url()?>admin/information"><span>Информация</span></a></li>
-			<li id="li_partners"><a href="#partners" onclick="adminObj.get_page('partners', 0, 'Партнеры');return false;"><span>Партнеры</span></a></li>
-		    <li id="li_products"><a href="#products" onclick="adminObj.get_page('products', 0, 'Продукция');return false;"><span>Продукция</span></a></li>
-            <li id="li_contacts"><a href="#contacts" onclick="adminObj.get_page('contacts', 0, 'Контакты');return false;"><span>Контакты</span></a></li>
-			<li id="li_gallery"><a href="#gallery" onclick="adminObj.get_page('gallery', 0, 'Галлереи');return false;"><span>Галлереи</span></a></li>
-			<li id="li_settings"><a href="#settings" onclick="adminObj.get_page('settings', 0, 'Настройки');return false;"><span>Настройки</span></a></li>
+                <a href="<?=base_url()?>admin/information"><span>Информация</span></a>
+            </li>
+			<li id="li_partners" <?= ($item_type == 'partners') ? 'class="active"' : ''; ?>>
+                <a href="<?=base_url()?>admin/partners"><span>Партнеры</span></a>
+            </li>
+		    <li id="li_products" <?= ($item_type == 'products') ? 'class="active"' : ''; ?>>
+                <a href="<?=base_url()?>admin/products"><span>Продукция</span></a>
+            </li>
+            <li id="li_contacts" <?= ($item_type == 'contacts') ? 'class="active"' : ''; ?>>
+                <a href="<?=base_url()?>admin/contacts"><span>Контакты</span></a>
+            </li>
+			<li id="li_gallery" <?= ($item_type == 'gallery') ? 'class="active"' : ''; ?>>
+                <a href="<?=base_url()?>admin/gallery"><span>Галлереи</span></a>
+            </li>
+			<li id="li_settings" <?= ($item_type == 'setting') ? 'class="active"' : ''; ?>>
+                <a href="<?=base_url()?>admin/setting"><span>Настройки</span></a>
+            </li>
 <!--			<li id="li_tools"><a href="#tools" onclick="adminObj.get_page('tools', 0, 'Инструменты');return false;"><span>Инструменты</span></a></li>-->
 		</ul>
 	</div>
