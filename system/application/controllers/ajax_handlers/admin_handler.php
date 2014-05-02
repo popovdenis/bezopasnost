@@ -69,8 +69,6 @@ class Admin_handler extends Controller
                             $data = $this->_gallery_settings();
                         } elseif ($page == 'settings') {
                             $data = $this->_settings_main_page();
-                        } elseif ($page == 'tools') {
-                            $data = $this->_tools_main_page();
                         } else {
                             if ($item_id && $page != 'about') {
                                 $data = $this->_item_page($page, $item_id);
@@ -1066,16 +1064,6 @@ class Admin_handler extends Controller
             'currencylist' => $currencylist
         ];
         return $this->load->view('admin/_settings_main_page', $val, true);
-    }
-
-    /**
-     * @return View
-     */
-    private function _tools_main_page()
-    {
-        $val = array();
-
-        return $this->load->view('admin/tools_main_page', $val, true);
     }
 
     function _get_category_page($category_id, $attach_type = null, $get_header = true)

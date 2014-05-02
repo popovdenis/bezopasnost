@@ -1,22 +1,23 @@
 <?php
+require_once ('adminAbstract.php');
 /**
  * User: Denis
  * Date: 02.05.14
  * Time: 18:09
  */
-class Products extends Controller
+class Products extends adminAbstract
 {
     const PER_PAGE = 50;
     const PAGE = 1;
-    const ITEM_TYPE = 'products';
-    const ITEM_NAME = 'Партнетры';
+    protected $itemType = 'products';
+    protected $itemName = 'Продукция';
 
     function index()
     {
         $config = $this->load->config('upload');
         $val = array();
 
-        $item = $this->get_item(null, self::ITEM_TYPE);
+        $item = $this->get_item(null, $this->itemType);
         if ($item && is_array($item)) {
             $item = $item[0];
         }
@@ -27,7 +28,7 @@ class Products extends Controller
 
         $val['item'] = $item;
         $val['item_id'] = null;
-        $val['item_type'] = self::ITEM_TYPE;
+        $val['item_type'] = $this->itemType;
         $val['allowed_types'] = $config['allowed_types'];
 
         $this->load->model('attachment');
@@ -49,91 +50,13 @@ class Products extends Controller
         $this->_items_block();
     }
 
-    public function _items_block()
-    {
-        mb_internal_encoding("UTF-8");
-
-        $items_str = "";
-        $val       = array();
-        $val['item_type'] = self::ITEM_TYPE;
-
-        $items     = $this->get_item(null, self::ITEM_TYPE, false, null, self::PER_PAGE, self::PAGE, true);
-        $items_all = $items['count'];
-        unset($items['count']);
-
-        if ($items) {
-            foreach ($items as &$item) {
-                if (!empty($item->item_preview)) {
-                    $item_desc = preg_replace("/<p><img(.*?)\/><\/p>/si", "", $item->item_preview);
-                    $item_desc = str_replace(array('<p>', '</p>', '<h1>', '</h1>', '<h3>', '</h3>'), '', $item_desc);
-                    if (strlen($item_desc) > 80) {
-                        $item_desc = mb_substr($item_desc, 0, 75) . "...";
-                    }
-                    $item->item_preview = $item_desc;
-                }
-                $categories = $this->items->get_item_category($item->item_id);
-
-                $cat_str = '&nbsp;';
-                if ($categories && !empty($categories)) {
-                    $end = end($categories);
-                    foreach ($categories as &$category) {
-                        $cat_str .= $category->category_title;
-                        if ($end->category_title != $category->category_title) {
-                            $cat_str .= ', ';
-                        }
-                    }
-                }
-                if ($item->item_production > date("Y-m-d H:i:s")) {
-                    $item->item_mode = 'draft';
-                }
-                $item->cat_str = $cat_str;
-            }
-
-            $num_pages = (int)($items_all / self::PER_PAGE);
-            if ($num_pages <= 0) {
-                $num_pages = 1;
-            }
-
-            $val['currency_rate'] = $this->db_session->userdata('currency_rate');
-            $val['items']         = $items;
-            $val['cur_page']      = self::PAGE;
-            $val['num_pages']     = $num_pages;
-            $val['paginate_args'] = array(
-                'total_rows'  => $items_all,
-                'per_page'    => self::PER_PAGE,
-                'num_links'   => 2,
-                'cur_page'    => self::PAGE,
-                'uri_segment' => 3,
-                'js_function' => 'paginate_items',
-                'base_url'    => base_url() . index_page() . 'admin/home/'
-            );
-            $items_str = $this->load->view('admin/_items_block', $val, true);
-        }
-
-        $this->load->model('category_mdl', 'category');
-        $category_current = $this->category->get_category(null, null, '');
-
-        if ($category_current) {
-            if (is_array($category_current)) {
-                $category_current = $category_current[0];
-            }
-            $categories = $this->category->get_category(null, $category_current->category_id);
-            array_push($categories, $category_current);
-        }
-
-        $val['categories']  = $categories;
-        $val['items_block'] = $items_str;
-
-        $this->load->view('admin/list', $val);
-    }
-
     public function about()
     {
         $config = $this->load->config('upload');
         $val = [];
 
         $item_id = $this->uri->segment(4);
-        $item = $this->get_item($item_id, self::ITEM_TYPE);
+        $item = $this->get_item($item_id, $this->itemType);
         if ($item && is_array($item)) {
             $item = $item[0];
         }
@@ -144,7 +67,7 @@ class Products extends Controller
 
         $val['item'] = $item;
         $val['item_id'] = null;
-        $val['item_type'] = self::ITEM_TYPE;
+        $val['item_type'] = $this->itemType;
         $val['allowed_types'] = $config['allowed_types'];
 
         $this->load->model('attachment');

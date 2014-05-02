@@ -17,7 +17,17 @@
                     </div>
                 </div>
                 <div id="currencyList" style="float:left;margin-bottom:10px;margin-top:10px;">
-                    <?=$currencylist?>
+                    <select id="search_currency_list" class="Txt67 fwNormal" name="search_currency_list" style="width:235px;">
+                        <?php
+                            if($currency) {
+                                $options = "";
+                                foreach ($currency as $value) :
+                                    $options .= '<option value="'.$value->currency_id.'">'.$value->currency_value.'</option>';
+                                endforeach;
+                                echo $options;
+                            }
+                        ?>
+                    </select>&nbsp;<input type="button" onclick="adminObj.get_currency();" value="Найти" />
                 </div>
                 <span><img id="currency_img" border="0" src="<?=base_url()?>images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;display:none;"/></span>
             </div>
@@ -35,7 +45,19 @@
                 </div>
                 <div id="users_block_header">
                     <div id="search_user_name" style="float:left;margin-bottom:10px;margin-top:10px;">
-                        <?=$userlist?>
+                        <span>Имя пользователя:</span>
+                        <select id="search_user_list" class="Txt67 fwNormal" name="search_user_list" style="width:235px;">
+                            <option value="0">Выберите имя пользователя</option>
+                            <?php
+                                if($users) {
+                                    $options = "";
+                                    foreach ($users as $user) :
+                                        $options .= '<option value="'.$user->user_id.'">'.$user->user_login.'</option>';
+                                    endforeach;
+                                    echo $options;
+                                }
+                            ?>
+                        </select>&nbsp;<input type="button" onclick="adminObj.get_user();" value="Найти" />
                     </div>
                     <div id="new_user_block" style="float:left;width:917px;margin-bottom:10px;display:none;">
                         <div class="left padAll5" style="color:#676767;">Новый пользователь</div>
@@ -150,7 +172,43 @@
                 </select>
                 <input type="button" onclick="adminObj.add_ann_item();" value="Прикрепить" />
             </div>
-            <div id="set_ann_item"><?=$ann_items?></div>
+            <div id="set_ann_item">
+                <script type="text/javascript" src="<?=base_url()?>js/ui/ui.sortable.js"></script>
+                <style type="text/css">
+                    #sortable { list-style-type: none; margin:10px 0 0 0; padding: 0; width:400px; }
+                    #sortable li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; height: 1.5em; width:100%; }
+                    html>body #sortable li { height: 1.5em; line-height: 1.2em; }
+                    .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+                </style>
+                <script type="text/javascript">
+                    $(function() {
+                        $("#items_sortable").sortable({
+                            placeholder: 'ui-state-highlight'
+                        });
+                        $("#items_sortable").disableSelection();
+                    });
+                </script>
+                <div class="sortable_block">
+                    <div id="ann_items_block">
+                        <ul id="items_sortable">
+                            <?php if ( $ann_items && !empty( $ann_items ) )
+                            {
+                                $str = '';
+                                foreach ( $ann_items as $item )
+                                {
+                                    $str .= '<li id="item_' . $item->item_id . '" class="ui-state-default" style="margin-bottom:3px;">
+                <div style="float: left; width: 280px;">
+                <div style="float: left; margin: 3px 0 0 5px; width: 250px;">' . $item->item_title . '</div>
+                <div style="float: right;"><img title="удалить" src="' . base_url( ) . 'images/icons/cancel.png" onclick="delete_ann_item(\'' . $item->item_id . '\');" style="bottom: 3px; cursor: pointer; width: 17px; height: 17px; position: relative; "/></div>
+                </div>
+                </li>';
+                                }
+                                echo $str;
+                            }?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 <?php require_once("footer.php"); ?>

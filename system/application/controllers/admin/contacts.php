@@ -6,12 +6,12 @@
  */
 class Contacts extends Controller
 {
-    const ITEM_TYPE = 'contacts';
-    const ITEM_NAME = 'Контакты';
+    protected $itemType = 'contacts';
+    protected $itemName = 'Контакты';
 
     public function index()
     {
-        $this->load->model('contacts_mdl', self::ITEM_TYPE);
+        $this->load->model('contacts_mdl', $this->itemType);
         $contacts = $this->contacts->get_contacts();
         $this->config->load('upload');
         $allowed_types = $this->config->item('allowed_types');
@@ -22,7 +22,7 @@ class Contacts extends Controller
         $val = array();
         $val['contacts'] = $contacts;
         $val['allowed_types'] = $allowed_types;
-        $val['item_type'] = self::ITEM_TYPE;
+        $val['item_type'] = $this->itemType;
 
         $this->load->view('admin/contacts', $val);
     }
