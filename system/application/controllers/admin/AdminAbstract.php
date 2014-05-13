@@ -11,6 +11,18 @@ abstract class AdminAbstract extends Controller
     protected $itemType = null;
     protected $itemName = null;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $user_id = $this->db_session->userdata('user_id');
+        $user_role = $this->db_session->userdata('user_role');
+
+        if (empty($user_id) || empty($user_role)) {
+            redirect('/admin/home');
+        }
+    }
+
     public function _items_block()
     {
         mb_internal_encoding("UTF-8");
@@ -111,5 +123,66 @@ abstract class AdminAbstract extends Controller
         $val['gallery'] = $gallery;
         $val['item_id'] = $item_id;
         return $this->load->view('admin/gallery_image_item', $val, true);
+    }
+
+    public function save()
+    {
+        $item_title           = $this->input->post('item_title');
+        $item_preview         = $this->input->post('item_preview');
+        $item_marks           = $this->input->post('item_marks');
+        $item_tags            = $this->input->post('item_tags');
+        $item_type            = $this->input->post('item_type');
+        $date_production      = $this->input->post('item_date_production');
+        $minute_production    = $this->input->post('minute');
+        $hour_production      = $this->input->post('hour');
+        $item_mode            = $this->input->post('item_mode');
+        $item_seo_title       = $this->input->post('item_seo_title');
+        $item_seo_keywords    = $this->input->post('item_seo_keywords');
+        $item_seo_description = $this->input->post('item_seo_description');
+        $categories           = $this->input->post('categories');
+        $content              = $this->input->post('content');
+        $charecters           = $this->input->post('charecters');
+        $itemId               = $this->input->post('item_id', null);
+
+        $dateTimeProduction = new DateTime();
+        if (!empty($date_production)) {
+            $dateTimeProduction = new DateTime($date_production);
+            if ($dateTimeProduction) {
+                $dateTimeProduction->setTime($hour_production, $minute_production);
+            }
+        }
+
+        $item_data = array(
+            'item_title'           => trim($item_title),
+            'item_preview'         => $this->input->xss_clean($item_preview),
+            'item_content'         => $this->input->xss_clean($content),
+            'item_characters'      => $this->input->xss_clean($charecters),
+            'item_added'           => date("Y-m-d H:i:s"),
+            'item_update'          => date("Y-m-d H:i:s"),
+            'item_production'      => $dateTimeProduction->format("Y-m-d H:i:s"),
+            'item_type'            => $item_type,
+            'item_tags'            => $item_tags,
+            'item_marks'           => $item_marks,
+            'item_mode'            => $item_mode,
+            'item_seo_title'       => $item_seo_title,
+            'item_seo_keywords'    => $item_seo_keywords,
+            'item_seo_description' => $item_seo_description,
+        );
+
+        $this->load->model('items_mdl', 'items');
+
+        if (!empty($itemId)) {
+            $this->items->delete_item_category($itemId);
+        }
+
+        $itemId = $this->items->save_item($item_data, $itemId);
+
+        if (!empty($categories) && is_array($categories)) {
+            foreach ($categories as $categoryId) {
+                $this->items->save_item_category(intval($categoryId), $itemId);
+            }
+        }
+
+        redirect('/admin/' . $this->itemType . '/about/' . $itemId, 'refresh');
     }
 }

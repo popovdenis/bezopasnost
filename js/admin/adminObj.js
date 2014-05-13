@@ -76,6 +76,11 @@ var adminObj = {
             }
         });
     },
+
+    refreshPage: function () {
+        window.location.reload();
+        return false;
+    },
     
     get_page: function(page, item_id, page_rus) {
         $.ajax({
@@ -252,7 +257,6 @@ var adminObj = {
             $.ajax({
                 type: "POST",
                 url: action,
-//                dataType: "json",
                 data: params,
                 beforeSend: function () {
                     $("#" + item_type).html(
@@ -275,15 +279,14 @@ var adminObj = {
     },
     
     delete_items_checked: function () {
-        var checkedItems = $('input[id^="item_chb_delete_"]:checked');
-        if (checkedItems.length == 0) {
+        var checkboxes = [];
+        $('.item_chb_delete:checked').each(function () {
+            checkboxes.push($(this).val());
+        });
+        if (checkboxes.length == 0) {
             alert('Вы должны выбрать хотя бы одну статью!');
             return false;
         }
-        var checkboxes = [];
-        checkedItems.each(function () {
-            checkboxes.push($(this).val());
-        });
         $.ajax({
             type: "POST",
             url: this.ajax_admin_path,
@@ -624,26 +627,19 @@ var adminObj = {
     },
     
     update_contacts: function () {
-        var num = $('div[id^="contact_block_"]').length;
-        var contact_obj = {};
-        var contact_elements = new Array(num);
-        var j = 0;
-        $('div[id^="contact_block_"]').each(function () {
-            var ch_id = $(this).attr('id');
-            var item = ch_id.split("_");
-            var id = item[2];
-            var itemobj = {};
-            itemobj.item_type = $("#contact_type_" + id + " option:selected").val();
-            itemobj.item_value = $("#contact_value_" + id).val();
-            contact_elements[j] = itemobj;
-            j ++;
+        var elements = [];
+        $('div.contact_block').each(function () {
+            var id = $(this).data('index');
+            elements.push({
+                item_type: $("#contact_type_" + id + " option:selected").val(),
+                item_value: $("#contact_value_" + id).val()
+            });
         });
-        contact_obj.elements = contact_elements;
+        var contact_obj = {'elements': elements};
         adminObj.serialize(contact_obj);
         $.ajax({
             type: "POST",
-            url: this.ajax_admin_path,
-            dataType: "html",
+            url: this.base_url + 'admin/contacts/update',
             data: {
                 'action': 'update_contacts',
                 'contact_address_1': $("#contact_address_1").val(),

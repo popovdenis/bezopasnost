@@ -6,7 +6,7 @@
         ?>
         <div id="item_block_<?= $item->item_id ?>" style="margin:5px 0 5px 0; float:left;">
             <span class="spn_chb">
-                <input type="checkbox" id="item_chb_delete_<?= $item->item_id ?>" name="item_chb_delete[]" value="<?= $item->item_id ?>"/>
+                <input class="item_chb_delete" type="checkbox" name="item_chb_delete[]" value="<?= $item->item_id ?>"/>
             </span>
             <span class="spn_num"><?= ($index + 1) ?></span>
             <span class="spn_mode">

@@ -105,7 +105,7 @@
             <div style="font-weight:bold;font-size:16px;margin-bottom:15px;color:red;">
                 <input type="hidden" id="item_id" value="<?= $item->item_id ?>"/>
                 <div class="delete_all_btn"
-                     onclick="adminObj.save_item('<?= $item->item_id ?>', '<?= $item_type ?>', '<?=base_url()?>admin/about/save');return false;"
+                     onclick="adminObj.save_item('<?= $item->item_id ?>', '<?= $item_type ?>', '<?=base_url()?>admin/<?= $item_type ?>/save');return false;"
                      style="width:200px;">
                     <span>Сохранить</span>
                 </div>
@@ -114,9 +114,7 @@
                      style="float:left;">
                     <span class="delete_btn_span">Удалить</span>
                 </div>
-                <div class="delete_btn"
-                     onclick="adminObj.get_page('<?= $item_type ?>', '<?= $item->item_id ?>');return false;"
-                     style="float:left;">
+                <div class="delete_btn" onclick="adminObj.refreshPage();" style="float:left;">
                     <span class="delete_btn_span">Обновить</span>
                 </div>
             </div>
