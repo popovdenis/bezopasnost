@@ -59,7 +59,7 @@ class Admin_handler extends Controller
 
                 if ($flag != 'undefined' && $flag != '') {
                     if ($flag == 'exist') {
-                        if ($page == 'about') {
+                        if ($page == 'about' || $page == 'main') {
                             $data = $this->_item_page($page, null);
 
                         } elseif ($page == 'contacts') {

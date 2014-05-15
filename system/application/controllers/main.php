@@ -59,7 +59,6 @@ class Main extends Controller
         $cylinders = $this->category->get_category(null, null, 'Цилиндры');
         $other     = $this->category->get_category(null, null, 'Комплектующие и аксессуары');
 
-        $config['meta_tags']['title'] = 'Bezopasnost.ua';
         $data                = array();
         $data['products']    = $productsAdd;
         $data['information'] = $information;
@@ -74,7 +73,9 @@ class Main extends Controller
             'cylinders' => $cylinders,
             'other'     => $other
         );
-        $data['meta_tags']   = build_meta_tags(null, $config['meta_tags']);
+        $mainItem = $this->items->get_item(null, 'main');
+        $mainItem = empty($mainItem) ? null : array_shift($mainItem);
+        $data['meta_tags'] = build_meta_tags($mainItem);
 
         $this->load->view('_main', $data);
     }
