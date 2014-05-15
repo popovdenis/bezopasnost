@@ -17,10 +17,11 @@ class Main extends Controller
         $this->load->model('items_mdl', 'items');
         $this->load->model('attachment');
 
+        $mainItem = $this->items->get_item(null, 'main');
+        $mainItem = empty($mainItem) ? null : array_shift($mainItem);
+
         $about = $this->items->get_item(null, 'about');
-        if ($about && is_array($about)) {
-            $about = $about[0];
-        }
+        $about = empty($about) ? null : array_shift($about);
 
         $cat_ad = $this->category->get_category(null, null, 'Ad');
         $cat_id = null;
@@ -59,22 +60,23 @@ class Main extends Controller
         $cylinders = $this->category->get_category(null, null, 'Цилиндры');
         $other     = $this->category->get_category(null, null, 'Комплектующие и аксессуары');
 
-        $data                = array();
-        $data['products']    = $productsAdd;
-        $data['information'] = $information;
-        $data['partners']    = $partners;
-        $data['about']       = $about;
-        $data['contacts']    = $contacts;
-        $data['links_cat']   = array(
-            'doors'     => $doors,
-            'locks'     => $locks,
-            'safes'     => $safes,
-            'skd'       => $skd,
-            'cylinders' => $cylinders,
-            'other'     => $other
-        );
-        $mainItem = $this->items->get_item(null, 'main');
-        $mainItem = empty($mainItem) ? null : array_shift($mainItem);
+        $data = [
+            'main'        => $mainItem,
+            'products'    => $productsAdd,
+            'information' => $information,
+            'partners'    => $partners,
+            'about'       => $about,
+            'contacts'    => $contacts,
+            'links_cat'   => [
+                'doors'     => $doors,
+                'locks'     => $locks,
+                'safes'     => $safes,
+                'skd'       => $skd,
+                'cylinders' => $cylinders,
+                'other'     => $other
+            ]
+        ];
+
         $data['meta_tags'] = build_meta_tags($mainItem);
 
         $this->load->view('_main', $data);

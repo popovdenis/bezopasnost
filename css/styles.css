@@ -1358,3 +1358,9 @@ a, :focus, :active {
     text-align: center;
     display: none;
 }
+.main-content {
+    clear: both;
+    float: left;
+    padding: 10px 0 0 10px;
+    width: 864px;
+}
