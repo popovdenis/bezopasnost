@@ -1344,7 +1344,6 @@ a, :focus, :active {
     text-align: center;
 }
 .fixed {
-    left: 182px;
     max-width: none;
     position: fixed;
     top: -225px;

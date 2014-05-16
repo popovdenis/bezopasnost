@@ -41,31 +41,31 @@
 <div id="tabs" style="margin:0 auto;width:1100px;">
     <?php require_once("_tabs.php"); ?>
     <div id="tabs-1">
-        <div id="main"></div>
+        <div id="main" class="tab-content"></div>
     </div>
     <div id="tabs-2">
-        <div id="about"></div>
+        <div id="about" class="tab-content"></div>
     </div>
     <div id="tabs-3">
-        <div id="information"></div>
+        <div id="information" class="tab-content"></div>
     </div>
     <div id="tabs-4">
-        <div id="partners"></div>
+        <div id="partners" class="tab-content"></div>
     </div>
     <div id="tabs-5">
-        <div id="products"></div>
+        <div id="products" class="tab-content"></div>
     </div>
     <div id="tabs-6">
-        <div id="contacts"></div>
+        <div id="contacts" class="tab-content"></div>
     </div>
     <div id="tabs-7">
-        <div id="gallery"></div>
+        <div id="gallery" class="tab-content"></div>
     </div>
     <div id="tabs-8">
-        <div id="settings"></div>
+        <div id="settings" class="tab-content"></div>
     </div>
     <div id="tabs-9">
-        <div id="tools"></div>
+        <div id="tools" class="tab-content"></div>
     </div>
 </div>
 </body>

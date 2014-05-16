@@ -96,14 +96,9 @@ function get_page(page, item_id, page_rus) {
             $('div[class^="uploadfile"]').remove();
             $("li").removeClass("active");
             $("#li_" + page).addClass("active");
-            $("#about").html('');
-            $("#information").html('');
-            $("#partners").html('');
-            $("#products").html('');
-            $("#sertificates").html('');
-            $("#contacts").html('');
-            $("#gallery").html('');
-            $("#settings").html('');
+            $('.tab-content').each(function () {
+                $(this).html('');
+            });
             //$('div[class^="highslide-container"]').remove();
             $("#" + page).html('<img border="0" src="' + base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
         },
