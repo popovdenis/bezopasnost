@@ -40,6 +40,9 @@
 <div style="float:left;margin:0 auto;position:relative;width:1100px;">
 	<div style="float:left;">
 		<ul class="tab">
+            <li id="li_main" <?= ($item_type == 'main') ? 'class="active"' : ''; ?>>
+                <a href="<?=base_url()?>admin/main"><span>Главная</span></a>
+            </li>
 			<li id="li_about" <?= ($item_type == 'about') ? 'class="active"' : ''; ?>>
                 <a href="<?=base_url()?>admin/about"><span>О Компании</span></a>
             </li>
