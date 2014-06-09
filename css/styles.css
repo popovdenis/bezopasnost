@@ -1326,12 +1326,40 @@ a, :focus, :active {
 .search_lens {
     cursor: pointer;
     height: 30px;
-    left: 595px;
+    left: 845px;
     position: absolute;
     top: 52px;
     width: 30px;
 }
+.search_box {
+    float: left;
+    width: 840px;
+    background: #EFEFEF none repeat scroll 0 0;
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 14px 20px;
+}
 .search_input {
     margin-right: 18px;
     text-align: center;
+}
+.fixed {
+    max-width: none;
+    position: fixed;
+    top: -225px;
+    width: 900px;
+}
+#filter_img {
+    margin-right: 5px;
+    position: relative;
+    text-align: center;
+    top: 3px;
+    text-align: center;
+    display: none;
+}
+.main-content {
+    clear: both;
+    float: left;
+    padding: 10px 0 0 10px;
+    width: 864px;
 }

@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Bezopasnost.kh.ua</title>
+	<title><?= config_item('base_name') ?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/styles_login.css" />
-	<script type="text/javascript" src="<?=base_url()?>js/jquery-1.3.2.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="<?=base_url()?>js/_login.js"></script>
 </head>
 	<body>
@@ -25,11 +25,11 @@
 							<div id="login_process"></div>
 							<div><input id="login_button" type="submit" value="Войти" /></div>
 						</div>						
-						<p class="clearboth" style="bottom:3px;position:absolute;"><a style="color:black;" href="#" onclick="javascript: show_form('forgot_password');return false;">Восстановить ваш пароль?</a></p>
+						<p class="clearboth" style="bottom:3px;position:absolute;"><a style="color:black;" href="#" onclick="show_form('forgot_password');return false;">Восстановить ваш пароль?</a></p>
 						<div id="forgot_password" class="f-elements clearfix" style="display:none;">
 					    	<span>Ваш email: </span>
 					    	<input type="text" id="username" name="username" class="usernameFP first" / >
-					    	<input class="buttonFP" type="button" value="Submit" onclick="javascript: forgot_password();" />				            	
+					    	<input class="buttonFP" type="button" value="Submit" onclick="forgot_password();" />
 					   	</div>
 					   	<div id="msg"></div>
 					</form>

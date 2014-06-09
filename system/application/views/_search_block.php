@@ -27,7 +27,7 @@
                                             <input id="keywords" class="idleField" type="text" value="Поиск" name="keywords"/>
                                         </div>
                                         <div style="float:left; margin-left:5px; height:35px;">
-                                            <a href="#" onclick="javascript:document.searchform.submit();"><img src="<?=base_url()?>images/search.png"/></a>
+                                            <a href="#" onclick="document.searchform.submit();"><img src="<?=base_url()?>images/search.png"/></a>
                                         </div>
                                     </form>
                                     </div>

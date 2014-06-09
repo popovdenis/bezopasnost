@@ -1,366 +1,280 @@
-<script type="text/javascript">
-$(function(){
-	new AjaxUpload('#imggallery_<?=$item->item_id?>', {
-		action: '<?=base_url()?>admin/home/upload',
-		name: 'userfile',
-		data: {			
-		upload_type: 'item_gallery'			
-	},
-	responseType: false,
-	onChange: function(file, extension){},
-	onSubmit : function(file , ext){
-		if (! (ext && /^(<?=$allowed_types?>)$/.test(ext))){
-			alert('Error: invalid file extension');
-			return false;
-		} else {		    	
-			$("#loader").show();
-		}
-	},
-	onComplete: function(file, response) {
-	  	var result = '';
-	  	if(response) {
-		  	result = window["eval"]("(" + response + ")");	  	
-		  	$.post(
-				"<?=base_url()?>admin/home/upload",
-				{ new_gal_title: $('#new_gal_title').val(), new_gal_desc: $('#new_gal_desc').val(), attach_id: result.attach_id, item_id : '<?=$item->item_id?>', upload_type: 'item_gallery', file_type: $("#gallery_file_tyles option:selected").val() },
-				function(data){
-					var result = window["eval"]("(" + data + ")");
-					
-					$('#new_gal_title').val('');
-					$('#new_gal_desc').val('');
-					if($("#gallery_file_tyles option:selected").val() == 'price') {
-						var img_del_gal = '<img title="Удалить картинку из текущей галереи" style="cursor:pointer;width:15px;height:15px;" src="<?=base_url()?>images/icons/cancel.png" onclick="javascript:if(confirm(\'Картинка будет удалена из текущей галереи. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \''+result.item_id+'\', \'false\');return false;" /><img title="Удалить картинку из всех галерей" style="cursor:pointer;width:21px;height:21px;" src="<?=base_url()?>images/icons/trash.png" onclick="javascript:if(confirm(\'Картинка будет удалена из всех галерей. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \'null\', \'true\');return false;" />';		  	
-				  		var file = '<div id="gallery_file_id_'+result.attach_id+'" class="gallery_image_block price_gal"><div class="heading">'+result.attach_title+'</div><span><img src="<?=base_url()?>images/icons/excel_48.png" /></span<br /><div>'+result.attach_desc+'</div><br />'+ img_del_gal +'</div>';			  						  	
-				  		
-					} else if($("#gallery_file_tyles option:selected").val() == 'image') {					 
-						var img_del_gal = '<img title="Удалить картинку из текущей галереи" style="cursor:pointer;width:15px;height:15px;" src="<?=base_url()?>images/icons/cancel.png" onclick="javascript:if(confirm(\'Картинка будет удалена из текущей галереи. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \''+result.item_id+'\', \'false\');return false;" /><img title="Удалить картинку из всех галерей" style="cursor:pointer;width:21px;height:21px;" src="<?=base_url()?>images/icons/trash.png" onclick="javascript:if(confirm(\'Картинка будет удалена из всех галерей. Вы уверены, что хотите удалить этот файл?\')) delete_img(\''+result.attach_id+'\', \'null\', \'true\');return false;" />';						
-						var file = '<div id="gallery_img_id_'+result.attach_id+'" class="gallery_image_block image_gal"><div class="heading">'+result.attach_title+'</div><a href="<?=base_url()?>'+result.file_full_path+'" class="highslide" onclick="return hs.expand(this)"><img src="<?=base_url()?>'+result.file_path+'" title="Click to enlarge" /></a><div class="highslide-caption">'+result.attach_desc+'</div>'+img_del_gal+'</div>';
-					}
-					$("#loader").hide();
-					$("#new_gallery_block").hide();		  	
-					$('#imggallery_img').append(file);
-				}
-			)
-		} else {
-			alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
-		}
-	}
-	});
-});
-</script>
-<script type="text/javascript">
-$(function(){
-	new AjaxUpload('#imgtitle_<?=$item->item_id?>', {
-		// Location of the server-side upload script
-		action: '<?=base_url()?>admin/home/upload',
-		// File upload name
-		name: 'userfile',
-		data: {
-			item_id : '<?=$item->item_id?>',
-			upload_type: 'product_title'
-		},
-	  responseType: false,
-	  onChange: function(file, extension){},
-	  onSubmit : function(file , ext){
-		    if (! (ext && /^(<?=$allowed_types?>)$/.test(ext))){
-		        alert('Error: invalid file extension');
-		        return false;
-		    } else {
-		    	
-		    	$("#item_title_img").html('<img alt="loading..." border="0" src="<?php echo base_url() ?>images/loading-blue.gif" />');
-		    }
-		} ,
-	  onComplete: function(file, response) {
-	  	if(response) {
-		  	var result = window["eval"]("(" + response + ")");
-		  	$.post(
-				"<?=base_url()?>admin/home/upload",
-				{ attach_id: result.attach_id, item_id : '<?=$item->item_id?>', upload_type: 'product_title'},
-				function(data){
-					result = window["eval"]("(" + data + ")");				
-					var file = '<img width="235" src="<?=base_url()?>'+result.file_path+'" />';
-			  		$('#item_title_img').html(file);
-				}
-			)
-	  	} else {
-	  		alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
-	  	}
-	  }
-	});
-});
-</script>
-<script type="text/javascript">
-	var oFCKeditor = new FCKeditor("post_content"); // привязка к textarea с id="body"
-    oFCKeditor.ToolbarSet="Default"; // число кнопочек на инструментальной панели
-    oFCKeditor.BasePath="<?=base_url()?>js/fckeditor/"; //путь к fckeditor
-    oFCKeditor.Height = "500";
-    oFCKeditor.ReplaceTextarea();
-    <?php if($item_type == 'products') { ?>
-    var oFCKeditor = new FCKeditor("item_charecters"); // привязка к textarea с id="body"
-    oFCKeditor.ToolbarSet="Default"; // число кнопочек на инструментальной панели
-    oFCKeditor.BasePath="<?=base_url()?>js/fckeditor/"; //путь к fckeditor
-    oFCKeditor.Height = "500";
-    oFCKeditor.ReplaceTextarea();
-    <?php } ?>
-</script>
-<script type="text/javascript">
-    hs.graphicsDir = '<?=base_url()?>js/highslide/graphics/';
-    hs.align = 'center';
-    hs.transitions = ['expand', 'crossfade'];
-    hs.outlineType = 'rounded-white';
-    hs.fadeInOut = true;
-    hs.addSlideshow({
-        interval: 3000,
-        repeat: false,
-        useControls: true,
-        fixedControls: 'fit',
-        overlayOptions: {
-            opacity: .75,
-            position: 'bottom center',
-            hideOnMouseOut: true
-        }
-    });
-</script>
-<script type="text/javascript">
-$(function() {
-	$("#datepicker_<?=$item->item_id?>").datepicker({showOn: 'button', buttonImage: '<?=base_url()?>images/icons/calendar.png', buttonImageOnly: true});
-
-});
-</script>
-
 <style type="text/css">
-div.jqi{
-	width:1000px;
-}
+    div.jqi {
+        width: 1000px;
+    }
 </style>
 <div style="width:100%;float:left;margin-bottom:35px;border:1px solid #CCCCCC;border-top:none;">
-	<div style="float:left;width:780px; margin-left:10px;margin-top:10px;">
-		<div>
-			<div class="product_element">
-				<span style="float: left; width: 100%;"><strong>Название статьи</strong></span>
-				<input type="text" id="item_title" name="item_title" value="<?=htmlspecialchars($item->item_title)?>" style="width:500px;" />
-			</div>
-			<div class="product_element">
-				<span><strong>Краткое описание статьи</strong></span><br />
-				<textarea name="item_preview" id="item_preview" style="min-height:70px;width:775px;"><?=$item->item_preview?></textarea>
-			</div>
-			<?php if($item_type == 'products') { ?>
-			<div class="product_element">
-				<span><strong>Характеристики</strong></span><br />
-				<textarea name="item_charecters" id="item_charecters" style="min-height:70px;width:775px;"><?=$item->item_characters?></textarea>
-			</div>
-			<?php } ?>
-			<div>
-				<span><strong>Описание статьи</strong></span>
-				<textarea name="post_content" id="post_content" style="min-height:330px;"><?=$item->item_content?></textarea>
-			</div>
-			<div class="product_element">
-				<div class="seo_params_block">
-                    <span class="seo_params">Seo параметры</span>
-                    <div class="seo_title">
-                        <span><strong>Title (название)</strong>&nbsp;<i>(50-80 знаков)</i></span>
-                        <input type="text" id="item_seo_title" name="item_seo_title" value="<?=$item->item_seo_title?>" style="width:500px;" />
-                    </div>
-                    <div class="seo_keywords">
-                        <span><strong>Keywords (ключевые слова)</strong>&nbsp;<i>(до 250 знаков)</i></span>
-                        <input type="text" id="item_seo_keywords" name="item_seo_keywords" value="<?=$item->item_seo_keywords?>" style="width:500px;" />
-                    </div>
-                    <div class="seo_description">
-                        <span><strong>Description (описание)</strong>&nbsp;<i>(150-200 знаков)</i></span>
-                        <textarea type="text" id="item_seo_description" name="item_seo_description" cols="97" rows="7"><?=$item->item_seo_description?></textarea>
-                    </div>
-				</div>
-				<div>
-					<span><strong>Метки</strong>&nbsp;<i>(для быстрого поиска статей)</i></span><br />
-					<input type="text" id="item_marks" name="item_marks" value="<?=$item->item_marks?>" style="width:500px;" />
-				</div>				
-			</div>
-		</div>		
-		<div class="gallery_block">
-            <div class="innerTableHeaderGreen">
-                <div class="left padAll5">Галлерея статьи</div>
-                <div class="padAll5 right">
-                    <img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-                    <a onclick="javascript: add_form('gallery');return false;" href="#">Добавить</a>
+<div style="float:left;width:780px; margin-left:10px;margin-top:10px;">
+    <div>
+        <div class="product_element">
+            <span style="float: left; width: 100%;"><strong>Название статьи</strong></span>
+            <input type="text" id="item_title" name="item_title" value="<?= htmlspecialchars($item->item_title) ?>"
+                   style="width:500px;"/>
+        </div>
+        <div class="product_element">
+            <span><strong>Краткое описание статьи</strong></span><br/>
+            <textarea name="item_preview" id="item_preview"
+                      style="min-height:70px;width:775px;"><?= $item->item_preview ?></textarea>
+        </div>
+        <?php if ($item_type == 'products') { ?>
+            <div class="product_element">
+                <span><strong>Характеристики</strong></span><br/>
+                <textarea name="item_charecters" id="item_charecters"
+                          style="min-height:70px;width:775px;"><?= $item->item_characters ?></textarea>
+            </div>
+        <?php } ?>
+        <div>
+            <span><strong>Описание статьи</strong></span>
+            <textarea name="post_content" id="post_content"
+                      style="min-height:330px;"><?= $item->item_content ?></textarea>
+        </div>
+        <div class="product_element">
+            <div class="seo_params_block">
+                <span class="seo_params">Seo параметры</span>
+                <div class="seo_title">
+                    <span><strong>Title (название)</strong>&nbsp;<i>(50-80 знаков)</i></span>
+                    <input type="text" id="item_seo_title" name="item_seo_title" value="<?= $item->item_seo_title ?>"
+                           style="width:500px;"/>
+                </div>
+                <div class="seo_keywords">
+                    <span><strong>Keywords (ключевые слова)</strong>&nbsp;<i>(до 250 знаков)</i></span>
+                    <input type="text" id="item_seo_keywords" name="item_seo_keywords"
+                           value="<?= $item->item_seo_keywords ?>" style="width:500px;"/>
+                </div>
+                <div class="seo_description">
+                    <span><strong>Description (описание)</strong>&nbsp;<i>(150-200 знаков)</i></span>
+                    <textarea type="text" id="item_seo_description" name="item_seo_description" cols="97"
+                              rows="7"><?= $item->item_seo_description ?></textarea>
                 </div>
             </div>
-            <div id="new_gallery_block" style="float:left;width:700px;margin-bottom:10px;display:none;">
-                <div style="width:100%;float:left;">
-                    <div style="float:left; margin-bottom: 0px;margin-top:0;">
-                        <div class="left padAll5">
-                            <?php if(!empty($galleries)) {
+            <div>
+                <span><strong>Метки</strong>&nbsp;<i>(для быстрого поиска статей)</i></span><br/>
+                <input type="text" id="item_marks" name="item_marks" value="<?= $item->item_marks ?>"
+                       style="width:500px;"/>
+            </div>
+        </div>
+    </div>
+    <div class="gallery_block">
+        <div class="innerTableHeaderGreen">
+            <div class="left padAll5">Галлерея статьи</div>
+            <div class="padAll5 right">
+                <img class="marRight5" src="<?= base_url() ?>images/big-plus.gif" alt=""/>
+                <a onclick=" add_form('gallery');return false;" href="#">Добавить</a>
+            </div>
+        </div>
+        <div id="new_gallery_block" style="float:left;width:700px;margin-bottom:10px;display:none;">
+            <div style="width:100%;float:left;">
+                <div style="float:left; margin-bottom: 0px;margin-top:0;">
+                    <div class="left padAll5">
+                        <?php if (!empty($galleries)) {
                             ?>
                             <select id="galleries">
                                 <?php
                                     $gallery_str = '<option value="0">выберите галерею</option>';
-                                    foreach($galleries as $gallery) {
-                                        $gallery_str .= '<option value="'.$gallery->gallery_id.'">'.$gallery->gallery_title.'</option>';
+                                    foreach ($galleries as $gallery) {
+                                        $gallery_str .= '<option value="' . $gallery->gallery_id . '">' . $gallery->gallery_title . '</option>';
                                     }
-                                    echo $gallery_str;    
+                                    echo $gallery_str;
                                 ?>
                             </select>
-                            <?php  
-                            }
-                            ?>                        
-                            <input type="button" value="Привязать галерею к статье" onclick="javascropt: assign_gallery_to_item('<?=$item->item_id?>');" />
+                        <?php
+                        }
+                        ?>
+                        <input type="button" value="Привязать галерею к статье"
+                               onclick="javascropt: assign_gallery_to_item('<?= $item->item_id ?>');"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="imggallery_img"><?= $gallery_item ?></div>
+    </div>
+</div>
+<div style="float: right; margin-right: 5px; width: 250px;padding-right:15px;">
+    <div>
+        <div style="font-weight:bold;font-size:16px;margin-bottom:15px;color:red;">
+            <input type="hidden" id="item_id" value="<?= $item->item_id ?>"/>
+            <div class="delete_all_btn"
+                 onclick="save_item('<?= $item->item_id ?>', '<?= $item_type ?>');return false;"
+                 style="width:200px;">
+                <span>Сохранить</span>
+            </div>
+            <div class="delete_btn"
+                 onclick="if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) delete_item('<?= $item->item_id ?>', true, '<?= $item_type ?>');"
+                 style="float:left;">
+                <span class="delete_btn_span">Удалить</span>
+            </div>
+            <div class="delete_btn"
+                 onclick="get_page('<?= $item_type ?>', '<?= $item->item_id ?>');return false;"
+                 style="float:left;">
+                <span class="delete_btn_span">Обновить</span>
+            </div>
+
+        </div>
+        <?php if ($item_type == 'products') {
+            $current_currency_id    = $currency_rate->currency_id;
+            $current_currency_value = $currency_rate->currency_value;
+            unset($currency_rate->currency_id);
+            unset($currency_rate->currency_value);
+            $currency_rate = (array)$currency_rate;
+            foreach ($currency_all as $c) {
+                $crate   = strtolower($c->currency_value);
+                $c->rate = round($currency_rate[$crate], 2);
+            }
+            ?>
+            <div style="float:left;margin:7px 0 7px 5px;width:150px;">
+                <div style="font-weight:bold;margin-bottom:5px;">Текущий курс:</div>
+                <div style="margin-bottom:5px;margin-left:10px;">
+                    <div><strong>UAH</strong> = </span></div>
+                    <?php
+                        foreach ($currency_all as $currency) {
+                            if ($currency->currency_value == 'UAH') {
+                                continue;
+                            } ?>
+                            <div>
+                                <span><?= $currency->currency_value ?></span> =
+                                <span id="cr_<?= strtolower($currency->currency_value) ?>">
+                                    <?= $currency->rate ?>
+                                </span>
+                            </div>
+                        <?php } ?>
+                </div>
+                <div style="font-weight:bold;margin-bottom:5px;">Цена на товар:</div>
+                <div style="margin-bottom:5px;margin-left:10px;">
+                    <div class="price_head">
+                        <div>
+                            <div class="price_name_head_cost price_name"
+                                 onclick="change_price_value('<?= $item->item_id ?>', 'hs_set'); return hs.htmlExpand(this, {contentId:'hs_<?= $item->item_id ?>'})">
+                                <span id="price_item_<?= $item->item_id ?>"><?= $item->item_price ?></span>
+                                <input type="hidden" id="item_price_<?= $item->item_id ?>"
+                                       value="<?= $item->item_price ?>"/>
+                            </div>
+                            <div class="price_name_head_value">
+                                <select id="price_select_<?= $item->item_id ?>"
+                                        onchange="change_price_value('<?= $item->item_id ?>', 'display')">
+                                    <option value="uah">UAH</option>
+                                    <option value="usd">USD</option>
+                                    <option value="eur">EUR</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="imggallery_img"><?=$gallery_item?></div>
-		</div>
-	</div>
-	<div style="float: right; margin-right: 5px; width: 250px;padding-right:15px;">
-		<div>
-			<div style="font-weight:bold;font-size:16px;margin-bottom:15px;color:red;">
-				<input type="hidden" id="item_id" value="<?=$item->item_id?>" />
-				<div class="delete_all_btn" onclick="javascript:save_item('<?=$item->item_id?>', '<?=$item_type?>');return false;" style="width:200px;">
-					<span>Сохранить</span>
-				</div>
-				<div class="delete_btn" onclick="javascript:if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) delete_item('<?=$item->item_id?>', true, '<?=$item_type?>');" style="float:left;">
-					<span class="delete_btn_span">Удалить</span>
-				</div>
-				<div class="delete_btn" onclick="javascript:get_page('<?=$item_type?>', '<?=$item->item_id?>');return false;" style="float:left;">
-					<span class="delete_btn_span">Обновить</span>
-				</div>
-				
-			</div>
-			<?php if($item_type == 'products') {				
-				$current_currency_id = $currency_rate->currency_id;
-				$current_currency_value = $currency_rate->currency_value;
-				
-				unset($currency_rate->currency_id);
-				unset($currency_rate->currency_value);
-				
-				$currency_rate = (array)$currency_rate;
-				foreach ($currency_all as $c) {
-					$crate = strtolower($c->currency_value);
-					$c->rate = round($currency_rate[$crate], 2);
-				}
-//				$currency_rate = (Object)$currency_rate;
-								
-			?>
-			<div style="float:left;margin:7px 0 7px 5px;width:150px;">
-				<div style="font-weight:bold;margin-bottom:5px;">Текущий курс:</div>
-				<div style="margin-bottom:5px;margin-left:10px;">
-					<div><span id="cr_uah">1</span>&nbsp;<span><strong>UAH</strong> =</span></div>
-					<?php 
-					foreach ($currency_all as $currency) { if($currency->currency_value == 'UAH') continue; ?>
-					<div>
-						<span><?=$currency->currency_value?></span> - 
-						<span id="cr_<?=strtolower($currency->currency_value)?>">
-							<?=$currency->rate?>						
-						</span>
-					</div>
-					<?php } ?>
-				</div>
-				<div style="font-weight:bold;margin-bottom:5px;">Цена на товар:</div>
-				<div style="margin-bottom:5px;margin-left:10px;">
-					<div class="price_head">							
-						<div>
-							<div class="price_name_head_cost price_name" onclick="change_price_value('<?=$item->item_id?>', 'hs_set'); return hs.htmlExpand(this, {contentId:'hs_<?=$item->item_id?>'})">
-								<span id="price_item_<?=$item->item_id?>"><?=$item->item_price?></span>
-								<input type="hidden" id="item_price_<?=$item->item_id?>" value="<?=$item->item_price?>" />
-							</div>
-							<div class="price_name_head_value">
-								<select id="price_select_<?=$item->item_id?>" onchange="javascript:change_price_value('<?=$item->item_id?>', 'display')">
-									<option value="uah">UAH</option>
-									<option value="usd">USD</option>
-									<option value="eur">EUR</option>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>				
-			</div>
-			<?php } ?>
-			<div style="font-weight:bold;margin-bottom:5px;float:left;"><b>Режим просмотра статьи:</b></div>
-			<div style="float:left;margin-bottom:7px;">
-				<?php if(isset($item->item_mode)) echo '<div style="float:left;position:relative;bottom:7px;"><img src="'.base_url().'images/icons/'.$item->item_mode.'.png" /></div>'; ?>
-				<div style="float:left;margin-left:7px;bottom:7px;"><select id="item_mode_<?=$item->item_id?>">
-					<option value="open" <?php if($item->item_mode == 'open') echo "selected"; ?>>Опубликована</option>
-					<option value="close" <?php if($item->item_mode == 'close') echo "selected"; ?>>Закрыта</option>
-				</select></div>
-			</div>
-			<div style="font-weight:bold;margin-bottom:5px;float:left;"><b>Дата опубликования статьи:</b></div>
-			<div style="float:left;margin-bottom:7px;">				
-				<div class="datepicker_block">
-					<input type="text" id="datepicker_<?=$item->item_id?>" value="<?php echo date("d.m.Y", strtotime($item->item_production));?>"><br />
-					<input style="width:20px;" type="text" id="hour_<?=$item->item_id?>" value="<?php echo date("H", strtotime($item->item_production));?>"> - 
-					<input style="width:20px;" type="text" id="minute_<?=$item->item_id?>" value="<?php echo date("i", strtotime($item->item_production));?>">
-				</div>				
-			</div>
-			<div id="item_title_img" style="float:left;">
-			<?php
-			if(!empty($item->attach) && isset($item->attach->attach_preview_path)) { ?>
-				<img width="235" alt="" border="0" src="<?=base_url().$item->attach->attach_preview_path?>" />
-			<?php } ?>
-			</div>
-			<div style="float:left;margin-bottom:10px;margin-top:10px;">
-				<a href="#" id="imgtitle_<?=$item->item_id?>">
-					<img class="verticalMiddle" alt="" border="0" src="<?=base_url()?>images/upload-green-arrow.gif"/>
-					<img class="marLeft5 verticalMiddle" alt="" border="0" onclick="javascript:$('#imgtitle_<?=$item->item_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
-				<span>Логотип статьи</span>	
-				</a>
-			</div><br/>
-			<?php if(isset($categories) && !empty($categories)) { ?>
-			<div style="margin: 0pt auto; width: 185px; float: left;">
-				<span>Новая категория</span><br/>
-				<select id="categories_new">
-					<option value="0">Родительская категория</option>
-					<?php
-						$str_cat = '';
-						$indention = '';
-						foreach ($categories as $category) {
-							$indention = str_repeat("&nbsp;&nbsp;", $category->level);
-							$str_cat .= '<option value="'.$category->category_id.'">'.$indention.$category->category_title.'</option>';
-						}
-						echo $str_cat;
-					?>
-				</select>
-				<input type="text" id="category_title" style="width:180px;"/><br /><a href="#" onclick="javascript:add_category();" style="float:right;">Добавить</a>
-			</div>
-			<div id="chboxes" style="float: left;overflow-y: auto; height: 850px; overflow-x: hidden; width: 230px;padding-right:15px;margin-top:10px;margin-bottom:20px;">
-			<?php
-				$cat_str = '';
-				$level = null;
-				foreach ($categories as $index=>$category) {
-					$checked = "";
-					$level = $category->level;
-					unset($category->level);
-					
-					if(in_array($category, $items_cats)) $checked = "checked";
-					$margin = 10*$level; 
-					$style = 'style="margin-left:'.$margin.'px;"';
-					$cat_str .= '<div '.$style.'><input type="checkbox" id="ch_door" value="'.$category->category_id.'" '.$checked.' />
-							'.$category->category_title.'</div>';
-				}
-				echo $cat_str;
-			?>
-			</div>
-			<?php } ?>
-		</div>
-	</div>
+        <?php } ?>
+        <div style="font-weight:bold;margin-bottom:5px;float:left;"><b>Режим просмотра статьи:</b></div>
+        <div style="float:left;margin-bottom:7px;">
+            <?php if (isset($item->item_mode)) {
+                echo '<div style="float:left;position:relative;bottom:7px;"><img src="' . base_url(
+                    ) . 'images/icons/' . $item->item_mode . '.png" /></div>';
+            } ?>
+            <div style="float:left;margin-left:7px;bottom:7px;">
+                <select id="item_mode_<?= $item->item_id ?>">
+                    <option value="open" <?= ($item->item_mode == 'open' ? 'selected' : ''); ?>>Опубликована</option>
+                    <option value="close" <?= ($item->item_mode == 'close' || $item->item_mode == 'draft' ? 'selected' : ''); ?>>Закрыта</option>
+                </select>
+            </div>
+        </div>
+        <div style="font-weight:bold;margin-bottom:5px;float:left;"><b>Дата опубликования статьи:</b></div>
+        <div style="float:left;margin-bottom:7px;">
+            <div class="datepicker_block">
+                <input type="text" id="datepicker_<?= $item->item_id ?>"
+                       value="<?php echo date("d.m.Y", strtotime($item->item_production)); ?>"><br/>
+                <input style="width:20px;" type="text" id="hour_<?= $item->item_id ?>"
+                       value="<?php echo date("H", strtotime($item->item_production)); ?>"> -
+                <input style="width:20px;" type="text" id="minute_<?= $item->item_id ?>"
+                       value="<?php echo date("i", strtotime($item->item_production)); ?>">
+            </div>
+        </div>
+        <div id="item_title_img" style="float:left;">
+            <?php
+                if (!empty($item->attach) && isset($item->attach->attach_preview_path)) {
+                    ?>
+                    <img width="235" alt="" border="0" src="<?= base_url() . $item->attach->attach_preview_path ?>"/>
+                <?php } ?>
+        </div>
+        <div style="float:left;margin-bottom:10px;margin-top:10px;">
+            <a href="#" id="imgtitle_<?= $item->item_id ?>">
+                <img class="verticalMiddle" alt="" border="0" src="<?= base_url() ?>images/upload-green-arrow.gif"/>
+                <img class="marLeft5 verticalMiddle" alt="" border="0"
+                     onclick="$('#imgtitle_<?= $item->item_id ?>').fileUploadStart()"
+                     src="<?= base_url() ?>images/image-icon.jpg"/>
+                <span>Логотип статьи</span>
+            </a>
+        </div>
+        <br/>
+        <?php if (isset($categories) && !empty($categories)) { ?>
+            <div style="margin: 0pt auto; width: 185px; float: left;">
+                <span>Новая категория</span><br/>
+                <select id="categories_new">
+                    <option value="0">Родительская категория</option>
+                    <?php
+                        $str_cat = '';
+                        $indention = '';
+                        foreach ($categories as $category) {
+                            $indention = str_repeat("&nbsp;&nbsp;", $category->level);
+                            $str_cat .= '<option value="' . $category->category_id . '">' . $indention . $category->category_title . '</option>';
+                        }
+                        echo $str_cat;
+                    ?>
+                </select>
+                <input type="text" id="category_title" style="width:180px;"/><br/><a href="#"
+                                                                                     onclick="add_category();"
+                                                                                     style="float:right;">Добавить</a>
+            </div>
+            <div id="chboxes"
+                 style="float: left;overflow-y: auto; height: 850px; overflow-x: hidden; width: 230px;padding-right:15px;margin-top:10px;margin-bottom:20px;">
+                <?php
+                    $cat_str = '';
+                    $level = null;
+                    foreach ($categories as $index => $category) {
+                        $checked = "";
+                        $level   = $category->level;
+                        unset($category->level);
+                        if (in_array($category, $items_cats)) {
+                            $checked = "checked";
+                        }
+                        $margin = 10 * $level;
+                        $style  = 'style="margin-left:' . $margin . 'px;"';
+                        $cat_str .= '<div ' . $style . '>
+                            <input type="checkbox" value="' . $category->category_id . '" ' . $checked . ' />'
+                                . $category->category_title .
+                        '</div>';
+                    }
+                    echo $cat_str;
+                ?>
+            </div>
+        <?php } ?>
+    </div>
 </div>
-<div class="highslide-html-content" id="hs_<?=$item->item_id?>">
-	<div class="highslide-header"><ul><li class="highslide-move"><a href="#" onclick="return false">Move</a></li><li class="highslide-close"><a href="#" onclick="return hs.close(this)"></a></li></ul></div>
-	<div class="highslide-body">
-		<div>
-			<div style="margin:5px auto;">
-				<input size="10" id="cr_val_<?=$item->item_id?>" value="" onkeyup="javascript:change_price_value('<?=$item->item_id?>', 'change');">&nbsp;
-				<strong>UAH</strong></div>
-			<div style="margin:5px auto;"><strong>UAH</strong> - <span id="cr_uah_<?=$item->item_id?>"></span></div>
-			<div style="margin:5px auto;"><strong>USD</strong> - <span id="cr_usd_<?=$item->item_id?>"></span></div>
-			<div style="margin:5px auto;"><strong>EUR</strong> - <span id="cr_eur_<?=$item->item_id?>"></span></div>
-		</div>
-		<div>
-			<input type="button" value="Применить" onclick="javascript:change_price('<?=$item->item_id?>');" />
-			<img id="loader_<?=$item->item_id?>" src="<?=base_url()?>images/ajax-loader.gif" style="display:none;" />
-		</div>
-	</div>
+</div>
+<div class="highslide-html-content" id="hs_<?= $item->item_id ?>">
+    <div class="highslide-header">
+        <ul>
+            <li class="highslide-move"><a href="#" onclick="return false">Move</a></li>
+            <li class="highslide-close"><a href="#" onclick="return hs.close(this)"></a></li>
+        </ul>
+    </div>
+    <div class="highslide-body">
+        <div>
+            <div style="margin:5px auto;">
+                <input size="10" id="cr_val_<?= $item->item_id ?>" value=""
+                       onkeyup="change_price_value('<?= $item->item_id ?>', 'change');">&nbsp;
+                <strong>UAH</strong>
+                <input type="hidden" name="price_select_change_<?= $item->item_id ?>"
+                       id="price_select_change_<?= $item->item_id ?>" value="uah">
+            </div>
+            <div style="margin:5px auto;"><strong>UAH</strong> - <span id="cr_uah_<?= $item->item_id ?>"></span></div>
+            <div style="margin:5px auto;"><strong>USD</strong> - <span id="cr_usd_<?= $item->item_id ?>"></span></div>
+            <div style="margin:5px auto;"><strong>EUR</strong> - <span id="cr_eur_<?= $item->item_id ?>"></span></div>
+        </div>
+        <div>
+            <input type="button" value="Применить" onclick="change_price('<?= $item->item_id ?>');"/>
+            <img id="loader_<?= $item->item_id ?>" src="<?= base_url() ?>images/ajax-loader.gif" style="display:none;"/>
+        </div>
+    </div>
 </div>
 <?php
-	$this-> benchmark-> mark('code_end');
-	echo "<p> Time generation: ".$this-> benchmark-> elapsed_time('code_start', 'code_end').'"</p> ';
-	echo "<p> Memory usage: ".$this->benchmark->memory_usage().'"</p> ';
+    $this->benchmark->mark('code_end');
+    echo "<p> Time generation: " . $this->benchmark->elapsed_time('code_start', 'code_end') . '"</p> ';
+    echo "<p> Memory usage: " . $this->benchmark->memory_usage() . '"</p> ';
 ?>

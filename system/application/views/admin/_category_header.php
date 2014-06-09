@@ -4,7 +4,7 @@
 		<option value="0">Выберите имя категории</option>
 		<?=$categories?>
 	</select>
-	<input type="button" onclick="javascript:search_category();" value="Найти" />
+	<input type="button" onclick="search_category();" value="Найти" />
 </div>
 <div id="new_category_block" style="float:left;width:917px;margin-bottom:10px;display:none;">
 	<div id="" class="left padAll5" style="color:#676767;">Новая категория</div>
@@ -26,7 +26,7 @@
 			<textarea id="new_cat_desc" style="width:700px;"></textarea>
 		</div>
 		<div style="float:right;position:relative;top:50px;">
-			<input type="button" onclick="javascript:new_category();" value="Добавить" />
+			<input type="button" onclick="new_category();" value="Добавить" />
 		</div>
 	</div>
 </div>

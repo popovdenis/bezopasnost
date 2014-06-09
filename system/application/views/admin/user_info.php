@@ -6,7 +6,7 @@
 		<div style="clear: left; float: left; width: 80px;margin-bottom:2px;">Пароль:</div>
 		<div style="float: left; margin-left: 10px;margin-bottom:2px;">
 			<input type="password" id="user_password" value="" disabled style="width:320px;float:left;"/>
-			<div id="paswd_link" style="float:left;margin-left:3px;"><a style="font-size:11px;" href="#" onclick="javascript:change_password('<?=$user->user_id?>'); return false;">Изменить пароль</a></div>
+			<div id="paswd_link" style="float:left;margin-left:3px;"><a style="font-size:11px;" href="#" onclick="change_password('<?=$user->user_id?>'); return false;">Изменить пароль</a></div>
 			<img id="user_img_loading" src="<?php echo base_url(); ?>images/add-note-loader.gif" style="display:none;" />
 		</div>
 		<div style="clear: left; float: left; width: 80px;margin-bottom:2px;">Имя:</div>
@@ -28,6 +28,6 @@
 </div>
 <div style="float: left; width: 100%;">
 	<div style="float:right;">
-		<input type="button" onclick="javascript:update_user('<?=$user->user_id?>');" value="Обновить" />
+		<input type="button" onclick="update_user('<?=$user->user_id?>');" value="Обновить" />
 	</div>
 </div>

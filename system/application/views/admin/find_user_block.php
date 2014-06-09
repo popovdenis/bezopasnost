@@ -2,7 +2,7 @@
 	<div id="" class="left padAll5">Пользователи</div>
 	<div class="padAll5 right">
 		<img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-		<a id="" onclick="javascript: return add_form('user');" href="#">Добавить Нового Пользователя</a>
+		<a id="" onclick="return add_form('user');" href="#">Добавить Нового Пользователя</a>
 	</div>
 </div>
 <div id="users_block_header">
@@ -12,7 +12,7 @@
 			<option value="0">Выберите имя пользователя</option>
 			<?=$users_list?>
 		</select>
-		<input type="button" onclick="javascript:search_user();" value="Найти" />
+		<input type="button" onclick="search_user();" value="Найти" />
 	</div>
 	<div id="new_user_block" style="float:left;width:917px;margin-bottom:10px;display:none;">
 		<div id="" class="left padAll5" style="color:#676767;">Новый пользователь</div>
@@ -34,7 +34,7 @@
 		</div>
 		<div style="float: left; width: 100%;">
 			<div style="float:right;">
-				<input type="button" onclick="javascript:new_user();" value="Добавить" />
+				<input type="button" onclick="new_user();" value="Добавить" />
 			</div>
 		</div>
 	</div>

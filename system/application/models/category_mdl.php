@@ -9,6 +9,22 @@ class Category_mdl extends Model
         parent::Model();
     }
 
+    public function findById($id)
+    {
+        if (empty($id)) {
+            return [];
+        }
+        if (!is_array($id)) {
+            $id = [$id];
+        }
+        $query = 'SELECT * FROM categories WHERE category_id IN (\'' . implode("','", $id) . '\') ORDER BY category_title';
+        $query = $this->db->query($query);
+        if (!$query) {
+            throw new Exception($this->db->_error_message());
+        }
+        return $query->result();
+    }
+
     function get_category( $category_id = null, $parent_id = null, $category_title = null, $orderby = "category_position" )
     {
         try

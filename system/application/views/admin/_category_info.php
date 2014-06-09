@@ -1,48 +1,6 @@
 <script type="text/javascript">
-$(function(){
-	new AjaxUpload('#categoryid_<?=$category->category_id?>', {
-		// Location of the server-side upload script
-		action: '<?=base_url()?><?=index_page()?>admin/home/upload',
-		// File upload name
-		name: 'userfile',
-		// Additional data to send
-		data: {
-			item_id : '<?=$category->category_id?>',
-			upload_type: 'category_title'
-		},
-	  responseType: false,
-	  onChange: function(file, extension){},
-	  onSubmit : function(file , ext){
-		    if (! (ext && /^(jpeg|jpg|gif|bmp|png)$/.test(ext))){
-		        // extension is not allowed
-		        alert('Error: invalid file extension');
-		        // cancel upload
-		        return false;
-		    } else {
-
-		    	$("#category_img").html('<img alt="loading..." border="0" src="<?php echo base_url() ?>images/loading-blue.gif" />');
-		    }
-		} ,
-	  onComplete: function(file, response) {
-	  	if(response) {
-
-	  	}
-		if(response) {
-		  	var result = window["eval"]("(" + response + ")");
-		  	$.post(
-				"<?=base_url()?><?=index_page()?>admin/home/upload",
-				{ attach_id: result.attach_id, item_id : '<?=$category->category_id?>', upload_type: 'category_title'},
-				function(data){
-					var file = '<img src="<?=base_url()?>'+result.file_path+'" />';
-					$('#category_img').html(file);
-				}
-			)
-	  	} else {
-	  		alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
-	  	}
-	  }
-	});
-});
+    productsObj.initImageGalleryUploader();
+    productsObj.initCategoryUploader();
 </script>
 <script type="text/javascript" src="<?=base_url()?>js/ui/ui.sortable.js"></script>
 <style type="text/css">
@@ -66,7 +24,7 @@ $(function() {
 			<font class="fwNormal"><?=$category->category_title?></font>
 		</div>
 		<div class="right">
-			<input type="button" onclick="javascript:if(confirm('Вы уверены, что хотите удалить эту категоррию?')) delete_category('<?=$category->category_id?>');" value="Удалить" />
+			<input type="button" onclick="if(confirm('Вы уверены, что хотите удалить эту категоррию?')) delete_category('<?=$category->category_id?>');" value="Удалить" />
 		</div>
 	</div>
 	<div style="width:100%;float:left;margin-top:20px;">
@@ -98,12 +56,12 @@ $(function() {
 				<div style="margin-bottom:10px;padding-left:10%;">
 					<a href="#" id="categoryid_<?=$category->category_id?>">
 						<img class="verticalMiddle" alt="" border="0" src="<?=base_url()?>images/upload-green-arrow.gif"/>
-						<img class="marLeft5 verticalMiddle" alt="" border="0" onclick="javascript:$('#categoryid_<?=$category->category_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
+						<img class="marLeft5 verticalMiddle" alt="" border="0" onclick="$('#categoryid_<?=$category->category_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
 					<span>Логотип категории</span>
 					</a>
 				</div>
 			</div>
-			<input style="float:right;" type="button" onclick="javascript:update_category('<?=$category->category_id?>');" value="Обновить" />
+			<input style="float:right;" type="button" onclick="update_category('<?=$category->category_id?>');" value="Обновить" />
 			<div style="float:left;margin-top:20px;font-size:12px;margin-left:10px;">
 				<div style="float:left;">
 					Партнеры:
@@ -112,7 +70,7 @@ $(function() {
 						<option value="<?=$partner->item_id?>"><?=$partner->item_title?></option>
 						<?php }} ?>
 					</select>
-					<a href="#" onclick="javascript:add_category_partner('<?=$category->category_id?>');return false;">Прикрепить</a>
+					<a href="#" onclick="add_category_partner('<?=$category->category_id?>');return false;">Прикрепить</a>
 				</div>
 				<div id="category_partners_img"></div>
 				<div id="category_partners">
@@ -120,7 +78,7 @@ $(function() {
 					if($cat_partners && !empty($cat_partners)) { foreach ($cat_partners as $cpartner) { ?>
 					<div id="partner_<?=$cpartner->item_id?>">
 						<span><?=$cpartner->item_title?></span>
-						<a href="#" onclick="javascript:delete_category_partner('<?=$category->category_id?>','<?=$cpartner->item_id?>');return false;">Удалить</a></div>
+						<a href="#" onclick="delete_category_partner('<?=$category->category_id?>','<?=$cpartner->item_id?>');return false;">Удалить</a></div>
 					<?php }} ?>
 				</div>
 			</div>

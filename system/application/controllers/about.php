@@ -4,6 +4,7 @@ class About extends Controller {
     function __construct() {
         parent::Controller();
         $this->benchmark->mark('code_start');
+        $this->output->cache(60);
     }
 
     function index() {
@@ -30,4 +31,3 @@ class About extends Controller {
         $this->load->view('_about', $data);
     }
 }
-?>

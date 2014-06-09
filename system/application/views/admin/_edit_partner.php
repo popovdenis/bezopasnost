@@ -1,44 +1,7 @@
 <script type="text/javascript">
 $(function(){
-	new AjaxUpload('#imgtitle_<?=$item->item_id?>', {
-		// Location of the server-side upload script
-		action: '<?=base_url()?>admin/home/upload',
-		// File upload name
-		name: 'userfile',
-		// Additional data to send
-		data: {
-			item_id : '<?=$item->item_id?>',
-			upload_type: 'partner_title'
-		},
-	  responseType: false,
-	  onChange: function(file, extension){},
-	  onSubmit : function(file , ext){
-		    if (! (ext && /^(jpeg|jpg|gif|bmp|png)$/.test(ext))){
-		        // extension is not allowed
-		        alert('Error: invalid file extension');
-		        // cancel upload
-		        return false;
-		    } else {
-		    	
-		    	$("#item_title_img").html('<img alt="loading..." border="0" src="<?php echo base_url() ?>images/loading-blue.gif" />');
-		    }
-		} ,
-	  onComplete: function(file, response) {
-	  	if(response) {
-		  	var result = window["eval"]("(" + response + ")");
-		  	var file = '<img src="<?=base_url()?>'+result.file_path+'" />';
-		  	$('#item_title_img').html(file);		  	
-	  	}
-	  }
-	});
+    productsObj.initImageTitleUploader();
 });
-</script>
-<script type="text/javascript">
-	var oFCKeditor = new FCKeditor("post_content"); // привязка к textarea с id="body"
-    oFCKeditor.ToolbarSet="Default"; // число кнопочек на инструментальной панели
-    oFCKeditor.BasePath="<?=base_url()?>js/fckeditor/"; //путь к fckeditor
-    oFCKeditor.Height = "245";
-    oFCKeditor.ReplaceTextarea(); 
 </script>
 <div>
 	<input type="text" id="item_title" name="item_title" value="<?=$item->item_title?>" style="width: 500px;" />
@@ -64,7 +27,7 @@ $(function(){
 			<a href="#" id="imgtitle_<?=$item->item_id?>">
 				<img class="verticalMiddle" alt="" border="0" src="<?=base_url()?>images/upload-green-arrow.gif"/>
 				<img class="marLeft5 verticalMiddle" alt="" border="0" onclick="javascript:$('#imgtitle_<?=$item->item_id?>').fileUploadStart()" src="<?=base_url()?>images/image-icon.jpg"/>
-			<span>Image title</span>	
+			<span>Image title</span>
 			</a>
 		</div>
 	</div>
