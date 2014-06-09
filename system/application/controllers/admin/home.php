@@ -27,8 +27,7 @@ class Home extends Controller
         }
         else
         {
-            $data = array();
-            $this->load->view( 'admin/_home', $data );
+            redirect('/admin/about/');
         }
     }
 

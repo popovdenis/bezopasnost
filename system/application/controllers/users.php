@@ -219,7 +219,7 @@
                     $this->db_session->unset_userdata($remove);
                 }
             }
-            redirect('admin');
+            redirect('admin/home');
         }
     }
     /* end of file */
