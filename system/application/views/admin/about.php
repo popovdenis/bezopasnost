@@ -14,6 +14,7 @@
         hs.wrapperClassName = 'draggable-header';
 
     </script>
+<input type="hidden" name="item_type" value="<?=$item_type?>">
 <div style="width:100%;float:left;margin-bottom:35px;border:1px solid #CCCCCC;border-top:none;">
     <div style="float:left;width:780px; margin-left:10px;margin-top:10px;">
         <div>
@@ -105,12 +106,12 @@
             <div style="font-weight:bold;font-size:16px;margin-bottom:15px;color:red;">
                 <input type="hidden" id="item_id" value="<?= $item->item_id ?>"/>
                 <div class="delete_all_btn"
-                     onclick="adminObj.save_item('<?= $item->item_id ?>', '<?= $item_type ?>', '<?=base_url()?>admin/<?= $item_type ?>/save');return false;"
+                     onclick="adminObj.save_item('<?= $item->item_id ?>', '<?=base_url()?>admin/<?= $item_type ?>/save');return false;"
                      style="width:200px;">
                     <span>Сохранить</span>
                 </div>
                 <div class="delete_btn"
-                     onclick="if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) adminObj.delete_item('<?= $item->item_id ?>', true, '<?= $item_type ?>');"
+                     onclick="if(confirm('Статья удалится вместе с прикрепленным к ней материалом. Вы уверены, что хотите удалить эту статью?')) adminObj.delete_item('<?= $item->item_id ?>', true);"
                      style="float:left;">
                     <span class="delete_btn_span">Удалить</span>
                 </div>

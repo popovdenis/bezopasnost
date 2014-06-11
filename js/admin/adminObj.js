@@ -35,46 +35,8 @@ var adminObj = {
     },
     /**************** Items  *******************/
 
-    get_new_page: function (page) {
-        $.ajax({
-            type: "POST",
-            url: this.ajax_admin_path,
-            dataType: "html",
-            data: {
-                'action': 'get_new_page',
-                'page': page,
-                'flag': 'new'
-            },
-            beforeSend: function () {
-                $('iframe').remove();
-                $('div[class^="uploadfile"]').remove();
-                $("li").removeClass("active");
-                $("#li_" + page).addClass("active");
-                $("#about").html('');
-                $("#information").html('');
-                $("#partners").html('');
-                $("#products").html('');
-                $("#sertificates").html('');
-                $("#contacts").html('');
-                $("#gallery").html('');
-                $("#settings").html('');
-                //$('div[class^="highslide-container"]').remove();
-                $("#" + page).html('<img border="0" src="' + adminObj.base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
-            },
-            success: function (data) {
-                if (data == 5) {
-                    window.location = adminObj.base_url + "admin/home";
-                }  else {
-                    $("#" + page).html(data);
-                }
-                productsObj.initCKeditors();
-                productsObj.initDatePicker();
-            },
-            error: function (data) {
-                $("#add_item_img").hide();
-                $("#" + page).html('');
-            }
-        });
+    get_new_page: function () {
+        window.location = adminObj.base_url + "admin/newitem";
     },
 
     refreshPage: function () {
@@ -83,63 +45,11 @@ var adminObj = {
     },
     
     get_page: function(page, item_id, page_rus) {
-        $.ajax({
-            type: "POST",
-            url: this.ajax_admin_path,
-            dataType: "html",
-            data: {
-                'action': 'get_page',
-                'page': page,
-                'page_rus': page_rus,
-                'item_id': item_id,
-                'flag': 'exist'
-            },
-            beforeSend: function () {
-                $('iframe').remove();
-                $('div[class^="uploadfile"]').remove();
-                $("li").removeClass("active");
-                $("#li_" + page).addClass("active");
-                $("#about").html('');
-                $("#information").html('');
-                $("#partners").html('');
-                $("#products").html('');
-                $("#sertificates").html('');
-                $("#contacts").html('');
-                $("#gallery").html('');
-                $("#settings").html('');
-                $("#" + page).html('<img border="0" src="' + adminObj.base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
-            },
-            success: function (data) {
-                $("#" + page).hide();
-                if (data == 5) {
-                    window.location = adminObj.base_url + "admin/home";
-                } else {
-                    $("#" + page).html(data);
-                }
-    
-                switch (page) {
-                    case 'about':
-                    case 'information':
-                    case 'partners':
-                        productsObj.initImageTitleUploader(item_id);
-                        break;
-                    case 'products':
-                        productsObj.init(item_id);
-                        break;
-                    default:
-                        break;
-                }
-    
-                productsObj.initCKeditors();
-                productsObj.initDatePicker();
-
-                $("#" + page).show();
-            },
-            error: function (data) {
-                $("#" + page).html('');
-            }
-        });
-        return true;
+        var pageUrl = adminObj.base_url + 'admin/' + page;
+        if (item_id != undefined) {
+            pageUrl += '/about/' + item_id;
+        }
+        window.location = pageUrl;
     },
     
     add_item: function (page) {
@@ -216,9 +126,11 @@ var adminObj = {
         }
     },
     
-    save_item: function (product_id, item_type, action) {
+    save_item: function (product_id, action) {
         var itemTitle = $("#item_title").val(),
-            that = this;
+            that = this,
+            item_type_element = $('#item_type');
+        var item_type = item_type_element.val() == undefined ? $('.select-list option:selected').data('item-type') : item_type_element.val();
 
         if (itemTitle == '') {
             alert('Статья не может быть сохранена, так как вы не ввели название для этой статьи.');
@@ -244,6 +156,7 @@ var adminObj = {
                 'item_seo_title': $("#item_seo_title").val(),
                 'item_seo_keywords': $("#item_seo_keywords").val(),
                 'item_seo_description': $("#item_seo_description").val(),
+                'item_type': item_type,
                 'item_date_production': $("#datepicker_" + product_id).val(),
                 'hour': $("#hour_" + product_id).val(),
                 'minute': $("#minute_" + product_id).val(),
@@ -257,14 +170,11 @@ var adminObj = {
             $.ajax({
                 type: "POST",
                 url: action,
+                dataType: "json",
                 data: params,
-                beforeSend: function () {
-                    $("#" + item_type).html(
-                        '<img border="0" src="' + adminObj.base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
-                },
                 success: function (response) {
                     if (response && response.hasOwnProperty('success') && response.success) {
-                        that.get_page(item_type, product_id);
+                        that.get_page(item_type, response.item_id);
                     } else {
                         window.location.reload();
                     }
@@ -310,9 +220,11 @@ var adminObj = {
         });
     },
     
-    delete_item: function (item_id, redirect, item_type) {
+    delete_item: function (item_id, redirect) {
         if (item_id == undefined || item_id == '') return false;
-        var that = this;
+        var that = this,
+            item_type = $('#item_type' ).val();
+
         $.ajax({
             type: "POST",
             url: this.ajax_admin_path,
@@ -1321,5 +1233,48 @@ var adminObj = {
         if ( number_arr[1] != undefined ) number = number_arr[0] + "." + number_arr[1].substr( 0, 3 );
         else number = number_arr[0];
         return number;
+    },
+
+    initGetCategoriesList: function () {
+        var that = this,
+            selectList = $('.select-list');
+        selectList.off('change').on('change', function () {
+            var $this = $(this);
+            $('#chboxes').html(
+                '<div style="position:relative;right:12px;">' +
+                    '<input type="checkbox" value="'+ $(':selected', $this ).val() +'">' +
+                    $(':selected', $this).text() +
+                '</div>'
+            );
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: adminObj.base_url + "admin/newitem/getCategories",
+                data: {
+                    'category_id': $this.val()
+                },
+                success: function (response) {
+                    if (response.success != undefined && response.success) {
+                        if (response.categories != undefined && response.categories.length > 0) {
+                            var html =
+                                '<div style="position:relative;right:12px;">' +
+                                    '<input type="checkbox" value="'+ $(':selected', $this ).val() +'">' +
+                                    $(':selected', $this).text() +
+                                '</div>';
+                            for (var i in response.categories) {
+                                var shiftVal = response.categories[i].level * 10;
+                                $('#chboxes' ).append(
+                                    '<div style="margin-left:' + shiftVal + 'px;">' +
+                                        '<input type="checkbox" value="' + response.categories[i].category_id + '">' +
+                                            response.categories[i].category_title +
+                                    '</div>'
+                                );
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
     }
 };

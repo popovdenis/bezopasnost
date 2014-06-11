@@ -336,8 +336,8 @@ select {
 	margin:10px 0 0 0;
 	width:270px;
 }
-#categories_new{
-	margin:10px 0 0 0;
+#categories_new, .select-list{
+	margin:10px 0;
 	width:184px;
 }
 #map1_img, #map2_img{

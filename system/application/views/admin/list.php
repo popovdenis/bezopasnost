@@ -34,7 +34,7 @@
 
             <div id="new_item">
                 <div class="left">
-                    <div class="left add_item"><span onclick="adminObj.get_new_page('<?= $item_type ?>');">Новая статья</span>
+                    <div class="left add_item"><span onclick="adminObj.get_new_page();">Новая статья</span>
                     </div>
                     <div style="float:left;">
                         <img id="add_item_img" style="position:relative;top:10px;display:none;"
