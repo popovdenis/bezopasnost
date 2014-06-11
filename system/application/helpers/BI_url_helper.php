@@ -101,8 +101,11 @@
         $args['uri_segment'] = count($url) + 2;
         $args['cur_page'] = empty($args['cur_page']) ? '-' : $args['cur_page'];
         $ci->load->library('pagination');
-        $ci->pagination->initialize($args);
-        return $ci->pagination->create_page_links_ajax();
+        if ($ci->pagination instanceof BI_Pagination) {
+            $ci->pagination->initialize($args);
+            return $ci->pagination->create_page_links_ajax();
+        }
+        return false;
     }
 
     function set_error($error_lang_alias = 'error_unknown')
