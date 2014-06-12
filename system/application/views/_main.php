@@ -63,6 +63,9 @@
             <?php //require_once('_new_info.php'); ?>
         </div>
     </div>
+    <div class="main-content">
+        <?=$main->item_content?>
+    </div>
     <?php require_once('_main_partners.php'); ?>
     <div style="clear:both;">&nbsp;</div>
 </div>
