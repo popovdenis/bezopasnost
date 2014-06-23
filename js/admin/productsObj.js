@@ -150,7 +150,7 @@ var productsObj = {
             toolbar: 'Basic',
             uiColor: '#CB6615',
             language: 'ru',
-            filebrowserUploadUrl: '/ajax_handlers/admin_handler/upload'
+            filebrowserUploadUrl: '/admin/home/doUpload'
         };
 
         if ($('#post_content').length > 0) {
@@ -179,6 +179,10 @@ var productsObj = {
             CKEDITOR.disableAutoInline = true;
             CKEDITOR.replace(editorId, config);
         }
+    },
+
+    uploadProcess: function () {
+
     },
 
     initDatePicker: function() {

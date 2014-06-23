@@ -6,9 +6,10 @@ define( "WATERMANR_R_CHANNEL", 240 );
 define( "WATERMANR_G_CHANNEL", 248 );
 define( "WATERMANR_B_CHANNEL", 255 );
 define( "WATERMANR_ALPHA_LEVEL", 110 );
-//	128,128,128, 100
+// 128,128,128, 100
+require_once ('adminAbstract.php');
 
-class Home extends Controller
+class Home extends AdminAbstract
 {
     function __construct()
     {
@@ -31,12 +32,6 @@ class Home extends Controller
         }
     }
 
-    private function microtime_float()
-    {
-        list($usec, $sec) = explode(" ", microtime());
-        return intval((float)$usec + (float)$sec);
-    }
-
     function upload()
     {
         $attach_id  = null;
@@ -46,7 +41,7 @@ class Home extends Controller
         if (! empty($_FILES)) {
             $upload_type = $this->input->post('upload_type');
             $this->load->model('attachment', 'attachment');
-            $upload_data = $this->upload_attach('userfile');
+            $upload_data = $this->upload_attach(array_keys($_FILES)[0]);
 
             $newFileName = $this->microtime_float() . '_picture';
             if (file_exists($upload_data['full_path'])) {
@@ -95,7 +90,6 @@ class Home extends Controller
             }
             $data["file_path"] = $item_data['attach_path'];
             $data["attach_id"] = $attach_id;
-            $data = (Object)$data;
             $data = json_encode($data);
             echo $data;
             exit;
