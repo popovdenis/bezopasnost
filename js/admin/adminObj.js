@@ -43,7 +43,7 @@ var adminObj = {
         window.location.reload();
         return false;
     },
-    
+
     get_page: function(page, item_id, page_rus) {
         var pageUrl = adminObj.base_url + 'admin/' + page;
         if (item_id != undefined) {
@@ -51,7 +51,7 @@ var adminObj = {
         }
         window.location = pageUrl;
     },
-    
+
     add_item: function (page) {
         var itemTitle = $("#new_item_title").val(),
             that = this;
@@ -71,7 +71,7 @@ var adminObj = {
             var charecters = CKEDITOR.instances.hasOwnProperty('new_item_charecters')
                 ? CKEDITOR.instances['new_item_charecters'].getData()
                 : '';
-    
+
             $.ajax({
                 type: "POST",
                 url: this.ajax_admin_path,
@@ -125,7 +125,7 @@ var adminObj = {
             alert('Статья не может быть сохранена, так как вы не ввели название для этой статьи.');
         }
     },
-    
+
     save_item: function (product_id, action) {
         var itemTitle = $("#item_title").val(),
             that = this,
@@ -147,7 +147,7 @@ var adminObj = {
             var charecters = CKEDITOR.instances.hasOwnProperty('item_charecters')
                 ? CKEDITOR.instances['item_charecters'].getData()
                 : '';
-    
+
             var params = {
                 'action': 'save_item',
                 'item_title': itemTitle,
@@ -166,7 +166,7 @@ var adminObj = {
                 'categories': categories,
                 'item_id': product_id
             };
-    
+
             $.ajax({
                 type: "POST",
                 url: action,
@@ -187,7 +187,7 @@ var adminObj = {
             alert('Статья не может быть сохранена, так как вы не ввели название для этой статьи.');
         }
     },
-    
+
     delete_items_checked: function () {
         var checkboxes = [];
         $('.item_chb_delete:checked').each(function () {
@@ -219,7 +219,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_item: function (item_id, redirect) {
         if (item_id == undefined || item_id == '') return false;
         var that = this,
@@ -246,7 +246,7 @@ var adminObj = {
             }
         });
     },
-    
+
     paginate_items: function (page_num) {
         var item_type = $("#item_type").val();
         $.ajax({
@@ -271,7 +271,7 @@ var adminObj = {
         });
         return true;
     },
-    
+
     filter_items_category: function (item_type) {
         $.ajax({
             type: "POST", url: this.ajax_admin_path, dataType: "html",
@@ -292,7 +292,7 @@ var adminObj = {
         });
         return true;
     },
-    
+
     add_category: function () {
         var cat_desc = '';
         var item_id = '';
@@ -318,7 +318,7 @@ var adminObj = {
             }
         });
     },
-    
+
     new_category: function () {
         $.ajax({
             type: "POST",
@@ -347,7 +347,7 @@ var adminObj = {
             }
         });
     },
-    
+
     search_category: function () {
         $.ajax({
             type: "POST",
@@ -372,7 +372,7 @@ var adminObj = {
             }
         });
     },
-    
+
     update_category: function (cat_id) {
         if (cat_id == '' || cat_id == undefined) return false;
         $.ajax({
@@ -384,7 +384,10 @@ var adminObj = {
                 'category_id': cat_id,
                 'category_title': $("#found_category_title").val(),
                 'category_desc': $("#found_cat_desc").val(),
-                'category_parent': $("#found_categories_parent option:selected").val()
+                'category_parent': $("#found_categories_parent option:selected").val(),
+                'item_seo_title': $("#item_seo_title").val(),
+                'item_seo_keywords': $("#item_seo_keywords").val(),
+                'item_seo_description': $("#item_seo_description").val()
             },
             beforeSend: function () {
                 $("#set_cat_found").html('<img border="0" src="' + adminObj.base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
@@ -399,7 +402,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_category: function (cat_id) {
         if (cat_id == '' || cat_id == undefined) return false;
         $.ajax({
@@ -424,7 +427,7 @@ var adminObj = {
             }
         });
     },
-    
+
     add_category_partner: function (category_id) {
         if (category_id == '' || category_id == undefined) return false;
         var partner_id = $("#category_partner_list option:selected").val();
@@ -454,7 +457,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_category_partner: function (category_id, partner_id) {
         if (category_id == '' || category_id == undefined) return false;
         if (partner_id == '' || partner_id == undefined) return false;
@@ -482,7 +485,7 @@ var adminObj = {
             }
         });
     },
-    
+
     reorder_categories: function (category_parent_id) {
         var cat_order = [];
         $('#sortable li').each(function () {
@@ -537,7 +540,7 @@ var adminObj = {
             }
         });
     },
-    
+
     update_contacts: function () {
         var elements = [];
         $('div.contact_block').each(function () {
@@ -586,7 +589,7 @@ var adminObj = {
             }
         });
     },
-    
+
     /**** Пользователи ***/
     get_user: function () {
         $.ajax({
@@ -610,7 +613,7 @@ var adminObj = {
             }
         });
     },
-    
+
     add_user: function () {
         $.ajax({
             type: "POST",
@@ -639,7 +642,7 @@ var adminObj = {
             }
         });
     },
-    
+
     update_user: function (user_id) {
         if (user_id == '' || user_id == undefined) return false;
         $.ajax({
@@ -668,7 +671,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_user: function (user_id) {
         if (user_id == '' || user_id == undefined) return false;
         $.ajax({
@@ -692,7 +695,7 @@ var adminObj = {
             }
         });
     },
-    
+
     change_password: function (user_id) {
         if (user_id == '' || user_id == undefined) return false;
         $.ajax({
@@ -719,7 +722,7 @@ var adminObj = {
             }
         });
     },
-    
+
     save_password: function (user_id) {
         if (user_id == '' || user_id == undefined) return false;
         $.ajax({
@@ -748,7 +751,7 @@ var adminObj = {
             }
         });
     },
-    
+
     get_currency: function () {
         $.ajax({
             type: "POST",
@@ -768,7 +771,7 @@ var adminObj = {
             }
         });
     },
-    
+
     add_currency: function () {
         $.ajax({
             type: "POST",
@@ -792,7 +795,7 @@ var adminObj = {
             }
         });
     },
-    
+
     update_currency_rate: function (currency_id) {
         var currencies = [];
         $('input.currency').each(function () {
@@ -821,7 +824,7 @@ var adminObj = {
             }
         });
     },
-    
+
     get_gallery: function () {
         $.ajax({
             type: "POST",
@@ -844,7 +847,7 @@ var adminObj = {
             }
         });
     },
-    
+
     add_gallery: function () {
         $.ajax({
             type: "POST",
@@ -871,7 +874,7 @@ var adminObj = {
             }
         });
     },
-    
+
     update_gallery: function (gallery_id) {
         $.ajax({
             type: "POST",
@@ -893,7 +896,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_gallery: function (gallery_id) {
         $.ajax({
             type: "POST",
@@ -918,7 +921,7 @@ var adminObj = {
             }
         });
     },
-    
+
     reorder_attach_gallery: function (gallery_id) {
         var num = $('#sortable_gallery li').length;
         var attach_order = new Array(num);
@@ -950,7 +953,7 @@ var adminObj = {
             }
         });
     },
-    
+
     assign_gallery_to_item: function (item_id) {
         $.ajax({
             type: "POST",
@@ -971,7 +974,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_attach_gallery: function (gallery_id, item_id) {
         $.ajax({
             type: "POST",
@@ -995,7 +998,7 @@ var adminObj = {
             }
         });
     },
-    
+
     add_ann_item: function () {
         var item_id = $("#search_items_list option:selected").val();
         var item_title = $("#search_items_list option:selected").text();
@@ -1017,7 +1020,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_ann_item: function (item_id) {
         $.ajax({
             type: "POST",
@@ -1036,7 +1039,7 @@ var adminObj = {
             }
         });
     },
-    
+
     delete_item_gallery: function (gallery_id, item_id) {
         $.ajax({
             type: "POST",

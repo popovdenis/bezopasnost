@@ -104,7 +104,12 @@
         $metaTagsConfig = (!empty($config)) ? array_merge($metaTagsConfig, $config) : $metaTagsConfig;
         $ci->meta_tags->initialize($metaTagsConfig);
         if ($item) {
-            $itemTitle = !empty($item->item_seo_title) ? $item->item_seo_title : $item->item_title;
+            $itemTitle = "";
+            if (isset($item->item_seo_title) && ! empty($item->item_seo_title)) {
+                $itemTitle = $item->item_seo_title;
+            } elseif (isset($item->item_title) && ! empty($item->item_title)) {
+                $itemTitle = $item->item_title;
+            }
             $ci->meta_tags->add_title($itemTitle);
             if (!empty($item->item_seo_keywords)) {
                 $ci->meta_tags->add_keyword($item->item_seo_keywords);

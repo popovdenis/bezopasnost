@@ -61,7 +61,6 @@ class Products extends Controller
             }
         }
         $header_links = $this->get_head_links($subcat_id);
-        $config['meta_tags']['title'] = $categories[0]->category_title;
 
         $val                    = array();
         $val['partners_block']  = get_partners_random();
@@ -70,7 +69,7 @@ class Products extends Controller
         $val['main_categories'] = $main_cats;
         $val['current_cat']     = $categories[0];
         $val['subcats']         = $sub_categories;
-        $val['meta_tags']       = build_meta_tags(null, $config['meta_tags']);
+        $val['meta_tags']       = build_meta_tags($categories[0]);
 
         $this->load->view('_cat', $val);
     }
