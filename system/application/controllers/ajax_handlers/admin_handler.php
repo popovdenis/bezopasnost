@@ -252,17 +252,23 @@ class Admin_handler extends Controller
                 break;
 
             case "update_category":
-                $category_id = $this->input->post('category_id');
-                $category_title = $this->input->post('category_title');
-                $category_desc = $this->input->post('category_desc');
-                $category_parent = $this->input->post('category_parent');
+                $category_id          = $this->input->post('category_id');
+                $category_title       = $this->input->post('category_title');
+                $category_desc        = $this->input->post('category_desc');
+                $category_parent      = $this->input->post('category_parent');
+                $item_seo_title       = $this->input->post('item_seo_title', null);
+                $item_seo_keywords    = $this->input->post('item_seo_keywords', null);
+                $item_seo_description = $this->input->post('item_seo_description', null);
 
                 $this->load->model('category_mdl', 'category');
 
                 $category_data = array(
-                    'category_title' => $category_title,
-                    'category_desc' => $category_desc,
-                    'category_parent' => $category_parent
+                    'category_title'       => $category_title,
+                    'category_desc'        => $category_desc,
+                    'category_parent'      => $category_parent,
+                    'item_seo_title'       => $item_seo_title,
+                    'item_seo_keywords'    => $item_seo_keywords,
+                    'item_seo_description' => $item_seo_description
                 );
                 $this->category->update_category($category_id, $category_data);
                 $category_info = $this->_get_category_page($category_id, 'category_title');

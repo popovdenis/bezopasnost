@@ -51,11 +51,12 @@ class Settings extends AdminAbstract
         if ($cat && is_array($cat)) {
             $cat = $cat[0];
         }
+
         return $this->load->view(
             'admin/ann_items',
-            [
-                'items' => $this->get_item(null, null, null, $cat->category_id)
-            ],
+                [
+                    'items' => $this->get_item(null, null, null, $cat->category_id)
+                ],
             true
         );
     }

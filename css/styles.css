@@ -1125,22 +1125,17 @@ div.new_product a:hover {
     font-size: 0.9em;
 }
 /* Category preview */
-
+.catalog_categories {
+    float: left;
+    margin-top: 11px;
+}
 .preview {
     float: left;
-    margin-top: 35px;
-}
-
-.previewImage {
-    float: left;
-    width: 200px;
+    margin-bottom: 35px;
     text-align: center;
+    width: 200px;
 }
 
-.previewText {
-    float: left;
-    width: 400px;
-}
 .gallery_block{
     float:left;
     position:relative;
