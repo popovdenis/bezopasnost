@@ -1135,7 +1135,18 @@ div.new_product a:hover {
     text-align: center;
     width: 200px;
 }
+.previewImage {
+    height: 112px;
+}
 
+.previewText {
+}
+.category_title > a {
+    font-size: 18px;
+}
+.category_description {
+
+}
 .gallery_block{
     float:left;
     position:relative;
