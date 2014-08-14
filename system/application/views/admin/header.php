@@ -52,11 +52,6 @@
     </script>
 
     <style type="text/css">
-        a:hover{text-decoration: underline;}
-        .acc_block{width: 250px;float: right;}
-        .acc_content{text-align:left;margin-left:10px;}
-    </style>
-    <style type="text/css">
         div.jqi {
             width: 1000px;
         }

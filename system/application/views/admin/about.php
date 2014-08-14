@@ -236,13 +236,24 @@
                     <?php } ?>
             </div>
             <div style="float:left;margin-bottom:10px;margin-top:10px;">
-                <a href="#" id="imgtitle_<?= $item->item_id ?>">
+                <a href="javascript: void(0);" id="imgtitle_<?= $item->item_id ?>">
                     <img class="verticalMiddle" alt="" border="0" src="<?= base_url() ?>images/upload-green-arrow.gif"/>
                     <img class="marLeft5 verticalMiddle" alt="" border="0"
                          onclick="$('#imgtitle_<?= $item->item_id ?>').fileUploadStart()"
                          src="<?= base_url() ?>images/image-icon.jpg"/>
                     <span>Логотип статьи</span>
                 </a>
+                <?php
+                    $style = '';
+                    if (empty($item->attach) || !isset($item->attach->attach_preview_path)) {
+                        $style = 'style="display:none"';
+                    }
+                ?>
+                <a class="link delete-item-logo" href="javascript: void(0);" data-item-id="<?= $item->item_id ?>" <?= $style ?>>
+                    <i class="icon-delete"></i>
+                    Удалить логотип
+                </a>
+
             </div>
             <br/>
             <?php if (isset($categories) && !empty($categories)) { ?>

@@ -52,9 +52,6 @@ a, a:link, a:visited {
 	color: #3470a8;
 	text-decoration: none;
 }
-a:focus, a:hover, a:active {
-	text-decoration: underline;
-}
 
 select {
 	border:1px solid #CCCCCC;
@@ -742,4 +739,17 @@ div.page_number_selected {
 .seo_title span, .seo_keywords span, .seo_description span {
     display: block;
     margin-bottom: 5px;
+}
+.icon-delete {
+    background-image: url("../images/icons/delete.png");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    display: inline-block;
+    font-size: 1px;
+    height: 16px;
+    line-height: 16px;
+    overflow: hidden;
+    text-indent: -99px;
+    vertical-align: middle;
+    width: 16px;
 }

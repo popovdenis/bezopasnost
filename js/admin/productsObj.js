@@ -11,6 +11,7 @@ var productsObj = {
     {
         this.initImageGalleryUploader(itemId);
         this.initImageTitleUploader(itemId);
+        this.initDeleteItemLogo();
     },
 
     initImageGalleryUploader: function (itemId) {
@@ -116,6 +117,7 @@ var productsObj = {
                                 var file = '<img width="235" src="/' + result.file_path + '" />';
                                 $('#item_title_img').html(file);
                             })
+                        $('.delete-item-logo').data('item-id', itemId).show();
                     } else {
                         alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
                     }
@@ -191,5 +193,32 @@ var productsObj = {
                 dateFormat: 'dd-mm-yy'
             });
         }
+    },
+
+    initDeleteItemLogo: function () {
+        var that = this;
+        $('.delete-item-logo').click(function () {
+            var $this = $(this);
+            if (confirm('Вы подтверждаете удаление логотипа?')) {
+                $.ajax({
+                    url: adminObj.base_url + 'admin/home/deleteItemLogo',
+                    type: 'POST',
+                    dataType: "json",
+                    data: {
+                        itemId: $(this).data('item-id')
+                    },
+                    success: function (response) {
+                        if (response.success != undefined && response.success) {
+                            $('#item_title_img').empty();
+                            $this.hide();
+                            if (response.message != undefined) {
+                                alert(response.message);
+                            }
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
     }
 };

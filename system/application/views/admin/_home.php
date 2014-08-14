@@ -21,17 +21,11 @@ $(function() {
 	hs.graphicsDir = '<?=base_url()?>js/highslide/graphics/';
 	hs.wrapperClassName = 'wide-border';
 </script>
-
-<style type="text/css">
-	a:hover{text-decoration: underline;}
-	.acc_block{width: 250px;float: right;}
-	.acc_content{text-align:left;margin-left:10px;}	
-</style>
 		<?php require_once("help.php"); ?>
 		<div id="tabs" style="margin:0 auto;width:1100px;">
 			<?php require_once("_tabs.php"); ?>
 			<div id="tabs-1">
-				<div id="about"></div>		
+				<div id="about"></div>
 			</div>
 			<div id="tabs-2">
 				<div id="information"></div>
@@ -54,6 +48,6 @@ $(function() {
             <div id="tabs-8">
 				<div id="tools"></div>
 			</div>
-		</div>		
+		</div>
 	</body>
 </html>

@@ -268,7 +268,7 @@ class Attachment extends Model
         return false;
     }
 
-    function delete_attach($attach_id, $delete_file = true, $item_id = null)
+    function delete_attach($attach_id, $delete_file = true)
     {
         try {
             $query = "select * from attachment where attach_id=" . clean($attach_id);

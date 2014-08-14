@@ -1,10 +1,11 @@
 <?php
+require_once ('adminAbstract.php');
 /**
  * User: Denis
  * Date: 02.05.14
  * Time: 18:09
  */
-class Information extends Controller
+class Information extends adminAbstract
 {
     const PER_PAGE = 50;
     const PAGE = 1;
