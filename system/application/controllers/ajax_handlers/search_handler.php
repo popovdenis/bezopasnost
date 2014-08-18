@@ -42,7 +42,7 @@ class Search_handler extends Controller
             case "paginate_items":
                 $cur_page    = $this->input->post('page');
                 $category_id = $this->input->post('category_id');
-                $data = $this->_get_items_block($cur_page, $keywords, $category_id, null);
+                $data = (Object)$this->_get_items_block($cur_page, $keywords, $category_id, null);
                 $data = json_encode($data);
                 break;
             case "search_by_tag":
@@ -67,7 +67,7 @@ class Search_handler extends Controller
             case "quick_search":
                 //log_message('error', 'quick_search');
                 $category_id = $this->input->post('category_id');
-                $data        = $this->_get_items_block(1, $keywords, $category_id, null);
+                $data        = (Object)$this->_get_items_block(1, $keywords, $category_id, null);
                 $data        = json_encode($data);
                 break;
             case "main_quick_search":

@@ -8,7 +8,7 @@ class Main extends Controller
         if ($this->db_session->userdata('keywords')) {
             $this->db_session->unset_userdata('keywords');
         }
-//        $this->output->cache(60);
+        //        $this->output->cache(60);
     }
 
     function index()

@@ -1252,7 +1252,7 @@ class Admin_handler extends Controller
 
     public function upload()
     {
-        $url = realpath(BASEPATH . '../files') . '/' . time() . "_" . $_FILES['upload']['name'];
+        $url = '../images/uploads/' . time() . "_" . $_FILES['upload']['name'];
 
         //extensive suitability check before doing anything with the file…
         if (($_FILES['upload'] == "none") OR (empty($_FILES['upload']['name']))) {
