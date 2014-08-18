@@ -38,8 +38,23 @@
         });
     });
 </script>
-
+<script type="text/javascript" src="<?= base_url() ?>js/jquery.elevatezoom.js"></script>
 <div class="header">
+    <div class="chess_header">
+        <span class="white_block">&nbsp;</span>
+        <span class="black_block">&nbsp;</span>
+        <span class="white_block">&nbsp;</span>
+        <span class="black_block">&nbsp;</span>
+        <span class="white_block">&nbsp;</span>
+        <span class="black_block">&nbsp;</span>
+        <div style="clear: both;"></div>
+        <span class="black_block">&nbsp;</span>
+        <span class="white_block">&nbsp;</span>
+        <span class="black_block">&nbsp;</span>
+        <span class="white_block">&nbsp;</span>
+        <span class="black_block">&nbsp;</span>
+        <span class="white_block">&nbsp;</span>
+    </div>
     <div class="header_thread">
         <div id="search_menuitems" class="menu_item">
             <form id="quickSearch" action="<?= base_url() ?>search" method="post"
