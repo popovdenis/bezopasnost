@@ -77,7 +77,7 @@ div.line_separator_left {
     float:left;
     width:40px;
     height:1px;
-    background-image:url("../images/separator_left.png");
+    background-image: url("../images/separator_left.png");
 }
 
 div.line_separator_right {
@@ -1135,7 +1135,18 @@ div.new_product a:hover {
     text-align: center;
     width: 200px;
 }
+.previewImage {
+    height: 112px;
+}
 
+.previewText {
+}
+.category_title > a {
+    font-size: 18px;
+}
+.category_description {
+
+}
 .gallery_block{
     float:left;
     position:relative;
@@ -1351,6 +1362,12 @@ a, :focus, :active {
     top: 3px;
     text-align: center;
     display: none;
+}
+a.link {
+    text-decoration: none;
+}
+a.link:hover {
+    text-decoration: none;
 }
 .main-content {
     clear: both;

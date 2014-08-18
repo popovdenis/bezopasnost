@@ -9,13 +9,7 @@ require_once("_head.php"); ?>
             <?= $header_links ?><br/>
 
             <h1><?= $current_cat->category_title ?></h1>
-            <?php
-            if (! empty($current_cat->category_desc)) {
-            ?>
-                <p><?= $current_cat->category_desc ?></p>
-            <?php
-            }
-            ?>
+
             <div class="catalog_categories">
                 <?php
                 $subcats_str = '';
@@ -29,16 +23,16 @@ require_once("_head.php"); ?>
                     <div class="preview">
                         <div class="previewImage">
                             <a href="<?php echo base_url() . 'products/subcat/' . $subcat->category_id ?>">
-                                <img width="150" src="<?= $img ?>" alt="<?= $subcat->category_title ?>">
+                                <img src="<?= $img ?>" alt="<?= $subcat->category_title ?>">
                             </a>
                         </div>
                         <div class="previewText">
-                            <h3>
+                            <span class="category_title">
                                 <a href="<?php echo base_url() . 'products/subcat/' . $subcat->category_id ?>">
                                     <b><?= $subcat->category_title ?></b>
                                 </a>
-                            </h3>
-                            <p><?= $subcat->category_desc ?></p>
+                            </span>
+                            <span class="category_description"><?= $subcat->category_desc ?></span>
                         </div>
                     </div>
                 <?php
@@ -49,6 +43,13 @@ require_once("_head.php"); ?>
                 }
                 ?>
             </div>
+            <?php
+            if (! empty($current_cat->category_desc)) {
+                ?>
+                <p><?= $current_cat->category_desc ?></p>
+            <?php
+            }
+            ?>
         </div>
         <!-- Продукция меню -->
         <div class="menubox">

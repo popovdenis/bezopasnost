@@ -1,15 +1,12 @@
 <?php
-// Amperzand.ttf
-// ERASBD.ttf
 define( "WATERMANR_FONT_PATH", BASEPATH . "fonts/Amperzand.ttf" );
 define( "WATERMANR_R_CHANNEL", 240 );
 define( "WATERMANR_G_CHANNEL", 248 );
 define( "WATERMANR_B_CHANNEL", 255 );
 define( "WATERMANR_ALPHA_LEVEL", 110 );
-// 128,128,128, 100
 require_once ('adminAbstract.php');
 
-class Home extends AdminAbstract
+class Home extends adminAbstract
 {
     function __construct()
     {
@@ -17,7 +14,7 @@ class Home extends AdminAbstract
         $this->load->model( 'category_mdl', 'category' );
     }
 
-    function index()
+    public function index()
     {
         $user_id = $this->db_session->userdata( 'user_id' );
         $user_role = $this->db_session->userdata( 'user_role' );
@@ -32,7 +29,13 @@ class Home extends AdminAbstract
         }
     }
 
-    function upload()
+    private function microtime_float()
+    {
+        list($usec, $sec) = explode(" ", microtime());
+        return intval((float)$usec + (float)$sec);
+    }
+
+    public function upload()
     {
         $attach_id  = null;
         $config     = $this->load->config('upload');
@@ -41,7 +44,7 @@ class Home extends AdminAbstract
         if (! empty($_FILES)) {
             $upload_type = $this->input->post('upload_type');
             $this->load->model('attachment', 'attachment');
-            $upload_data = $this->upload_attach(array_keys($_FILES)[0]);
+            $upload_data = $this->upload_attach('userfile');
 
             $newFileName = $this->microtime_float() . '_picture';
             if (file_exists($upload_data['full_path'])) {
@@ -90,6 +93,7 @@ class Home extends AdminAbstract
             }
             $data["file_path"] = $item_data['attach_path'];
             $data["attach_id"] = $attach_id;
+            $data = (Object)$data;
             $data = json_encode($data);
             echo $data;
             exit;
@@ -270,6 +274,28 @@ class Home extends AdminAbstract
         }
     }
 
+    public function deleteItemLogo()
+    {
+        $itemId = (int) $this->input->post('itemId');
+        if (empty($itemId)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Элемент не найден'
+            ]);
+        }
+        $this->load->model('attachment');
+        $itemAttachments = $this->attachment->get_attach_item($itemId, 'product_title');
+        if (!empty($itemAttachments)) {
+            foreach ($itemAttachments as $entity) {
+                $this->attachment->delete_attach($entity->attach_id);
+            }
+        }
+        echo json_encode([
+            'success' => true,
+            'message' => 'Логотип успешно удален'
+        ]);
+    }
+
     /**
      * @param $extention
      * @return bool|string
@@ -302,7 +328,7 @@ class Home extends AdminAbstract
         return $image;
     }
 
-    function upload_attach( $fieldname )
+    public function upload_attach( $fieldname )
     {
         if ( !$fieldname ) {
             return false;
@@ -330,7 +356,7 @@ class Home extends AdminAbstract
         return false;
     }
 
-    function authorize( $login, $password )
+    public function authorize( $login, $password )
     {
         $this->load->library( 'form_validation' );
         $this->load->config( 'form_validation' );
