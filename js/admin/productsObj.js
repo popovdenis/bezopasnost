@@ -116,7 +116,7 @@ var productsObj = {
                                 result = window["eval"]("(" + data + ")");
                                 var file = '<img width="235" src="/' + result.file_path + '" />';
                                 $('#item_title_img').html(file);
-                            })
+                            });
                         $('.delete-item-logo').data('item-id', itemId).show();
                     } else {
                         alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
