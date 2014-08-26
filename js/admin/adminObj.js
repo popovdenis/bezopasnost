@@ -1288,5 +1288,34 @@ var adminObj = {
             });
 
         });
+    },
+
+    initChessHeader: function () {
+        var that = this,
+            categoryId,
+            itemId;
+        categoryId = $('.settings_clickers_categories');
+        itemId = $('.settings_clickers_items');
+
+        $('.chess_header span').click(function () {
+            $.ajax({
+                type: "POST",
+                url: that.base_url + 'admin/settings/getItemByChess',
+                dataType: "json",
+                data: {
+                    'vOrder': $(this).data('vOder'),
+                    'hOrder': $(this).data('hOder')
+                },
+                beforeSend: function () {
+                    $("#set_cat_found").html('<img border="0" src="' + adminObj.base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
+                },
+                success: function (data) {
+
+                },
+                error: function (data) {
+                    $("#set_cat_found").html('Категория не найдена');
+                }
+            });
+        });
     }
 };

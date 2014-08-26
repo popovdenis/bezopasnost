@@ -753,3 +753,16 @@ div.page_number_selected {
     vertical-align: middle;
     width: 16px;
 }
+.chess_header {
+    border: 1px solid #000000;
+    float: left;
+}
+.chess_header span {
+    cursor: pointer;
+    float:left;
+    height: 113px;
+    width: 113px;
+}
+.chess_header span.black_block {
+    background-color: #000000;
+}

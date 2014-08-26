@@ -7,7 +7,6 @@
     <link type="text/css" href="<?= base_url() ?>css/jquery/demos.css" rel="stylesheet"/>
     <link type="text/css" href="<?= base_url() ?>css/admin_style.css" rel="stylesheet"/>
     <link type="text/css" href="<?= base_url() ?>css/importu.css" rel="stylesheet"/>
-
 <!--    <link type="text/css" href="--><?//= base_url() ?><!--css/jquery-ui.min.css" rel="stylesheet"/>-->
 <!--    <script type="text/javascript" src="--><?//= base_url() ?><!--js/jquery.js"></script>-->
 <!--    <script type="text/javascript" src="--><?//= base_url() ?><!--js/jquery-ui.min.js"></script>-->

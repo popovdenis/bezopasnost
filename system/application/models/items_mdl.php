@@ -541,4 +541,24 @@ class Items_mdl extends Model
         }
         return false;
     }
+
+    public function getItem(array $options = [], $single = false)
+    {
+        $this->db->select('*');
+        $this->db->from('items');
+
+        if (isset($options['id'])) {
+            $this->db->where('item_id', intval($options['id']));
+        }
+        if (isset($options['hOrder'])) {
+            $this->db->where('hOrder', intval($options['hOrder']));
+        }
+        if (isset($options['vOrder'])) {
+            $this->db->where('vOrder', intval($options['vOrder']));
+        }
+
+        $query = $this->db->get();
+
+        return $single ? $query->row_array() : $query->result_array();
+    }
 }

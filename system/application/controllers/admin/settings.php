@@ -60,4 +60,22 @@ class Settings extends AdminAbstract
             true
         );
     }
+
+    public function getItemByChess()
+    {
+        $hOrder = $this->input->post('hOrder');
+        $vOrder = $this->input->post('vOrder');
+
+        $this->load->model('items_mdl', 'item');
+
+        $items = $this->item->getItem(
+            [
+                'hOrder' => $hOrder,
+                'vOrder' => $vOrder
+            ],
+            true
+        );
+
+        return json_encode($items);
+    }
 }
