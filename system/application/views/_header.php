@@ -36,24 +36,37 @@
                 $headerMenu.removeClass("fixed");
             }
         });
+        // init tooltips
+        $('.white_block, .black_block').qtip({
+            content: {
+                text: $('span.tooltiptext', $(this)).html()
+            }
+        });
     });
 </script>
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.elevatezoom.js"></script>
 <div class="header">
     <div class="chess_header">
-        <span class="white_block">&nbsp;</span>
-        <span class="black_block">&nbsp;</span>
-        <span class="white_block">&nbsp;</span>
-        <span class="black_block">&nbsp;</span>
-        <span class="white_block">&nbsp;</span>
-        <span class="black_block">&nbsp;</span>
+        <span class="white_block" data-element-index="0">
+            &nbsp;<span class="tooltiptext">
+                Сделай себе скидку!<br>
+                Почему у нас купить выгоднее?<br>
+                Бесплатная доставка<br>
+                Идея - "НЕ СТАНДАРТ"<br>
+            </span>
+        </span>
+        <span class="black_block" data-element-index="1">&nbsp;</span>
+        <span class="white_block" data-element-index="2">&nbsp;</span>
+        <span class="black_block" data-element-index="3">&nbsp;</span>
+        <span class="white_block" data-element-index="4">&nbsp;</span>
+        <span class="black_block" data-element-index="5">&nbsp;</span>
         <div style="clear: both;"></div>
-        <span class="black_block">&nbsp;</span>
-        <span class="white_block">&nbsp;</span>
-        <span class="black_block">&nbsp;</span>
-        <span class="white_block">&nbsp;</span>
-        <span class="black_block">&nbsp;</span>
-        <span class="white_block">&nbsp;</span>
+        <span class="black_block" data-element-index="6">&nbsp;</span>
+        <span class="white_block" data-element-index="7">&nbsp;</span>
+        <span class="black_block" data-element-index="8">&nbsp;</span>
+        <span class="white_block" data-element-index="9">&nbsp;</span>
+        <span class="black_block" data-element-index="10">&nbsp;</span>
+        <span class="white_block" data-element-index="11">&nbsp;</span>
     </div>
     <div class="header_thread">
         <div id="search_menuitems" class="menu_item">

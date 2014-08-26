@@ -1390,3 +1390,6 @@ a.link:hover {
     padding: 10px 0 0 10px;
     width: 864px;
 }
+.tooltiptext{
+    display: none;
+}
