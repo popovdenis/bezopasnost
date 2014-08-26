@@ -19,7 +19,13 @@ legend, table, caption, tbody, thead, tr, th, td, button {
 :focus {
 	outline: 0;
 }
-
+.mrg10 {
+    clear: left;
+    margin: 10px 0;
+}
+select[disabled] {
+    background-color: #e3e3e3;
+}
 body {
 	line-height: 1;
 	color: #333;
@@ -765,4 +771,7 @@ div.page_number_selected {
 }
 .chess_header span.black_block {
     background-color: #000000;
+}
+.clickers_apply_btn {
+    margin-left: 10px;
 }

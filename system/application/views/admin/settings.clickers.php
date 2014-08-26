@@ -7,32 +7,31 @@
     <div class="innerTableHeaderGreen">
         <div class="left padAll5">Рекламные блоки шапки</div>
     </div>
-    <div>
-        <select class="settings_clickers_categories">
-            <option value="0">Список категорий</option>
+    <div class="mrg10">
+        <select class="settings_clickers_categories Txt67 fwNormal">
+            <option value="0">Выберите имя категории</option>
+            <?=$categories?>
         </select>
     </div>
-    <div>
-        <select class="settings_clickers_items">
+    <div class="mrg10">
+        <select class="settings_clickers_items Txt67 fwNormal" disabled>
             <option value="0">Список статей</option>
         </select>
+        <input class="clickers_apply_btn" type="button" value="Применить">
     </div>
-    <div>
-        <input type="button" value="Применить">
-    </div>
-    <div class="chess_header">
-        <span class="white_block" data-hOrder="0" data-vOrder="1">&nbsp;</span>
-        <span class="black_block" data-hOrder="0" data-vOrder="2">&nbsp;</span>
-        <span class="white_block" data-hOrder="0" data-vOrder="3">&nbsp;</span>
-        <span class="black_block" data-hOrder="0" data-vOrder="4">&nbsp;</span>
-        <span class="white_block" data-hOrder="0" data-vOrder="5">&nbsp;</span>
-        <span class="black_block" data-hOrder="0" data-vOrder="6">&nbsp;</span>
+    <div class="chess_header mrg10">
+        <span class="white_block" data-horder="0" data-vorder="1">&nbsp;</span>
+        <span class="black_block" data-horder="0" data-vorder="2">&nbsp;</span>
+        <span class="white_block" data-horder="0" data-vorder="3">&nbsp;</span>
+        <span class="black_block" data-horder="0" data-vorder="4">&nbsp;</span>
+        <span class="white_block" data-horder="0" data-vorder="5">&nbsp;</span>
+        <span class="black_block" data-horder="0" data-vorder="6">&nbsp;</span>
         <div style="clear: both;"></div>
-        <span class="black_block" data-hOrder="1" data-vOrder="1">&nbsp;</span>
-        <span class="white_block" data-hOrder="1" data-vOrder="2">&nbsp;</span>
-        <span class="black_block" data-hOrder="1" data-vOrder="3">&nbsp;</span>
-        <span class="white_block" data-hOrder="1" data-vOrder="4">&nbsp;</span>
-        <span class="black_block" data-hOrder="1" data-vOrder="5">&nbsp;</span>
-        <span class="white_block" data-hOrder="1" data-vOrder="6">&nbsp;</span>
+        <span class="black_block" data-horder="1" data-vorder="1">&nbsp;</span>
+        <span class="white_block" data-horder="1" data-vorder="2">&nbsp;</span>
+        <span class="black_block" data-horder="1" data-vorder="3">&nbsp;</span>
+        <span class="white_block" data-horder="1" data-vorder="4">&nbsp;</span>
+        <span class="black_block" data-horder="1" data-vorder="5">&nbsp;</span>
+        <span class="white_block" data-horder="1" data-vorder="6">&nbsp;</span>
     </div>
 </div>

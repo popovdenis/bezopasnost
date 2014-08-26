@@ -1291,30 +1291,132 @@ var adminObj = {
     },
 
     initChessHeader: function () {
+        this.getItemByCoordinates();
+        this.getItemsByCategory();
+        this.setItemByCoordinates();
+    },
+
+    getItemByCoordinates: function () {
         var that = this,
-            categoryId,
-            itemId;
-        categoryId = $('.settings_clickers_categories');
-        itemId = $('.settings_clickers_items');
+            clickersCategories = $('select.settings_clickers_categories'),
+            clickersItems = $('select.settings_clickers_items'),
+            clickersApplyBtn = $('.clickers_apply_btn');
 
         $('.chess_header span').click(function () {
+            $('.chess_header span').removeClass('selected');
+            $(this).addClass('selected');
             $.ajax({
                 type: "POST",
-                url: that.base_url + 'admin/settings/getItemByChess',
+                url: that.base_url + 'admin/settings/getItemByCoordinates',
                 dataType: "json",
                 data: {
-                    'vOrder': $(this).data('vOder'),
-                    'hOrder': $(this).data('hOder')
+                    'vOrder': $(this).data('vorder'),
+                    'hOrder': $(this).data('horder')
+                },
+                success: function (responses) {
+                    $('option', clickersCategories).prop('selected', false);
+                    $('option', clickersItems).prop('selected', false);
+
+                    if (responses != undefined && responses.item != undefined && Object.keys(responses.item).length > 0) {
+                        $("option[value='" + responses.item['category_id'] + "']", clickersCategories).prop('selected', true);
+                        clickersCategories.change();
+                        clickersItems.attr('disabled', true);
+                        clickersApplyBtn.attr('disabled', true);
+
+                        setTimeout(function(){
+                            $('option', clickersItems)
+                                .attr('disabled', false)
+                                .prop('selected', false);
+                            clickersApplyBtn.attr('disabled', false);
+                            clickersItems.find("option[value='" + responses.item['item_id'] + "']").prop('selected', true);
+                        }, 1000);
+                    }
+
+                    clickersItems.attr('disabled', false);
+                    clickersApplyBtn.attr('disabled', false);
+                },
+                error: function (data) {}
+            });
+        });
+        return false;
+    },
+
+    setItemByCoordinates: function () {
+        var that = this,
+            clickersCategories = $('select.settings_clickers_categories'),
+            clickersItems = $('select.settings_clickers_items'),
+            clickersApplyBtn = $('.clickers_apply_btn'),
+            selectedItem;
+
+        clickersApplyBtn.click(function() {
+            selectedItem = $('.chess_header').find('span.selected');
+            $.ajax({
+                type: "POST",
+                url: that.base_url + 'admin/settings/setItemByCoordinate',
+                dataType: "json",
+                data: {
+                    'vOrder': selectedItem.data('vorder'),
+                    'hOrder': selectedItem.data('horder'),
+                    'itemId': clickersItems.val(),
+                    'categoryId': clickersCategories.val()
                 },
                 beforeSend: function () {
-                    $("#set_cat_found").html('<img border="0" src="' + adminObj.base_url + 'images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;text-align:center;"/>');
+                    $('option', clickersCategories).prop('selected', false);
+                    $('option', clickersItems).prop('selected', false);
+                    clickersItems.attr('disabled', true);
+                    clickersApplyBtn.attr('disabled', true);
                 },
-                success: function (data) {
+                success: function (response) {
+                    var options = '';
+                    if (response != undefined && response.items != undefined && response.items.length > 0) {
+                        var items = response.items;
+                        for (var i = 0; i < items.length; i++) {
+                            options += '<option value="' + items[i]['item_id'] + '">' + items[i]['item_title'] + '</option>'
+                        }
+                        clickersItems.append(options);
+                        clickersItems.attr('disabled', false);
+                        clickersApplyBtn.attr('disabled', false);
+                    }
+                },
+                error: function (data) {}
+            });
+        });
+    },
 
+    getItemsByCategory: function () {
+        var that = this,
+            clickersCategories = $('select.settings_clickers_categories'),
+            clickersItems = $('select.settings_clickers_items'),
+            clickersApplyBtn = $('.clickers_apply_btn');
+
+        clickersCategories.change(function () {
+            $.ajax({
+                type: "POST",
+                url: that.base_url + 'admin/settings/getItemByCategory',
+                dataType: "json",
+                data: {
+                    'categoryId': $(this).val()
                 },
-                error: function (data) {
-                    $("#set_cat_found").html('Категория не найдена');
-                }
+                beforeSend: function () {
+                    clickersItems.empty();
+                    clickersItems
+                        .append('<option value="0">Выберите имя категории</option>')
+                        .attr('disabled', true);
+                    clickersApplyBtn.attr('disabled', true);
+                },
+                success: function (response) {
+                    var options = '';
+                    if (response != undefined && response.items != undefined && response.items.length > 0) {
+                        var items = response.items;
+                        for (var i = 0; i < items.length; i++) {
+                            options += '<option value="' + items[i]['item_id'] + '">' + items[i]['item_title'] + '</option>'
+                        }
+                        clickersItems.append(options);
+                        clickersItems.attr('disabled', false);
+                        clickersApplyBtn.attr('disabled', false);
+                    }
+                },
+                error: function (data) {}
             });
         });
     }

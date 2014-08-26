@@ -544,21 +544,44 @@ class Items_mdl extends Model
 
     public function getItem(array $options = [], $single = false)
     {
-        $this->db->select('*');
-        $this->db->from('items');
+        $this->db
+            ->select('items.*, categories.category_id')
+            ->from('items')
+            ->join('item_category', 'item_category.item_id = items.item_id')
+            ->join('categories', 'item_category.category_id = categories.category_id')
+            ->groupBy('items.item_id');
 
         if (isset($options['id'])) {
             $this->db->where('item_id', intval($options['id']));
         }
         if (isset($options['hOrder'])) {
-            $this->db->where('hOrder', intval($options['hOrder']));
+            $this->db->where('item_category.hOrder', intval($options['hOrder']));
         }
         if (isset($options['vOrder'])) {
-            $this->db->where('vOrder', intval($options['vOrder']));
+            $this->db->where('item_category.vOrder', intval($options['vOrder']));
+        }
+        if (isset($options['category_id'])) {
+            $this->db->where('item_category.category_id', intval($options['category_id']));
         }
 
         $query = $this->db->get();
 
         return $single ? $query->row_array() : $query->result_array();
+    }
+
+    public function saveItemCoordinates($itemId, $categoryId, array $options)
+    {
+        $query = $this->db
+            ->select('item_category_id')
+            ->from('item_category')
+            ->where('item_id', $itemId)
+            ->where('category_id', $categoryId)
+            ->get();
+        $entity = $query->row_array();
+
+        if (count($entity) > 0) {
+            $this->db->where('item_category_id', $entity['item_category_id']);
+            $this->db->update('item_category', $options);
+        }
     }
 }
