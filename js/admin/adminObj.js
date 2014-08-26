@@ -362,10 +362,19 @@ var adminObj = {
             },
             success: function (data) {
                 if (data == 5) window.location = adminObj.base_url + "admin/home";
-                if (data == 0)
+                if (data == 0) {
                     $("#set_cat_found").html('<font class="cat_not_found">Категория не найдена</font>');
-                else
+                } else {
                     $("#set_cat_found").html(data);
+
+                    var itemsSortable = $("#sortable");
+                    $(function() {
+                        itemsSortable.sortable({
+                            placeholder: 'ui-state-highlight'
+                        });
+                        itemsSortable.disableSelection();
+                    });
+                }
             },
             error: function (data) {
                 $("#set_cat_found").html('Категория не найдена');

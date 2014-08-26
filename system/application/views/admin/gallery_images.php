@@ -78,7 +78,7 @@ $(function(){
     });
 });
 </script>
-<script type="text/javascript" src="<?=base_url()?>js/ui/ui.sortable.js"></script>
+<!--<script type="text/javascript" src="--><?//=base_url()?><!--js/ui/ui.sortable.js"></script>-->
 <style type="text/css">
 #sortable_gallery { list-style-type: none; margin: 0; padding: 0; }
 #sortable_gallery li { margin: 3px 3px 3px 0; padding: 1px; float: left; width: 104px; height: 120px; font-size: 4em; text-align: center; }
@@ -86,8 +86,8 @@ $(function(){
 </style>
 <script type="text/javascript">
     $(function() {
-        $("#sortable_gallery").sortable();
-        $("#sortable_gallery").disableSelection();
+//        $("#sortable_gallery").sortable();
+//        $("#sortable_gallery").disableSelection();
     });
 </script>
 
