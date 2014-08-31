@@ -1290,106 +1290,55 @@ var adminObj = {
         });
     },
 
+    clickersCategories: null,
+    clickersItems: null,
+    clickersApplyBtn: null,
+    chessElements: null,
+    selectedCoordinate: null,
+    flushMessageElement: null,
+
     initChessHeader: function () {
-        this.getItemByCoordinates();
+        this.initChessElements();
+        this.clearItemsByCoordinatesBlock();
         this.getItemsByCategory();
-        this.setItemByCoordinates();
     },
 
-    getItemByCoordinates: function () {
-        var that = this,
-            clickersCategories = $('select.settings_clickers_categories'),
-            clickersItems = $('select.settings_clickers_items'),
-            clickersApplyBtn = $('.clickers_apply_btn');
-
-        $('.chess_header span').click(function () {
-            $('.chess_header span').removeClass('selected');
-            $(this).addClass('selected');
-            $.ajax({
-                type: "POST",
-                url: that.base_url + 'admin/settings/getItemByCoordinates',
-                dataType: "json",
-                data: {
-                    'vOrder': $(this).data('vorder'),
-                    'hOrder': $(this).data('horder')
-                },
-                success: function (responses) {
-                    $('option', clickersCategories).prop('selected', false);
-                    $('option', clickersItems).prop('selected', false);
-
-                    if (responses != undefined && responses.item != undefined && Object.keys(responses.item).length > 0) {
-                        $("option[value='" + responses.item['category_id'] + "']", clickersCategories).prop('selected', true);
-                        clickersCategories.change();
-                        clickersItems.attr('disabled', true);
-                        clickersApplyBtn.attr('disabled', true);
-
-                        setTimeout(function(){
-                            $('option', clickersItems)
-                                .attr('disabled', false)
-                                .prop('selected', false);
-                            clickersApplyBtn.attr('disabled', false);
-                            clickersItems.find("option[value='" + responses.item['item_id'] + "']").prop('selected', true);
-                        }, 1000);
-                    }
-
-                    clickersItems.attr('disabled', false);
-                    clickersApplyBtn.attr('disabled', false);
-                },
-                error: function (data) {}
-            });
+    initChessElements: function () {
+        var that = this;
+        that.clickersCategories = $('select.settings_clickers_categories');
+        that.clickersItems      = $('select.settings_clickers_items');
+        that.clickersApplyBtn   = $('.clickers_apply_btn');
+        that.chessElements      = $('.chess_header span');
+        that.flushMessageElement = $('#flashMessage');
+        // init items select element
+        that.clickersItems.change(function () {
+            that.clickersApplyBtn.attr('disabled', false);
         });
-        return false;
+        // init Apply button
+        that.clickersApplyBtn.click(function () {
+            if (that.selectedCoordinate === null) {
+                alert('Вам необходимо выбрать ячейку.');
+            } else {
+                that.setItemByCoordinates();
+            }
+        });
+        // init chess element
+        that.chessElements.click(function () {
+            that.chessElements.removeClass('selected');
+            that.selectedCoordinate = $(this);
+            that.getItemByCoordinates();
+        });
     },
 
-    setItemByCoordinates: function () {
-        var that = this,
-            clickersCategories = $('select.settings_clickers_categories'),
-            clickersItems = $('select.settings_clickers_items'),
-            clickersApplyBtn = $('.clickers_apply_btn'),
-            selectedItem;
-
-        clickersApplyBtn.click(function() {
-            selectedItem = $('.chess_header').find('span.selected');
-            $.ajax({
-                type: "POST",
-                url: that.base_url + 'admin/settings/setItemByCoordinate',
-                dataType: "json",
-                data: {
-                    'vOrder': selectedItem.data('vorder'),
-                    'hOrder': selectedItem.data('horder'),
-                    'itemId': clickersItems.val(),
-                    'categoryId': clickersCategories.val()
-                },
-                beforeSend: function () {
-                    $('option', clickersCategories).prop('selected', false);
-                    $('option', clickersItems).prop('selected', false);
-                    clickersItems.attr('disabled', true);
-                    clickersApplyBtn.attr('disabled', true);
-                },
-                success: function (response) {
-                    var options = '';
-                    if (response != undefined && response.items != undefined && response.items.length > 0) {
-                        var items = response.items;
-                        for (var i = 0; i < items.length; i++) {
-                            options += '<option value="' + items[i]['item_id'] + '">' + items[i]['item_title'] + '</option>'
-                        }
-                        clickersItems.append(options);
-                        clickersItems.attr('disabled', false);
-                        clickersApplyBtn.attr('disabled', false);
-                    }
-                },
-                error: function (data) {}
-            });
-        });
+    clearItemsByCoordinatesBlock: function () {
+        this.clickersCategories.prop('selectedIndex', 0);
+        this.clickersItems.prop('selectedIndex', 0);
+        this.clickersApplyBtn.attr('disabled', true);
     },
 
     getItemsByCategory: function () {
-        var that = this,
-            clickersCategories = $('select.settings_clickers_categories'),
-            clickersItems = $('select.settings_clickers_items'),
-            clickersApplyBtn = $('.clickers_apply_btn');
-
-        clickersCategories.change(function () {
+        var that = this;
+        that.clickersCategories.change(function () {
             $.ajax({
                 type: "POST",
                 url: that.base_url + 'admin/settings/getItemByCategory',
@@ -1398,11 +1347,11 @@ var adminObj = {
                     'categoryId': $(this).val()
                 },
                 beforeSend: function () {
-                    clickersItems.empty();
-                    clickersItems
+                    that.clickersItems
+                        .empty()
                         .append('<option value="0">Выберите имя категории</option>')
                         .attr('disabled', true);
-                    clickersApplyBtn.attr('disabled', true);
+                    that.clickersApplyBtn.attr('disabled', true);
                 },
                 success: function (response) {
                     var options = '';
@@ -1411,13 +1360,80 @@ var adminObj = {
                         for (var i = 0; i < items.length; i++) {
                             options += '<option value="' + items[i]['item_id'] + '">' + items[i]['item_title'] + '</option>'
                         }
-                        clickersItems.append(options);
-                        clickersItems.attr('disabled', false);
-                        clickersApplyBtn.attr('disabled', false);
+                        that.clickersItems
+                            .append(options)
+                            .attr('disabled', false);
                     }
                 },
                 error: function (data) {}
             });
+        });
+    },
+
+    getItemByCoordinates: function () {
+        var that = this;
+        if (that.selectedCoordinate === null) {
+            return false;
+        }
+
+        that.selectedCoordinate.addClass('selected');
+        $.ajax({
+            type: "POST",
+            url: that.base_url + 'admin/settings/getItemByCoordinates',
+            dataType: "json",
+            data: {
+                'vOrder': that.selectedCoordinate.data('vorder'),
+                'hOrder': that.selectedCoordinate.data('horder')
+            },
+            success: function (responses) {
+                if (responses != undefined && responses.item != undefined) {
+                    if ($(responses.item).size() == 0) {
+                        that.clearItemsByCoordinatesBlock();
+                    } else {
+                        $("option[value='" + responses.item['category_id'] + "']", that.clickersCategories).prop('selected', true);
+                        that.clickersCategories.change();
+                        that.clickersItems.attr('disabled', true);
+                        that.clickersApplyBtn.attr('disabled', true);
+
+                        setTimeout(function(){
+                            that.clickersItems
+                                .attr('disabled', false)
+                                .prop('selected', false)
+                                .find("option[value='" + responses.item['item_id'] + "']").prop('selected', true);
+                        }, 1000);
+
+                    }
+                }
+            },
+            error: function (data) {}
+        });
+        return false;
+    },
+
+    setItemByCoordinates: function () {
+        var that = this;
+        that.selectedItem = $('.chess_header').find('span.selected');
+
+        $.ajax({
+            type: "POST",
+            url: that.base_url + 'admin/settings/setItemByCoordinate',
+            dataType: "json",
+            data: {
+                'vOrder': that.selectedItem.data('vorder'),
+                'hOrder': that.selectedItem.data('horder'),
+                'itemId': that.clickersItems.val(),
+                'categoryId': that.clickersCategories.val()
+            },
+            beforeSend: function () {
+            },
+            success: function (response) {
+                that.flushMessageElement
+                    .html('Статья успешно закреплена за ячейкой')
+                    .addClass('success')
+                    .fadeIn(1000);
+                setTimeout(function(){that.flushMessageElement.fadeOut()}, 2000);
+            },
+            error: function (data) {}
         });
     }
 };

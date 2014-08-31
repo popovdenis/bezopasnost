@@ -39,7 +39,24 @@
         // init tooltips
         $('.white_block, .black_block').qtip({
             content: {
-                text: $('span.tooltiptext', $(this)).html()
+                text: function(event, api) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/products/getItemByCoordinate',
+                        data: {
+                            'vOrder': $(this).data('vorder'),
+                            'hOrder': $(this).data('horder')
+                        }
+                    })
+                    .done(function(html) {
+                        api.set('content.text', html)
+                    })
+                    .fail(function(xhr, status, error) {
+                        api.set('content.text', status + ': ' + error)
+                    });
+
+                    return 'Загрузка...';
+                }
             }
         });
     });
@@ -47,26 +64,19 @@
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.elevatezoom.js"></script>
 <div class="header">
     <div class="chess_header">
-        <span class="white_block" data-element-index="0">
-            &nbsp;<span class="tooltiptext">
-                Сделай себе скидку!<br>
-                Почему у нас купить выгоднее?<br>
-                Бесплатная доставка<br>
-                Идея - "НЕ СТАНДАРТ"<br>
-            </span>
-        </span>
-        <span class="black_block" data-element-index="1">&nbsp;</span>
-        <span class="white_block" data-element-index="2">&nbsp;</span>
-        <span class="black_block" data-element-index="3">&nbsp;</span>
-        <span class="white_block" data-element-index="4">&nbsp;</span>
-        <span class="black_block" data-element-index="5">&nbsp;</span>
+        <span class="white_block" data-horder="0" data-vorder="1">&nbsp;</span>
+        <span class="black_block" data-horder="0" data-vorder="2">&nbsp;</span>
+        <span class="white_block" data-horder="0" data-vorder="3">&nbsp;</span>
+        <span class="black_block" data-horder="0" data-vorder="4">&nbsp;</span>
+        <span class="white_block" data-horder="0" data-vorder="5">&nbsp;</span>
+        <span class="black_block" data-horder="0" data-vorder="6">&nbsp;</span>
         <div style="clear: both;"></div>
-        <span class="black_block" data-element-index="6">&nbsp;</span>
-        <span class="white_block" data-element-index="7">&nbsp;</span>
-        <span class="black_block" data-element-index="8">&nbsp;</span>
-        <span class="white_block" data-element-index="9">&nbsp;</span>
-        <span class="black_block" data-element-index="10">&nbsp;</span>
-        <span class="white_block" data-element-index="11">&nbsp;</span>
+        <span class="black_block" data-horder="1" data-vorder="1">&nbsp;</span>
+        <span class="white_block" data-horder="1" data-vorder="2">&nbsp;</span>
+        <span class="black_block" data-horder="1" data-vorder="3">&nbsp;</span>
+        <span class="white_block" data-horder="1" data-vorder="4">&nbsp;</span>
+        <span class="black_block" data-horder="1" data-vorder="5">&nbsp;</span>
+        <span class="white_block" data-horder="1" data-vorder="6">&nbsp;</span>
     </div>
     <div class="header_thread">
         <div id="search_menuitems" class="menu_item">

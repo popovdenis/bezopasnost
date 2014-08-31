@@ -775,3 +775,14 @@ div.page_number_selected {
 .clickers_apply_btn {
     margin-left: 10px;
 }
+.flash_messages {
+    display: none;
+    font-size: 12px;
+    margin-left: 8px;
+}
+.success {
+    color: #478500;
+}
+.error {
+    color: #d60000;
+}

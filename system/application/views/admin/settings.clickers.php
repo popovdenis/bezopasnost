@@ -19,6 +19,7 @@
         </select>
         <input class="clickers_apply_btn" type="button" value="Применить">
     </div>
+    <div id="flashMessage" class="flash_messages"></div>
     <div class="chess_header mrg10">
         <span class="white_block" data-horder="0" data-vorder="1">&nbsp;</span>
         <span class="black_block" data-horder="0" data-vorder="2">&nbsp;</span>

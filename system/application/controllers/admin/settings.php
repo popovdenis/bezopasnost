@@ -112,5 +112,11 @@ class Settings extends AdminAbstract
                 'vOrder'     => $vOrder
             ]
         );
+        echo json_encode(
+            [
+                'success' => true
+            ],
+            true
+        );
     }
 }

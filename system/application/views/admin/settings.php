@@ -7,6 +7,7 @@
         <?php include("settings.categories.php"); ?>
         <!--Рекламный блок-->
         <?php include("settings.advertisement.php"); ?>
+        <!--Рекламные блоки шапки-->
         <?php include("settings.clickers.php"); ?>
     </div>
 <?php require_once("footer.php"); ?>

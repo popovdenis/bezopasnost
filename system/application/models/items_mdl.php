@@ -571,17 +571,20 @@ class Items_mdl extends Model
 
     public function saveItemCoordinates($itemId, $categoryId, array $options)
     {
-        $query = $this->db
-            ->select('item_category_id')
-            ->from('item_category')
-            ->where('item_id', $itemId)
-            ->where('category_id', $categoryId)
-            ->get();
-        $entity = $query->row_array();
+        $this->db->update(
+            'item_category',
+            [
+                'vOrder' => NULL,
+                'hOrder' => NULL,
+            ],
+            [
+                'vOrder' => $options['vOrder'],
+                'hOrder' => $options['hOrder'],
+            ]
+        );
 
-        if (count($entity) > 0) {
-            $this->db->where('item_category_id', $entity['item_category_id']);
-            $this->db->update('item_category', $options);
-        }
+        $this->db->where('item_id', $itemId);
+        $this->db->where('category_id', $categoryId);
+        $this->db->update('item_category', $options);
     }
 }
