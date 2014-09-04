@@ -16,22 +16,27 @@
         <div style="float:left;margin-top:5px;text-align:right;width:100%;"><a href="<?= base_url(
             ) . 'products/subcat/' . $current_catid . '/about/' . $product->item_id . '/print' ?>" target="_blank">Версия
                 для печати и PDA</a></div>
+        <div class="product_title"><?= $product->item_title ?></div>
         <div>
-            <div class="product_title"><?= $product->item_title ?></div>
             <?php $next_link = "#";
-                if ($next) {
+                if (!empty($next)) {
                     $next_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $next;
+            ?>
+                    <a href="<?= $next_link ?>">
+                        <div class="next_product">>></div>
+                    </a>
+            <?php
                 } ?>
             <?php $prev_link = "#";
-                if ($prev) {
+                if (!empty($prev)) {
                     $prev_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $prev;
-                } ?>
-            <a href="<?= $next_link ?>">
-                <div class="next_product">>></div>
-            </a>
-            <a href="<?= $prev_link ?>">
-                <div class="next_product"><<</div>
-            </a>
+            ?>
+                <a href="<?= $prev_link ?>">
+                    <div class="next_product"><<</div>
+                </a>
+            <?php
+                }
+            ?>
         </div>
 
         <div class="product_description">
@@ -74,20 +79,25 @@
         </div>
         <div class="floatL"><?= $product->item_content ?></div>
         <div class="floatR">
-            <?php $next_link = ";";
-                if ($next) {
-                    $next_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $next;
-                } ?>
-            <?php $prev_link = ";";
-                if ($prev) {
-                    $prev_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $prev;
-                } ?>
-            <a href="<?= $next_link ?>">
-                <div class="next_product">>></div>
-            </a>
-            <a href="<?= $prev_link ?>">
-                <div class="next_product"><<</div>
-            </a>
+            <?php $next_link = "#";
+            if (!empty($next)) {
+                $next_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $next;
+                ?>
+                <a href="<?= $next_link ?>">
+                    <div class="next_product">>></div>
+                </a>
+            <?php
+            } ?>
+            <?php $prev_link = "#";
+            if (!empty($prev)) {
+                $prev_link = base_url() . 'products/subcat/' . $current_catid . '/about/' . $prev;
+                ?>
+                <a href="<?= $prev_link ?>">
+                    <div class="next_product"><<</div>
+                </a>
+            <?php
+            }
+            ?>
         </div>
 
         <script type="text/javascript">

@@ -327,11 +327,11 @@ class Information extends Controller
 
         ob_start();
         $this->category->ShowTree(
-                       $main[0]->category_id,
-                           $category_id,
-                           $this->slug,
-                           $main[0]->category_id,
-                           $partners_cat
+            $main[0]->category_id,
+            $category_id,
+            $this->slug,
+            $main[0]->category_id,
+            $partners_cat
         );
         $categories = ob_get_contents();
         @ob_end_clean();
@@ -352,18 +352,23 @@ class Information extends Controller
             if ($item && is_array($item)) {
                 $item = $item[0];
             }
-            $items_all = $this->get_items_block($category_id, 'array');
-            $current   = array_search($item, $items_all['items_all']);
             $next      = null;
             $prev      = null;
-            $kprev     = array_key_exists($current - 1, $items_all['items_all']);
-            $knext     = array_key_exists($current + 1, $items_all['items_all']);
-            if ($kprev) {
-                $prev = $items_all['items_all'][$current - 1]->item_id;
+            $items_all = $this->get_items_block($category_id, 'array');
+            if (isset($items_all['items_all'])) {
+                $current   = array_search($item, $items_all['items_all']);
+                $kprev     = array_key_exists($current - 1, $items_all['items_all']);
+                $knext     = array_key_exists($current + 1, $items_all['items_all']);
+                if ($kprev) {
+                    $prev = $items_all['items_all'][$current - 1]->item_id;
+                }
+                if ($knext) {
+                    $next = $items_all['items_all'][$current + 1]->item_id;
+                }
             }
-            if ($knext) {
-                $next = $items_all['items_all'][$current + 1]->item_id;
-            }
+
+            $data['next']            = $next;
+            $data['prev']            = $prev;
             $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
             if ($title && is_array($title)) {
                 $item->attach = $title[0];
@@ -411,8 +416,6 @@ class Information extends Controller
             $data['gallery'] = $gallery;
             //информация о статье и категориях
             $data['product']         = $item;
-            $data['next']            = $next;
-            $data['prev']            = $prev;
             $data['current_catid']   = $category_id;
             $data['categories_tree'] = $this->load->view('_categories_block', $data, true);
             if (! empty($action)) {

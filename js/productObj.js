@@ -83,12 +83,18 @@ var productObj = {
                     for (var i = 0; i < 2; i++) {
                         for (var j = 0; j < 7; j++) {
                             if (response.items[i][j].item_title != undefined) {
+                                var item = response.items[i][j];
                                 var message =
-                                    '<span class="chess_message_preview">' + response.items[i][j].item_title + '</span>' +
-                                    '<span class="tooltip-message">' + response.items[i][j].item_title + '</span>';
+                                    '<span class="chess_message_preview">' + item.item_title + '</span>' +
+                                    '<span class="tooltip-message">' + item.item_title + '</span>';
                                 var row = $('#row_' + i + '_' + j);
                                 row.html(message);
                                 that.bindQtipToElement(row);
+                                row.wrap(
+                                    "<a href='"+
+                                        item.item_type + '/subcat/' + item.category_id + '/about/' + item.item_id +
+                                    "'></a>"
+                                );
                             }
                         }
                     }

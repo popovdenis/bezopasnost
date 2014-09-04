@@ -545,7 +545,7 @@ class Items_mdl extends Model
     public function getItem(array $options = [], $single = false)
     {
         $this->db
-            ->select('items.*, categories.category_id')
+            ->select('items.*, categories.category_id, categories.item_type')
             ->from('items')
             ->join('item_category', 'item_category.item_id = items.item_id')
             ->join('categories', 'item_category.category_id = categories.category_id')
