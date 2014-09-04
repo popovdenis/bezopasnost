@@ -90,11 +90,8 @@ var productObj = {
                                 var row = $('#row_' + i + '_' + j);
                                 row.html(message);
                                 that.bindQtipToElement(row);
-                                row.wrap(
-                                    "<a href='"+
-                                        item.item_type + '/subcat/' + item.category_id + '/about/' + item.item_id +
-                                    "'></a>"
-                                );
+                                var url = item.item_type + '/subcat/' + item.category_id + '/about/' + item.item_id;
+                                row.wrap("<a href='/" + url + "'></a>");
                             }
                         }
                     }
