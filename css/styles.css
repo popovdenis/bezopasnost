@@ -87,14 +87,6 @@ div.line_separator_right {
     background-image:url("../images/separator_right.png");
 }
 
-div.header {
-    margin:auto;
-    padding: 0;
-    height:260px;
-    width:900px;
-    background-image:url("../images/header.png");
-}
-
 div.header_shadow {
     margin:auto;
     height:20px;
@@ -181,7 +173,6 @@ div.navigation a:hover {
 div.menu {
     float:right;
     margin-right:20px;
-    margin-top:225px;
 }
 
 div.menu_search {
@@ -277,10 +268,22 @@ div.menu_item a:hover,div.menu_item_selected, div.menuitems_block a:hover{
     color:#999999;
     text-decoration:none;
 }
+div.header {
+    margin:auto;
+    padding: 0;
+    height:260px;
+    width:900px;
+    /*background-image:url("../images/header.png");*/
+}
+.header_thread {
+    float: left;
+    /*position: fixed;*/
+    /*top: 225px;*/
+    width: 900px;
+}
 #search_menuitems {
     float:left;
     margin-left:5px;
-    margin-top:225px;
 }
 #main_keywords {
     color:#8B8989;
@@ -288,6 +291,18 @@ div.menu_item a:hover,div.menu_item_selected, div.menuitems_block a:hover{
     margin-right:3px;
     margin-top:7px;
     width:145px;
+}
+.chess_header {
+    border-right: 1px solid #000000;
+    float: left;
+}
+.chess_header span {
+    float:left;
+    height: 113px;
+    width: 113px;
+}
+.chess_header span.black_block {
+    background-color: #000000;
 }
 
 /* Dropdown menu styles--- by Darya 25.03.10*/
@@ -1374,4 +1389,25 @@ a.link:hover {
     float: left;
     padding: 10px 0 0 10px;
     width: 864px;
+}
+.tooltiptext{
+    display: none;
+}
+.tooltip-message {
+    display: none;
+    font-size: 16px;
+}
+.chess_message_preview {
+    color: #000000;
+    /*display: block;*/
+    position: relative;
+    text-align: center;
+    top: 45px;
+    font-size: 8px;
+}
+.white_block .chess_message_preview {
+    color: #000000;
+}
+.black_block .chess_message_preview {
+    color: #ffffff;
 }

@@ -362,10 +362,19 @@ var adminObj = {
             },
             success: function (data) {
                 if (data == 5) window.location = adminObj.base_url + "admin/home";
-                if (data == 0)
+                if (data == 0) {
                     $("#set_cat_found").html('<font class="cat_not_found">Категория не найдена</font>');
-                else
+                } else {
                     $("#set_cat_found").html(data);
+
+                    var itemsSortable = $("#sortable");
+                    $(function() {
+                        itemsSortable.sortable({
+                            placeholder: 'ui-state-highlight'
+                        });
+                        itemsSortable.disableSelection();
+                    });
+                }
             },
             error: function (data) {
                 $("#set_cat_found").html('Категория не найдена');
@@ -1278,6 +1287,153 @@ var adminObj = {
                 }
             });
 
+        });
+    },
+
+    clickersCategories: null,
+    clickersItems: null,
+    clickersApplyBtn: null,
+    chessElements: null,
+    selectedCoordinate: null,
+    flushMessageElement: null,
+
+    initChessHeader: function () {
+        this.initChessElements();
+        this.clearItemsByCoordinatesBlock();
+        this.getItemsByCategory();
+    },
+
+    initChessElements: function () {
+        var that = this;
+        that.clickersCategories = $('select.settings_clickers_categories');
+        that.clickersItems      = $('select.settings_clickers_items');
+        that.clickersApplyBtn   = $('.clickers_apply_btn');
+        that.chessElements      = $('.chess_header span');
+        that.flushMessageElement = $('#flashMessage');
+        // init items select element
+        that.clickersItems.change(function () {
+            that.clickersApplyBtn.attr('disabled', false);
+        });
+        // init Apply button
+        that.clickersApplyBtn.click(function () {
+            if (that.selectedCoordinate === null) {
+                alert('Вам необходимо выбрать ячейку.');
+            } else {
+                that.setItemByCoordinates();
+            }
+        });
+        // init chess element
+        that.chessElements.click(function () {
+            that.chessElements.removeClass('selected');
+            that.selectedCoordinate = $(this);
+            that.getItemByCoordinates();
+        });
+    },
+
+    clearItemsByCoordinatesBlock: function () {
+        this.clickersCategories.prop('selectedIndex', 0);
+        this.clickersItems.prop('selectedIndex', 0);
+        this.clickersApplyBtn.attr('disabled', true);
+    },
+
+    getItemsByCategory: function () {
+        var that = this;
+        that.clickersCategories.change(function () {
+            $.ajax({
+                type: "POST",
+                url: that.base_url + 'admin/settings/getItemByCategory',
+                dataType: "json",
+                data: {
+                    'categoryId': $(this).val()
+                },
+                beforeSend: function () {
+                    that.clickersItems
+                        .empty()
+                        .append('<option value="0">Выберите имя категории</option>')
+                        .attr('disabled', true);
+                    that.clickersApplyBtn.attr('disabled', true);
+                },
+                success: function (response) {
+                    var options = '';
+                    if (response != undefined && response.items != undefined && response.items.length > 0) {
+                        var items = response.items;
+                        for (var i = 0; i < items.length; i++) {
+                            options += '<option value="' + items[i]['item_id'] + '">' + items[i]['item_title'] + '</option>'
+                        }
+                        that.clickersItems
+                            .append(options)
+                            .attr('disabled', false);
+                    }
+                },
+                error: function (data) {}
+            });
+        });
+    },
+
+    getItemByCoordinates: function () {
+        var that = this;
+        if (that.selectedCoordinate === null) {
+            return false;
+        }
+
+        that.selectedCoordinate.addClass('selected');
+        $.ajax({
+            type: "POST",
+            url: that.base_url + 'admin/settings/getItemByCoordinates',
+            dataType: "json",
+            data: {
+                'vOrder': that.selectedCoordinate.data('vorder'),
+                'hOrder': that.selectedCoordinate.data('horder')
+            },
+            success: function (responses) {
+                if (responses != undefined && responses.item != undefined) {
+                    if ($(responses.item).size() == 0) {
+                        that.clearItemsByCoordinatesBlock();
+                    } else {
+                        $("option[value='" + responses.item['category_id'] + "']", that.clickersCategories).prop('selected', true);
+                        that.clickersCategories.change();
+                        that.clickersItems.attr('disabled', true);
+                        that.clickersApplyBtn.attr('disabled', true);
+
+                        setTimeout(function(){
+                            that.clickersItems
+                                .attr('disabled', false)
+                                .prop('selected', false)
+                                .find("option[value='" + responses.item['item_id'] + "']").prop('selected', true);
+                        }, 1000);
+
+                    }
+                }
+            },
+            error: function (data) {}
+        });
+        return false;
+    },
+
+    setItemByCoordinates: function () {
+        var that = this;
+        that.selectedItem = $('.chess_header').find('span.selected');
+
+        $.ajax({
+            type: "POST",
+            url: that.base_url + 'admin/settings/setItemByCoordinate',
+            dataType: "json",
+            data: {
+                'vOrder': that.selectedItem.data('vorder'),
+                'hOrder': that.selectedItem.data('horder'),
+                'itemId': that.clickersItems.val(),
+                'categoryId': that.clickersCategories.val()
+            },
+            beforeSend: function () {
+            },
+            success: function (response) {
+                that.flushMessageElement
+                    .html('Статья успешно закреплена за ячейкой')
+                    .addClass('success')
+                    .fadeIn(1000);
+                setTimeout(function(){that.flushMessageElement.fadeOut()}, 2000);
+            },
+            error: function (data) {}
         });
     }
 };

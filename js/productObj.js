@@ -69,5 +69,52 @@ var productObj = {
                 var win2 = window.open(url, '_compare');
             }
         });
+    },
+
+    loadItemsByCoordinates: function () {
+        var that = this;
+        $.ajax({
+            type: "POST",
+            url: '/products/getItemsByCoordinates',
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                if (response.items != undefined && response.items.length > 0) {
+                    for (var i = 0; i < 2; i++) {
+                        for (var j = 0; j < 7; j++) {
+                            if (response.items[i][j].item_title != undefined) {
+                                var message =
+                                    '<span class="chess_message_preview">' + response.items[i][j].item_title + '</span>' +
+                                    '<span class="tooltip-message">' + response.items[i][j].item_title + '</span>';
+                                var row = $('#row_' + i + '_' + j);
+                                row.html(message);
+                                that.bindQtipToElement(row);
+                            }
+                        }
+                    }
+                }
+            },
+            error: function (data) {}
+        });
+    },
+
+    bindQtipToElement: function (element) {
+        element.qtip({
+            content: {
+                text: element.find('.tooltip-message')
+            },
+            position: {
+                my: 'center left',
+                at: 'center right',
+                viewport: $(window)
+            },
+            /*hide: {
+             event: 'click',
+             inactive: 1500
+             },*/
+            style: {
+                classes: 'qtip-light'
+            }
+        });
     }
 };

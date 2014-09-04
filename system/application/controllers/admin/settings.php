@@ -60,4 +60,63 @@ class Settings extends AdminAbstract
             true
         );
     }
+
+    public function getItemByCategory()
+    {
+        $categoryId = (int) $this->input->post('categoryId');
+
+        $this->load->model('category_mdl', 'category');
+
+        echo json_encode([
+            'items' => $this->category->get_category_item($categoryId)
+        ]);
+    }
+
+    public function getItemByCoordinates()
+    {
+        $hOrder = $this->input->post('hOrder');
+        $vOrder = $this->input->post('vOrder');
+
+        $this->load->model('items_mdl', 'item');
+
+        $item = $this->item->getItem(
+            [
+                'hOrder' => $hOrder,
+                'vOrder' => $vOrder
+            ],
+            true
+        );
+
+        echo json_encode(
+            [
+                'item' => $item
+            ],
+            true
+        );
+    }
+
+    public function setItemByCoordinate()
+    {
+        $categoryId = (int) $this->input->post('categoryId');
+        $itemId = (int) $this->input->post('itemId');
+        $hOrder = (int) $this->input->post('hOrder');
+        $vOrder = (int) $this->input->post('vOrder');
+
+        $this->load->model('items_mdl', 'item');
+
+        $this->item->saveItemCoordinates(
+            $itemId,
+            $categoryId,
+            [
+                'hOrder'     => $hOrder,
+                'vOrder'     => $vOrder
+            ]
+        );
+        echo json_encode(
+            [
+                'success' => true
+            ],
+            true
+        );
+    }
 }

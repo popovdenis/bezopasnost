@@ -541,4 +541,50 @@ class Items_mdl extends Model
         }
         return false;
     }
+
+    public function getItem(array $options = [], $single = false)
+    {
+        $this->db
+            ->select('items.*, categories.category_id')
+            ->from('items')
+            ->join('item_category', 'item_category.item_id = items.item_id')
+            ->join('categories', 'item_category.category_id = categories.category_id')
+            ->groupBy('items.item_id');
+
+        if (isset($options['id'])) {
+            $this->db->where('item_id', intval($options['id']));
+        }
+        if (isset($options['hOrder'])) {
+            $this->db->where('item_category.hOrder', intval($options['hOrder']));
+        }
+        if (isset($options['vOrder'])) {
+            $this->db->where('item_category.vOrder', intval($options['vOrder']));
+        }
+        if (isset($options['category_id'])) {
+            $this->db->where('item_category.category_id', intval($options['category_id']));
+        }
+
+        $query = $this->db->get();
+
+        return $single ? $query->row_array() : $query->result_array();
+    }
+
+    public function saveItemCoordinates($itemId, $categoryId, array $options)
+    {
+        $this->db->update(
+            'item_category',
+            [
+                'vOrder' => NULL,
+                'hOrder' => NULL,
+            ],
+            [
+                'vOrder' => $options['vOrder'],
+                'hOrder' => $options['hOrder'],
+            ]
+        );
+
+        $this->db->where('item_id', $itemId);
+        $this->db->where('category_id', $categoryId);
+        $this->db->update('item_category', $options);
+    }
 }

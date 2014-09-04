@@ -36,10 +36,45 @@
                 $headerMenu.removeClass("fixed");
             }
         });
+        productObj.loadItemsByCoordinates();
+        // init tooltips
+        $('.white_block, .black_block').each(function() {
+            $(this).qtip({
+                content: {
+                    text: $(this).find('.tooltip-message')
+                },
+                position: {
+                    my: 'center left',
+                    at: 'center right',
+                    viewport: $(window)
+                },
+                /*hide: {
+                    event: 'click',
+                    inactive: 1500
+                },*/
+                style: {
+                    classes: 'qtip-light'
+                }
+            });
+        });
     });
 </script>
-
 <div class="header">
+    <div class="chess_header">
+        <span id="row_0_0" class="white_block" data-vorder="0" data-horder="0">&nbsp;</span>
+        <span id="row_0_1" class="black_block" data-vorder="0" data-horder="1">&nbsp;</span>
+        <span id="row_0_2" class="white_block" data-vorder="0" data-horder="2">&nbsp;</span>
+        <span id="row_0_3" class="black_block" data-vorder="0" data-horder="3">&nbsp;</span>
+        <span id="row_0_4" class="white_block" data-vorder="0" data-horder="4">&nbsp;</span>
+        <span id="row_0_5" class="black_block" data-vorder="0" data-horder="5">&nbsp;</span>
+        <div style="clear: both;"></div>
+        <span id="row_1_0" class="black_block" data-vorder="1" data-horder="0">&nbsp;</span>
+        <span id="row_1_1" class="white_block" data-vorder="1" data-horder="1">&nbsp;</span>
+        <span id="row_1_2" class="black_block" data-vorder="1" data-horder="2">&nbsp;</span>
+        <span id="row_1_3" class="white_block" data-vorder="1" data-horder="3">&nbsp;</span>
+        <span id="row_1_4" class="black_block" data-vorder="1" data-horder="4">&nbsp;</span>
+        <span id="row_1_5" class="white_block" data-vorder="1" data-horder="5">&nbsp;</span>
+    </div>
     <div class="header_thread">
         <div id="search_menuitems" class="menu_item">
             <form id="quickSearch" action="<?= base_url() ?>search" method="post"

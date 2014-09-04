@@ -19,7 +19,13 @@ legend, table, caption, tbody, thead, tr, th, td, button {
 :focus {
 	outline: 0;
 }
-
+.mrg10 {
+    clear: left;
+    margin: 10px 0;
+}
+select[disabled] {
+    background-color: #e3e3e3;
+}
 body {
 	line-height: 1;
 	color: #333;
@@ -752,4 +758,31 @@ div.page_number_selected {
     text-indent: -99px;
     vertical-align: middle;
     width: 16px;
+}
+.chess_header {
+    border: 1px solid #000000;
+    float: left;
+}
+.chess_header span {
+    cursor: pointer;
+    float:left;
+    height: 113px;
+    width: 113px;
+}
+.chess_header span.black_block {
+    background-color: #000000;
+}
+.clickers_apply_btn {
+    margin-left: 10px;
+}
+.flash_messages {
+    display: none;
+    font-size: 12px;
+    margin-left: 8px;
+}
+.success {
+    color: #478500;
+}
+.error {
+    color: #d60000;
 }

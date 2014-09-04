@@ -10,5 +10,7 @@
     <script type="text/javascript">set_general_url('<?php echo base_url(); ?>');</script>
     <script type="text/javascript" src="<?= base_url() ?>js/productObj.js"></script>
     <script type="text/javascript" src="<?= base_url() ?>js/searchObj.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>js/jqtip/jquery.qtip.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/jqtip/jquery.qtip.min.css"/>
 </head>
 <body>
