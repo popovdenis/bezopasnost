@@ -305,6 +305,12 @@ div.header {
 .chess_header span.black_block {
     background-color: #000000;
 }
+.chess_header span.white_block {
+    background: url("/images/icons/hand.png") no-repeat scroll center center / 60px 70px #ffffff;
+}
+.chess_header span.black_block {
+    background: url("/images/icons/hand_white.png") no-repeat scroll center center / 60px 70px #000000;
+}
 
 /* Dropdown menu styles--- by Darya 25.03.10*/
 
