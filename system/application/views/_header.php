@@ -37,26 +37,6 @@
             }
         });
         productObj.loadItemsByCoordinates();
-        // init tooltips
-        $('.white_block, .black_block').each(function() {
-            $(this).qtip({
-                content: {
-                    text: $(this).find('.tooltip-message')
-                },
-                position: {
-                    my: 'center left',
-                    at: 'center right',
-                    viewport: $(window)
-                },
-                /*hide: {
-                    event: 'click',
-                    inactive: 1500
-                },*/
-                style: {
-                    classes: 'qtip-light'
-                }
-            });
-        });
     });
 </script>
 <div class="header">

@@ -86,12 +86,12 @@ var productObj = {
                                 var item = response.items[i][j];
                                 var message =
                                     '<span class="chess_message_preview">' + item.item_title + '</span>' +
-                                    '<span class="tooltip-message">' + item.item_title + '</span>';
+                                    '<div class="tooltip-container"><span class="tooltip-message">' + item.item_title + '</span></div>';
                                 var row = $('#row_' + i + '_' + j);
                                 row.html(message);
                                 that.bindQtipToElement(row);
                                 var url = item.item_type + '/subcat/' + item.category_id + '/about/' + item.item_id;
-                                row.wrap("<a href='/" + url + "'></a>");
+                                row.wrapInner("<a href='/" + url + "'></a>");
                             }
                         }
                     }
@@ -104,19 +104,31 @@ var productObj = {
     bindQtipToElement: function (element) {
         element.qtip({
             content: {
-                text: element.find('.tooltip-message')
+                text: element.find('.tooltip-container')
             },
             position: {
                 my: 'center left',
                 at: 'center right',
-                viewport: $(window)
+                viewport: $(window),
+                adjust: {
+                    method: 'flip shift',
+                    resize: false,
+                    scroll: false,
+                    mouse: false
+                }
             },
-            /*hide: {
-             event: 'click',
-             inactive: 1500
-             },*/
+            hide: {
+                //event: 'click'
+                //inactive: 5500
+            },
+            show: {
+                event: 'click mouseover'
+            },
             style: {
-                classes: 'qtip-light'
+                classes: 'qtip-shadow qtip-rounded',
+                width: 150,
+                height: 100,
+                left: 100
             }
         });
     }

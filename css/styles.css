@@ -1394,21 +1394,32 @@ a.link:hover {
 .tooltiptext{
     display: none;
 }
-.tooltip-message {
+.tooltip-container {
     display: none;
+    position: relative;
+    height: 100px;
+}
+.tooltip-message {
     font-size: 16px;
+    text-align: center;
+    height: 70%;
+    position: absolute;
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+    line-height: 1.1em;
 }
 .chess_message_preview {
     color: #000000;
-    /*display: block;*/
     position: relative;
     text-align: center;
-    top: 45px;
-    font-size: 8px;
+    top: 30px;
+    font-size: 12px;
 }
 .white_block .chess_message_preview {
     color: #000000;
+    height: 70px;
 }
 .black_block .chess_message_preview {
     color: #ffffff;
+    height: 70px;
 }
