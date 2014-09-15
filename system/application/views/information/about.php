@@ -1,10 +1,10 @@
 <?php
-    $pathToViews = realpath(APPPATH . 'views');
+    $pathToViews = realpath(APPPATH . 'views') . DIRECTORY_SEPARATOR;
 ?>
-<?php require_once($pathToViews . '\_head.php'); ?>
+<?php require_once($pathToViews . '_head.php'); ?>
 <?php modules::load_file('ajax_information.php',APPPATH.'/js_ajax/'); ?>
-    <!-- Header implementation -->
-<?php require_once($pathToViews . '\_header.php'); ?>
+<!-- Header implementation -->
+<?php require_once($pathToViews . '_header.php'); ?>
     <!-- Content implementation -->
     <div class="content">
         <!-- Содержание -->
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <?php require_once($pathToViews . '\_search_block.php'); ?>
+        <?php require_once($pathToViews . '_search_block.php'); ?>
         <!-- Тэги -->
         <div class="infobox" style="clear:left; margin-top:15px;">
             <div class="t">
@@ -109,4 +109,4 @@
         </div>
         <div style="clear:both;">&nbsp;</div>
     </div>
-<?php require_once($pathToViews . '\_footer.php'); ?>
+<?php require_once($pathToViews . '_footer.php'); ?>

@@ -1,10 +1,10 @@
 <?php
-$pathToViews = realpath(APPPATH . 'views');
+    $pathToViews = realpath(APPPATH . 'views') . DIRECTORY_SEPARATOR;
 ?>
-<?php require_once($pathToViews . '\_head.php'); ?>
+<?php require_once($pathToViews . '_head.php'); ?>
 <?php modules::load_file('ajax_information.php',APPPATH.'/js_ajax/'); ?>
 <!-- Header implementation -->
-<?php require_once($pathToViews . '\_header.php'); ?>
+<?php require_once($pathToViews . '_header.php'); ?>
     <!-- Content implementation -->
     <div class="content">
         <!-- Содержание -->
@@ -13,7 +13,7 @@ $pathToViews = realpath(APPPATH . 'views');
             <div id="items_block">
             <?php
                 foreach ($items as $item) {
-                    $url = 'information/about/' . $current_cat->category_id . '/'  . $item->item_id;
+                    $url = 'information/subcat/' . $current_cat->category_id . '/about/'  . $item->item_id;
             ?>
                 <div class="article_preview">
                     <a href="<?php echo base_url() . $url ?>"><?php echo $item->item_title ?></a>
@@ -53,7 +53,7 @@ $pathToViews = realpath(APPPATH . 'views');
                 </div>
             </div>
         </div>
-        <?php require_once($pathToViews . '\_search_block.php'); ?>
+        <?php require_once($pathToViews . '_search_block.php'); ?>
         <!-- Тэги -->
         <div class="infobox" style="clear:left; margin-top:15px;">
             <div class="t">
@@ -76,4 +76,4 @@ $pathToViews = realpath(APPPATH . 'views');
         </div>
         <div style="clear:both;">&nbsp;</div>
     </div>
-<?php require_once($pathToViews . '\_footer.php'); ?>
+<?php require_once($pathToViews . '_footer.php'); ?>

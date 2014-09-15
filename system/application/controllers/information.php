@@ -222,7 +222,7 @@ class Information extends Controller
             'tagclouds'       => get_tag_clouds()
         ];
 
-        $this->load->view('information\index.php', $val);
+        $this->load->view('information/index.php', $val);
     }
 
     /**
@@ -340,7 +340,7 @@ class Information extends Controller
             'prev'          =>  $prev
         ];
 
-        $this->load->view('information\about.php', $data);
+        $this->load->view('information/about.php', $data);
     }
 
     function get_map_tree($partner_id = null)
