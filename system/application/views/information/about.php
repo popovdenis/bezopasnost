@@ -13,7 +13,7 @@
             <div>
                 <?php $next_link = "#";
                     if (!empty($next)) {
-                        $next_link = base_url() . 'information/about/' . $current_cat->category_id . '/' . $next;
+                        $next_link = base_url() . 'information/subcat/' . $current_cat->category_id . '/about/' . $next;
                         ?>
                         <a href="<?= $next_link ?>">
                             <div class="next_product">>></div>
@@ -22,7 +22,7 @@
                     } ?>
                 <?php $prev_link = "#";
                     if (!empty($prev)) {
-                        $prev_link = base_url() . 'information/about/' . $current_cat->category_id . '/' . $prev;
+                        $prev_link = base_url() . 'information/subcat/' . $current_cat->category_id . '/about/' . $prev;
                         ?>
                         <a href="<?= $prev_link ?>">
                             <div class="next_product"><<</div>
@@ -39,7 +39,7 @@
             <div>
                 <?php $next_link = "#";
                     if (!empty($next)) {
-                        $next_link = base_url() . 'information/about/' . $current_cat->category_id . '/' . $next;
+                        $next_link = base_url() . 'information/subcat/' . $current_cat->category_id . '/about/' . $next;
                         ?>
                         <a href="<?= $next_link ?>">
                             <div class="next_product">>></div>
@@ -48,7 +48,7 @@
                     } ?>
                 <?php $prev_link = "#";
                     if (!empty($prev)) {
-                        $prev_link = base_url() . 'information/about/' . $current_cat->category_id . '/' . $prev;
+                        $prev_link = base_url() . 'information/subcat/' . $current_cat->category_id . '/about/' . $prev;
                         ?>
                         <a href="<?= $prev_link ?>">
                             <div class="next_product"><<</div>

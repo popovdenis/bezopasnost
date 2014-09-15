@@ -15,12 +15,64 @@ class Information extends Controller
         $this->load->helper('tagclouds');
     }
 
+    private function get_items_block($category_id = null)
+    {
+        $this->load->model('items_mdl', 'items');
+        $this->load->model('attachment');
+
+        $items       = $this->items->get_item(
+            null,
+            $this->slug,
+            true,
+            $category_id,
+            $this->per_page,
+            $this->cur_page,
+            true
+        );
+
+        $items_count = $items['count'];
+        unset($items['count']);
+
+        if ($items) {
+            foreach ($items as $item) {
+                $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
+                if ($title && is_array($title)) {
+                    $item->attach = $title[0];
+                } else {
+                    $item->attach = null;
+                }
+            }
+        }
+
+        $category = $this->category->get_category($category_id);
+        if ($category && is_array($category)) {
+            $category = $category[0];
+        }
+
+        $data                = array();
+        $data['items']       = $items;
+        $data['category_id'] = $category_id;
+        $data['category']    = $category;
+
+        if ($category->category_title == 'Прайсы') {
+            $items_str = $this->load->view(
+                'all_items_price',
+                $data,
+                true
+            );
+        } else {
+            $items_str = $this->load->view('_all_items', $data, true);
+        }
+
+        return ['items_block' => $items_str, 'items_count' => $items_count];
+    }
+
     /**
      * index method
      *
      * @return CI_Loader
      */
-    function index()
+    public function index()
     {
         $this->load->model('category_mdl', 'category');
         $this->load->helper('url');
@@ -98,7 +150,6 @@ class Information extends Controller
             $this->load->view('_information_subcat_all', $val);
         }
     }
-
     // products submain
     public function category()
     {
@@ -179,14 +230,14 @@ class Information extends Controller
      *
      * @return CI_Loader
      */
-    function about()
+    public function subcat()
     {
         $this->load->model('items_mdl', 'items');
         $this->load->model('category_mdl', 'category');
         $this->load->helper('url');
 
         $category_id = $this->uri->segment(3);
-        $item_id     = $this->uri->segment(4);
+        $item_id     = $this->uri->segment(5);
         $item        = $this->items->get_item($item_id, 'information');
         if ($item && is_array($item)) {
             $item = $item[0];
@@ -290,219 +341,6 @@ class Information extends Controller
         ];
 
         $this->load->view('information\about.php', $data);
-    }
-
-    function get_items_block($category_id = null)
-    {
-        $this->load->model('items_mdl', 'items');
-        $this->load->model('attachment');
-
-        $items       = $this->items->get_item(
-            null,
-            $this->slug,
-            true,
-            $category_id,
-            $this->per_page,
-            $this->cur_page,
-            true
-        );
-
-        $items_count = $items['count'];
-        unset($items['count']);
-
-        if ($items) {
-            foreach ($items as $item) {
-                $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
-                if ($title && is_array($title)) {
-                    $item->attach = $title[0];
-                } else {
-                    $item->attach = null;
-                }
-            }
-        }
-
-        $category = $this->category->get_category($category_id);
-        if ($category && is_array($category)) {
-            $category = $category[0];
-        }
-
-        $data                = array();
-        $data['items']       = $items;
-        $data['category_id'] = $category_id;
-        $data['category']    = $category;
-
-        if ($category->category_title == 'Прайсы') {
-            $items_str = $this->load->view(
-                'all_items_price',
-                $data,
-                true
-            );
-        } else {
-            $items_str = $this->load->view('_all_items', $data, true);
-        }
-
-        return ['items_block' => $items_str, 'items_count' => $items_count];
-    }
-
-    /**
-     * @desc products subMain
-     * @return void
-     */
-    public function subcat()
-    {
-        $this->load->model('attachment');
-        $this->load->model('items_mdl', 'items');
-        $this->load->model('category_mdl', 'category');
-        $this->load->model('gallery_mdl', 'gallery');
-        $this->load->helper('url');
-        $this->load->helper('bk');
-
-        $category_id = $this->uri->segment(3);
-        $about_slug  = $this->uri->segment(4);
-        $product_id  = $this->uri->segment(5);
-        $action      = $this->uri->segment(6);
-        $partner_id  = $this->db_session->flashdata('partner_id');
-
-        if ($partner_id) {
-            $this->db_session->keep_flashdata('partner_id');
-        }
-
-        $category_tree = null;
-        $categories    = null;
-        $main          = $this->category->get_category(null, null, $this->category_title);
-        $partners_cat = array();
-
-        if ($partner_id) {
-            $categories = $this->category->get_category_partner(null, $partner_id);
-            foreach ($categories as $category) {
-                $cats = get_categories_tree_reverse($category->category_id, array(), - 1);
-                foreach ($cats as $cat) {
-                    if (! in_array($cat, $partners_cat)) {
-                        array_push($partners_cat, $cat);
-                    }
-                }
-            }
-        }
-
-        ob_start();
-        $this->category->ShowTree(
-            $main[0]->category_id,
-            $category_id,
-            $this->slug,
-            $main[0]->category_id,
-            $partners_cat
-        );
-        $categories = ob_get_contents();
-        @ob_end_clean();
-        $data['categories'] = $categories;
-        // 1
-        $partners     = $this->items->get_item(null, 'partners', true, null, $this->per_page, $this->cur_page);
-        $header_links = $this->get_head_links($category_id, $product_id);
-        $data                 = array();
-        $data['partners_cat'] = $partners_cat;
-        $data['categories']   = $categories;
-        $data['information']  = get_information_top(null, 'partners', true, null, $this->per_page, $this->cur_page);
-        $data['partners']     = $partners;
-        $data['slug']         = $this->slug;
-        $data['header_links'] = $header_links;
-
-        if (! empty($about_slug) && $about_slug == 'about' && ! empty($product_id)) {
-            $item = $this->items->get_item($product_id);
-            if ($item && is_array($item)) {
-                $item = $item[0];
-            }
-            $next      = null;
-            $prev      = null;
-            $items_all = $this->get_items_block($category_id, 'array');
-            if (isset($items_all['items_all'])) {
-                $current   = array_search($item, $items_all['items_all']);
-                $kprev     = array_key_exists($current - 1, $items_all['items_all']);
-                $knext     = array_key_exists($current + 1, $items_all['items_all']);
-                if ($kprev) {
-                    $prev = $items_all['items_all'][$current - 1]->item_id;
-                }
-                if ($knext) {
-                    $next = $items_all['items_all'][$current + 1]->item_id;
-                }
-            }
-
-            $data['next']            = $next;
-            $data['prev']            = $prev;
-            $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
-            if ($title && is_array($title)) {
-                $item->attach = $title[0];
-            } else {
-                $item->attach = null;
-            }
-            $item->item_content = html_entity_decode($item->item_content, ENT_QUOTES, 'UTF-8');
-            $item->item_content = str_replace("quot;", '"', $item->item_content);
-            $item->item_content = str_replace("nbsp;", '', $item->item_content);
-            $item->item_content = str_replace("amp;", '&', $item->item_content);
-            // seo
-            $data['meta_tags'] = build_meta_tags($item);
-
-            //подгрузка дополнительных картинок к статье
-            $gallery = $this->gallery->get_item_gallery(null, $item->item_id);
-
-            if (! empty($gallery)) {
-                foreach ($gallery as &$attach) {
-                    $attach->attach_is_image = true;
-                    if (empty($attach->attach_preview_path)) {
-                        $attach->attach_is_image = false;
-                        // check extention
-                        // excel
-                        if (in_array($attach->attach_ext, array('.csv', '.xls', '.xlsx',))) {
-                            $attach->attach_preview_path = 'images/icons/excel128.png';
-                        } // doc
-                        elseif (in_array($attach->attach_ext, array('.word', '.docx', '.doc'))) {
-                            $attach->attach_preview_path = 'images/icons/doc.png';
-                        } // pdf
-                        elseif (in_array($attach->attach_ext, array('.pdf'))) {
-                            $attach->attach_preview_path = 'images/icons/pdf128.png';
-                        } // zip
-                        elseif (in_array($attach->attach_ext, array('.zip'))) {
-                            $attach->attach_preview_path = 'images/icons/zip.png';
-                        } // doc
-                        elseif (in_array($attach->attach_ext, array('.doc', '.docx'))) {
-                            $attach->attach_preview_path = 'images/icons/doc128.png';
-                        } // no image
-                        else {
-                            $attach->attach_preview_path = 'images/icons/no-image.png';
-                        }
-                    }
-                }
-            }
-            $data['gallery'] = $gallery;
-            //информация о статье и категориях
-            $data['product']         = $item;
-            $data['current_catid']   = $category_id;
-            $data['categories_tree'] = $this->load->view('_categories_block', $data, true);
-            if (! empty($action)) {
-                if ($action == "print") {
-                    $this->load->view('_product_print', $data);
-                }
-            } else {
-                $this->load->view('_product', $data);
-            }
-        } else {
-            $category                     = array_shift($this->category->get_category($category_id));
-            $config['meta_tags']['title'] = $category->category_title;
-            $data['meta_tags'] = build_meta_tags(null, $config['meta_tags']);
-
-            $items_block = $this->get_items_block($category_id);
-            $data['paginate_args']   = array(
-                'total_rows'  => $items_block['items_count'],
-                'per_page'    => $this->per_page,
-                'num_links'   => $this->num_links,
-                'cur_page'    => $this->cur_page,
-                'uri_segment' => $this->uri_segment,
-                'base_url'    => base_url() . 'information/page/'
-            );
-            $data['main_content']    = $items_block['item_main'];
-            $data['current_catid']   = $category_id;
-            $data['categories_tree'] = $this->load->view('_categories_block', $data, true);
-            $this->load->view('_subcat', $data);
-        }
     }
 
     function get_map_tree($partner_id = null)
