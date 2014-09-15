@@ -157,7 +157,7 @@ class Category_mdl extends Model
             {
                 $query .= " and i.item_mode = 'open' and i.item_production <= now() ";
             }
-            $query .= ' order by i.item_title';
+            $query .= ' GROUP BY i.item_id order by i.item_title';
             $query = $this->db->query( $query );
             if ( !$query ) {
                 throw new Exception( $this->db->_error_message() );

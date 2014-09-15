@@ -32,11 +32,11 @@ class Items_mdl extends Model
         $page = 1,
         $with_count = false,
         $extras = '',
-        $orderby = 'order by i.item_added desc',
-        $groupby = 'group by i.item_id'
+        $groupby = 'group by i.item_id desc'
     ) {
         $page  = empty($page) ? 1 : $page;
         $limit = empty($per_page) ? '' : ' limit ' . $per_page * ($page - 1) . ',' . $per_page;
+
         $query = "select SQL_CALC_FOUND_ROWS i.*, it.item_type, a.*
         from items i
         left JOIN item_type it on (i.item_type_id = it.item_type_id)
@@ -56,13 +56,16 @@ class Items_mdl extends Model
         if (!empty($category_id)) {
             $query .= " and ic.category_id = " . clean($category_id);
         }
-        $query .= " " . $extras . " " . $groupby . " " . $orderby;
+        $query .= " " . $extras . " " . $groupby;
         $query .= $limit;
+
         $response = $this->db->query($query);
         if (!$response) {
             return false;
         }
+
         $result = $response->result();
+
         if ($with_count) {
             $response = $this->db->query("select found_rows() as count");
             if (!$response) {
@@ -70,6 +73,7 @@ class Items_mdl extends Model
             }
             $result['count'] = $response->row()->count;
         }
+
         return $result;
     }
 

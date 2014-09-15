@@ -103,9 +103,10 @@ class Information extends Controller
     public function category()
     {
         $this->load->model('category_mdl', 'category');
+        $this->load->model('items_mdl', 'items');
         $this->load->helper('url');
         $this->load->helper('bk');
-        $subcat_id = $this->uri->segment(3);
+
         if ($partner_id = $this->db_session->flashdata('partner_id')) {
             $this->db_session->keep_flashdata('partner_id');
         }
@@ -115,8 +116,10 @@ class Information extends Controller
         } else {
             $main_cats = $this->category->get_category_partner(null, $partner_id);
         }
-        $categories     = $this->category->get_category($subcat_id);
+
+        $subcat_id = $this->uri->segment(3);
         $sub_categories = $this->category->get_category(null, $subcat_id);
+
         if ($sub_categories && ! empty($sub_categories)) {
             foreach ($sub_categories as $category) {
                 $attachments = $this->category->get_category_attachment(
@@ -130,16 +133,45 @@ class Information extends Controller
                 $category->attach = $attachments;
             }
         }
+
+        $items       = $this->items->get_item(
+            null,
+            $this->slug,
+            true,
+            $subcat_id,
+            $this->per_page,
+            $this->cur_page,
+            true
+        );
+
+        $categories     = $this->category->get_category($subcat_id);
         $header_links = $this->get_head_links($subcat_id);
-        $val                    = array();
-        $val['partners_block']  = get_partners_random();
-        $val['items_block']     = get_information_top();
-        $val['header_links']    = $header_links;
-        $val['main_categories'] = $main_cats;
-        $val['current_cat']     = $categories[0];
-        $val['subcats']         = $sub_categories;
-        $val['meta_tags']       = build_meta_tags($categories[0]);
-        $this->load->view('_cat', $val);
+        $items_count = $items['count'];
+        unset($items['count']);
+
+        $val = [
+            'partners_block'  => get_partners_random(),
+            'items_block'     => get_information_top(),
+            'header_links'    => $header_links,
+            'cats'            => $main_cats,
+            'current_cat'     => $categories[0],
+            'subcats'         => $sub_categories,
+            'meta_tags'       => build_meta_tags($categories[0]),
+            'items'           => $items,
+            'items_count'     => $items_count,
+            'paginate_args'   => array(
+                'total_rows'  => $items_count,
+                'per_page'    => $this->per_page,
+                'num_links'   => $this->num_links,
+                'cur_page'    => $this->cur_page,
+                'uri_segment' => $this->uri_segment,
+                'base_url'    => base_url() . 'information/page/'
+            ),
+            'main_slug'       => $this->slug,
+            'tagclouds'       => get_tag_clouds()
+        ];
+
+        $this->load->view('information\index.php', $val);
     }
 
     /**
@@ -154,15 +186,38 @@ class Information extends Controller
         $this->load->helper('url');
 
         $category_id = $this->uri->segment(3);
-        $item_id     = $this->uri->segment(5);
+        $item_id     = $this->uri->segment(4);
         $item        = $this->items->get_item($item_id, 'information');
         if ($item && is_array($item)) {
             $item = $item[0];
         }
+
+        $items_all       = $this->items->get_item(
+            null,
+            $this->slug,
+            true,
+            $category_id,
+            $this->per_page,
+            $this->cur_page,
+            true
+        );
+        $current   = array_search($item, $items_all);
+        $next      = null;
+        $prev      = null;
+        $kprev     = array_key_exists($current - 1, $items_all);
+        $knext     = array_key_exists($current + 1, $items_all);
+        if ($kprev) {
+            $prev = $items_all[$current - 1]->item_id;
+        }
+        if ($knext) {
+            $next = $items_all[$current + 1]->item_id;
+        }
+
         $item->item_content = html_entity_decode($item->item_content, ENT_QUOTES, 'UTF-8');
         $item->item_content = str_replace("quot;", '"', $item->item_content);
         $item->item_content = str_replace("nbsp;", '', $item->item_content);
         $item->item_content = str_replace("amp;", '&', $item->item_content);
+
         $main               = $this->category->get_category(null, null, $this->category_title);
         $main_cats          = $this->category->get_category(null, $main[0]->category_id, null, 'category_position');
 
@@ -184,16 +239,8 @@ class Information extends Controller
         if ($current_cat && is_array($current_cat)) {
             $current_cat = $current_cat[0];
         }
-        $head_links = $this->get_head_links($current_cat->category_id);
 
-        $data                = [];
-        $data['head_links']  = $head_links;
-        $data['current_cat'] = $current_cat;
-        $data['main']        = $main;
-        $data['cats']        = $main_cats;
-        $data['main_slug']   = $this->slug;
-        $data['item']        = $item;
-        $data['tagclouds']   = get_tag_clouds();
+        $head_links = $this->get_head_links($current_cat->category_id);
 
         $this->load->model('gallery_mdl', 'gallery');
         $gallery = $this->gallery->get_item_gallery(null, $item->item_id);
@@ -227,10 +274,22 @@ class Information extends Controller
             }
         }
 
-        $data['gallery']       = $gallery;
-        $data['gallery_price'] = $this->gallery->get_gallery($item->item_id, false, 'gallery_price');
-        $data['meta_tags']     = build_meta_tags($item);
-        $this->load->view('_information_single', $data);
+        $data                = [
+            'head_links'    =>  $head_links,
+            'current_cat'   =>  $current_cat,
+            'main'          =>  $main,
+            'cats'          =>  $main_cats,
+            'main_slug'     =>  $this->slug,
+            'item'          =>  $item,
+            'tagclouds'     =>  get_tag_clouds(),
+            'gallery'       =>  $gallery,
+            'gallery_price' =>  $this->gallery->get_gallery($item->item_id, false, 'gallery_price'),
+            'meta_tags'     =>  build_meta_tags($item),
+            'next'          =>  $next,
+            'prev'          =>  $prev
+        ];
+
+        $this->load->view('information\about.php', $data);
     }
 
     function get_items_block($category_id = null)

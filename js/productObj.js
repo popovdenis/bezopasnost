@@ -90,7 +90,7 @@ var productObj = {
                                 var row = $('#row_' + i + '_' + j);
                                 row.html(message);
                                 that.bindQtipToElement(row);
-                                var url = item.item_type + '/subcat/' + item.category_id + '/about/' + item.item_id;
+                                var url = item.item_type + '/about/' + item.category_id + '/' + item.item_id;
                                 row.wrapInner("<a href='/" + url + "'></a>");
                             }
                         }
