@@ -29,12 +29,6 @@ class Home extends adminAbstract
         }
     }
 
-    private function microtime_float()
-    {
-        list($usec, $sec) = explode(" ", microtime());
-        return intval((float)$usec + (float)$sec);
-    }
-
     public function upload()
     {
         $attach_id  = null;
@@ -44,7 +38,7 @@ class Home extends adminAbstract
         if (! empty($_FILES)) {
             $upload_type = $this->input->post('upload_type');
             $this->load->model('attachment', 'attachment');
-            $upload_data = $this->upload_attach('userfile');
+            $upload_data = $this->upload_attach(array_keys($_FILES)[0]);
 
             $newFileName = $this->microtime_float() . '_picture';
             if (file_exists($upload_data['full_path'])) {
@@ -93,7 +87,6 @@ class Home extends adminAbstract
             }
             $data["file_path"] = $item_data['attach_path'];
             $data["attach_id"] = $attach_id;
-            $data = (Object)$data;
             $data = json_encode($data);
             echo $data;
             exit;
