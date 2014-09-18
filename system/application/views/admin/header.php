@@ -7,9 +7,6 @@
     <link type="text/css" href="<?= base_url() ?>css/jquery/demos.css" rel="stylesheet"/>
     <link type="text/css" href="<?= base_url() ?>css/admin_style.css" rel="stylesheet"/>
     <link type="text/css" href="<?= base_url() ?>css/importu.css" rel="stylesheet"/>
-<!--    <link type="text/css" href="--><?//= base_url() ?><!--css/jquery-ui.min.css" rel="stylesheet"/>-->
-<!--    <script type="text/javascript" src="--><?//= base_url() ?><!--js/jquery.js"></script>-->
-<!--    <script type="text/javascript" src="--><?//= base_url() ?><!--js/jquery-ui.min.js"></script>-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
@@ -29,7 +26,6 @@
 
     <script type="text/javascript" src="/js/highslide/highslide.js"></script>
     <script type="text/javascript" src="<?= base_url() ?>js/admin/productsObj.js"></script>
-    <script type="text/javascript" src="<?= base_url() ?>js/admin/productObj.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/admin/adminObj.js"></script>
 </head>
 <body>
@@ -45,7 +41,11 @@
 </script>
 <script type="text/javascript">
     $(function () {
-        $("#datepicker_new").datepicker({showOn: 'button', buttonImage: '<?=base_url()?>images/icons/calendar.png', buttonImageOnly: true});
+        $("#datepicker_new").datepicker({
+            showOn: 'button',
+            buttonImage: '<?=base_url()?>images/icons/calendar.png',
+            buttonImageOnly: true
+        });
     });
 </script>
 <script type="text/javascript" src="<?= base_url() ?>js/highslide/highslide.js"></script>

@@ -32,7 +32,8 @@ class Items_mdl extends Model
         $page = 1,
         $with_count = false,
         $extras = '',
-        $groupby = 'group by i.item_id desc'
+        $orderby = '',
+        $groupby = 'group by i.item_id desc '
     ) {
         $page  = empty($page) ? 1 : $page;
         $limit = empty($per_page) ? '' : ' limit ' . $per_page * ($page - 1) . ',' . $per_page;
@@ -56,7 +57,7 @@ class Items_mdl extends Model
         if (!empty($category_id)) {
             $query .= " and ic.category_id = " . clean($category_id);
         }
-        $query .= " " . $extras . " " . $groupby;
+        $query .= " " . $extras . ' ' . $groupby . ' ' . $orderby;
         $query .= $limit;
 
         $response = $this->db->query($query);

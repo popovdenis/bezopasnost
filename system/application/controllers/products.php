@@ -284,7 +284,7 @@ class Products extends Controller
         $items_count = $items['count'];
         unset($items['count']);
         if ($items) {
-            foreach ($items as $item) {
+            foreach ($items as &$item) {
                 $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
                 if ($title && is_array($title)) {
                     $item->attach = $title[0];
