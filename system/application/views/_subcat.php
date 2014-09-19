@@ -12,7 +12,7 @@
                 <div style="float:left;margin-bottom:10px;width:100%;">
                     <div style="float:right;">
                         <img id="filter_img" border="0" src="<?php echo base_url(); ?>images/ajax-loader.gif" alt="loading..."/>
-                        <input id="quick_search_field" type="text" onkeyup="productObj.quick_search();" value="Быстрый поиск"/>
+                        <input id="quick_search_field" type="text" onkeyup="productsObj.quick_search();" value="Быстрый поиск"/>
                     </div>
                 </div>
 

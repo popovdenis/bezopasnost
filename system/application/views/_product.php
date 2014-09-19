@@ -70,7 +70,7 @@
                     <?php } ?>
                     <?php if ($product->item_title != 'АКЦИЯ') { ?>
                         <div style="float:right;margin-top:10px;text-align:right;">
-                            <a onclick="productObj.open_compare('<?= $current_catid ?>', '<?= $product->item_id ?>');return false;"
+                            <a onclick="productsObj.open_compare('<?= $current_catid ?>', '<?= $product->item_id ?>');return false;"
                                href="#">Сравнить</a>
                         </div>
                     <?php } ?>

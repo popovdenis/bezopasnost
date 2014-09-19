@@ -8,7 +8,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="<?= base_url() ?>js/bk_helper.js"></script>
     <script type="text/javascript">set_general_url('<?php echo base_url(); ?>');</script>
-    <script type="text/javascript" src="<?= base_url() ?>js/productObj.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>js/productsObj.js"></script>
     <script type="text/javascript" src="<?= base_url() ?>js/searchObj.js"></script>
     <script type="text/javascript" src="<?= base_url() ?>js/jqtip/jquery.qtip.js"></script>
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/jqtip/jquery.qtip.min.css"/>

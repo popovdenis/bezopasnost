@@ -36,7 +36,7 @@
                 $headerMenu.removeClass("fixed");
             }
         });
-        productObj.loadItemsByCoordinates();
+        productsObj.loadItemsByCoordinates();
     });
 </script>
 <div class="header">

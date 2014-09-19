@@ -3,7 +3,7 @@
  * Date: 10.03.14
  * Time: 13:30
  */
-var productObj = {
+var productsObj = {
 
     paginate: function (page) {
         $.ajax({

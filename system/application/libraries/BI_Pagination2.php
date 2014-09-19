@@ -271,7 +271,7 @@ class BI_Pagination extends CI_Pagination {
         // Render the "First" link
         if  ($this->cur_page > ($this->num_links + 1))
         {
-            $output .= $this->first_tag_open.'<a href="#" onclick="productObj.paginate(\'1\'); return false;"><div class="page_number">'.$this->first_link.'</div></a>'.$this->first_tag_close;
+            $output .= $this->first_tag_open.'<a href="#" onclick="productsObj.paginate(\'1\'); return false;"><div class="page_number">'.$this->first_link.'</div></a>'.$this->first_tag_close;
         }
 
         // Render the "previous" link
@@ -280,7 +280,7 @@ class BI_Pagination extends CI_Pagination {
             //$i = $uri_page_number - $this->per_page;
             $i = $uri_page_number - 1;
             if ($i == 0) $i = '1';
-            $output .= $this->prev_tag_open.'<a href="#" onclick="productObj.paginate(\''.$start.'\'); return false;">'.$this->prev_link.'</a>'.$this->prev_tag_close;
+            $output .= $this->prev_tag_open.'<a href="#" onclick="productsObj.paginate(\''.$start.'\'); return false;">'.$this->prev_link.'</a>'.$this->prev_tag_close;
         }
 
         // Write the digit links
