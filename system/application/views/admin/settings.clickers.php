@@ -28,7 +28,7 @@
         <span class="white_block" data-horder="4" data-vorder="0">&nbsp;</span>
         <span class="black_block" data-horder="5" data-vorder="0">&nbsp;</span>
         <div style="clear: both;"></div>
-        <span class="black_block" data-horder="1" data-vorder="1">&nbsp;</span>
+        <span class="black_block" data-horder="0" data-vorder="1">&nbsp;</span>
         <span class="white_block" data-horder="1" data-vorder="1">&nbsp;</span>
         <span class="black_block" data-horder="2" data-vorder="1">&nbsp;</span>
         <span class="white_block" data-horder="3" data-vorder="1">&nbsp;</span>
