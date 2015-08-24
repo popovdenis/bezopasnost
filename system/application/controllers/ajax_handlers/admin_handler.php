@@ -59,7 +59,7 @@ class Admin_handler extends Controller
 
                 if ($flag != 'undefined' && $flag != '') {
                     if ($flag == 'exist') {
-                        if ($page == 'about' || $page == 'main') {
+                        if ($page == 'about') {
                             $data = $this->_item_page($page, null);
 
                         } elseif ($page == 'contacts') {
@@ -69,8 +69,6 @@ class Admin_handler extends Controller
                             $data = $this->_gallery_settings();
                         } elseif ($page == 'settings') {
                             $data = $this->_settings_main_page();
-                        } elseif ($page == 'tools') {
-                            $data = $this->_tools_main_page();
                         } else {
                             if ($item_id && $page != 'about') {
                                 $data = $this->_item_page($page, $item_id);
@@ -198,6 +196,7 @@ class Admin_handler extends Controller
 
             case "add_category":
                 $category_title = $this->input->post('category_title');
+                $category_slug  = $this->input->post('category_slug');
                 $category_desc = $this->input->post('category_desc');
                 $category_parent = $this->input->post('category_parent');
                 $item_id = $this->input->post('item_id');
@@ -207,6 +206,7 @@ class Admin_handler extends Controller
 
                 $category_data = array(
                     'category_title' => $category_title,
+                    'category_slug'  => $category_slug,
                     'category_desc' => '',
                     'category_date_added' => date("Y-m-d H:i:s"),
                     'category_parent' => $category_parent
@@ -254,17 +254,25 @@ class Admin_handler extends Controller
                 break;
 
             case "update_category":
-                $category_id = $this->input->post('category_id');
-                $category_title = $this->input->post('category_title');
-                $category_desc = $this->input->post('category_desc');
-                $category_parent = $this->input->post('category_parent');
+                $category_id          = $this->input->post('category_id');
+                $category_title       = $this->input->post('category_title');
+                $category_slug        = $this->input->post('category_slug');
+                $category_desc        = $this->input->post('category_desc');
+                $category_parent      = $this->input->post('category_parent');
+                $item_seo_title       = $this->input->post('item_seo_title', null);
+                $item_seo_keywords    = $this->input->post('item_seo_keywords', null);
+                $item_seo_description = $this->input->post('item_seo_description', null);
 
                 $this->load->model('category_mdl', 'category');
 
                 $category_data = array(
-                    'category_title' => $category_title,
-                    'category_desc' => $category_desc,
-                    'category_parent' => $category_parent
+                    'category_title'       => $category_title,
+                    'category_slug'        => $category_slug,
+                    'category_desc'        => $category_desc,
+                    'category_parent'      => $category_parent,
+                    'item_seo_title'       => $item_seo_title,
+                    'item_seo_keywords'    => $item_seo_keywords,
+                    'item_seo_description' => $item_seo_description
                 );
                 $this->category->update_category($category_id, $category_data);
                 $category_info = $this->_get_category_page($category_id, 'category_title');
@@ -615,12 +623,15 @@ class Admin_handler extends Controller
 
             case "update_currency_rate":
                 $currency_id = $this->input->post('currency_id');
-                $currency_names = (object)json_decode($this->input->post('currency_names'), true);
+                $currency_names = $this->input->post('currency_names');
 
                 $this->load->model('currency_mdl', 'currency');
 
                 foreach ($currency_names as $name) {
-                    $values = array("name" => $name['name'], "value" => $name['value']);
+                    $values = [
+                        "name" => $name['name'],
+                        "value" => $name['value']
+                    ];
                     $this->currency->update_currency_rate($currency_id, $values);
                 }
 
@@ -1068,16 +1079,6 @@ class Admin_handler extends Controller
         return $this->load->view('admin/_settings_main_page', $val, true);
     }
 
-    /**
-     * @return View
-     */
-    private function _tools_main_page()
-    {
-        $val = array();
-
-        return $this->load->view('admin/tools_main_page', $val, true);
-    }
-
     function _get_category_page($category_id, $attach_type = null, $get_header = true)
     {
         if (!$category_id) {
@@ -1255,7 +1256,7 @@ class Admin_handler extends Controller
 
     public function upload()
     {
-        $url = '../images/uploads/' . time() . "_" . $_FILES['upload']['name'];
+        $url = realpath(BASEPATH . '../files') . '/' . time() . "_" . $_FILES['upload']['name'];
 
         //extensive suitability check before doing anything with the file…
         if (($_FILES['upload'] == "none") OR (empty($_FILES['upload']['name']))) {

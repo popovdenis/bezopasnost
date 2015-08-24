@@ -5,7 +5,7 @@
         $index  = 0;
         foreach ($phones as $index => $phone) {
             ?>
-            <div id="contact_block_<?= $contact_block_index ?>">
+            <div class="contact_block" data-index="<?= $contact_block_index ?>">
                 <select id="contact_type_<?= $contact_block_index ?>">
                     <option value="phone" selected>телефон</option>
                     <option value="fax">факс</option>

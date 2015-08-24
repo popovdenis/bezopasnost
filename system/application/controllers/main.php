@@ -8,7 +8,7 @@ class Main extends Controller
         if ($this->db_session->userdata('keywords')) {
             $this->db_session->unset_userdata('keywords');
         }
-//        $this->output->cache(60);
+        $this->output->cache(60);
     }
 
     function index()
@@ -53,12 +53,12 @@ class Main extends Controller
 
         $contacts    = get_contacts();
 
-        $doors     = $this->category->get_category(null, null, 'Двери');
-        $locks     = $this->category->get_category(null, null, 'Замки');
-        $safes     = $this->category->get_category(null, null, 'Сейфы');
-        $skd       = $this->category->get_category(null, null, 'Системы контроля доступа');
-        $cylinders = $this->category->get_category(null, null, 'Цилиндры');
-        $other     = $this->category->get_category(null, null, 'Комплектующие и аксессуары');
+        $doors     = $this->category->get_category_by_slug('door');
+        $locks     = $this->category->get_category_by_slug('lock');
+        $safes     = $this->category->get_category_by_slug('safe');
+        $skd       = $this->category->get_category_by_slug('skd');
+        $cylinders = $this->category->get_category_by_slug('cylinder');
+        $other     = $this->category->get_category_by_slug('hardware');
 
         $data = [
             'main'        => $mainItem,

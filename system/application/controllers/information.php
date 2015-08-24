@@ -15,12 +15,64 @@ class Information extends Controller
         $this->load->helper('tagclouds');
     }
 
+    private function get_items_block($category_id = null)
+    {
+        $this->load->model('items_mdl', 'items');
+        $this->load->model('attachment');
+
+        $items       = $this->items->get_item(
+            null,
+            $this->slug,
+            true,
+            $category_id,
+            $this->per_page,
+            $this->cur_page,
+            true
+        );
+
+        $items_count = $items['count'];
+        unset($items['count']);
+
+        if ($items) {
+            foreach ($items as $item) {
+                $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
+                if ($title && is_array($title)) {
+                    $item->attach = $title[0];
+                } else {
+                    $item->attach = null;
+                }
+            }
+        }
+
+        $category = $this->category->get_category($category_id);
+        if ($category && is_array($category)) {
+            $category = $category[0];
+        }
+
+        $data                = array();
+        $data['items']       = $items;
+        $data['category_id'] = $category_id;
+        $data['category']    = $category;
+
+        if ($category->category_title == 'Прайсы') {
+            $items_str = $this->load->view(
+                'all_items_price',
+                $data,
+                true
+            );
+        } else {
+            $items_str = $this->load->view('_all_items', $data, true);
+        }
+
+        return ['items_block' => $items_str, 'items_count' => $items_count];
+    }
+
     /**
      * index method
      *
      * @return CI_Loader
      */
-    function index()
+    public function index()
     {
         $this->load->model('category_mdl', 'category');
         $this->load->helper('url');
@@ -98,13 +150,87 @@ class Information extends Controller
             $this->load->view('_information_subcat_all', $val);
         }
     }
+    // products submain
+    public function category()
+    {
+        $this->load->model('category_mdl', 'category');
+        $this->load->model('items_mdl', 'items');
+        $this->load->helper('url');
+        $this->load->helper('bk');
+
+        if ($partner_id = $this->db_session->flashdata('partner_id')) {
+            $this->db_session->keep_flashdata('partner_id');
+        }
+        if (! $partner_id) {
+            $main      = $this->category->get_category(null, null, $this->category_title);
+            $main_cats = $this->category->get_category(null, $main[0]->category_id);
+        } else {
+            $main_cats = $this->category->get_category_partner(null, $partner_id);
+        }
+
+        $subcat_id = $this->uri->segment(3);
+        $sub_categories = $this->category->get_category(null, $subcat_id);
+
+        if ($sub_categories && ! empty($sub_categories)) {
+            foreach ($sub_categories as $category) {
+                $attachments = $this->category->get_category_attachment(
+                    $category->category_id,
+                    null,
+                    'category_title'
+                );
+                if ($attachments && is_array($attachments)) {
+                    $attachments = $attachments[0];
+                }
+                $category->attach = $attachments;
+            }
+        }
+
+        $items       = $this->items->get_item(
+            null,
+            $this->slug,
+            true,
+            $subcat_id,
+            $this->per_page,
+            $this->cur_page,
+            true
+        );
+
+        $categories     = $this->category->get_category($subcat_id);
+        $header_links = $this->get_head_links($subcat_id);
+        $items_count = $items['count'];
+        unset($items['count']);
+
+        $val = [
+            'partners_block'  => get_partners_random(),
+            'items_block'     => get_information_top(),
+            'header_links'    => $header_links,
+            'cats'            => $main_cats,
+            'current_cat'     => $categories[0],
+            'subcats'         => $sub_categories,
+            'meta_tags'       => build_meta_tags($categories[0]),
+            'items'           => $items,
+            'items_count'     => $items_count,
+            'paginate_args'   => array(
+                'total_rows'  => $items_count,
+                'per_page'    => $this->per_page,
+                'num_links'   => $this->num_links,
+                'cur_page'    => $this->cur_page,
+                'uri_segment' => $this->uri_segment,
+                'base_url'    => base_url() . 'information/page/'
+            ),
+            'main_slug'       => $this->slug,
+            'tagclouds'       => get_tag_clouds()
+        ];
+
+        $this->load->view('information/index.php', $val);
+    }
 
     /**
      * about
      *
      * @return CI_Loader
      */
-    function about()
+    public function subcat()
     {
         $this->load->model('items_mdl', 'items');
         $this->load->model('category_mdl', 'category');
@@ -116,10 +242,33 @@ class Information extends Controller
         if ($item && is_array($item)) {
             $item = $item[0];
         }
+
+        $items_all       = $this->items->get_item(
+            null,
+            $this->slug,
+            true,
+            $category_id,
+            $this->per_page,
+            $this->cur_page,
+            true
+        );
+        $current   = array_search($item, $items_all);
+        $next      = null;
+        $prev      = null;
+        $kprev     = array_key_exists($current - 1, $items_all);
+        $knext     = array_key_exists($current + 1, $items_all);
+        if ($kprev) {
+            $prev = $items_all[$current - 1]->item_id;
+        }
+        if ($knext) {
+            $next = $items_all[$current + 1]->item_id;
+        }
+
         $item->item_content = html_entity_decode($item->item_content, ENT_QUOTES, 'UTF-8');
         $item->item_content = str_replace("quot;", '"', $item->item_content);
         $item->item_content = str_replace("nbsp;", '', $item->item_content);
         $item->item_content = str_replace("amp;", '&', $item->item_content);
+
         $main               = $this->category->get_category(null, null, $this->category_title);
         $main_cats          = $this->category->get_category(null, $main[0]->category_id, null, 'category_position');
 
@@ -141,16 +290,8 @@ class Information extends Controller
         if ($current_cat && is_array($current_cat)) {
             $current_cat = $current_cat[0];
         }
-        $head_links = $this->get_head_links($current_cat->category_id);
 
-        $data                = [];
-        $data['head_links']  = $head_links;
-        $data['current_cat'] = $current_cat;
-        $data['main']        = $main;
-        $data['cats']        = $main_cats;
-        $data['main_slug']   = $this->slug;
-        $data['item']        = $item;
-        $data['tagclouds']   = get_tag_clouds();
+        $head_links = $this->get_head_links($current_cat->category_id);
 
         $this->load->model('gallery_mdl', 'gallery');
         $gallery = $this->gallery->get_item_gallery(null, $item->item_id);
@@ -184,62 +325,22 @@ class Information extends Controller
             }
         }
 
-        $data['gallery']       = $gallery;
-        $data['gallery_price'] = $this->gallery->get_gallery($item->item_id, false, 'gallery_price');
-        $data['meta_tags']     = build_meta_tags($item);
-        $this->load->view('_information_single', $data);
-    }
+        $data                = [
+            'head_links'    =>  $head_links,
+            'current_cat'   =>  $current_cat,
+            'main'          =>  $main,
+            'cats'          =>  $main_cats,
+            'main_slug'     =>  $this->slug,
+            'item'          =>  $item,
+            'tagclouds'     =>  get_tag_clouds(),
+            'gallery'       =>  $gallery,
+            'gallery_price' =>  $this->gallery->get_gallery($item->item_id, false, 'gallery_price'),
+            'meta_tags'     =>  build_meta_tags($item),
+            'next'          =>  $next,
+            'prev'          =>  $prev
+        ];
 
-    function get_items_block($category_id = null)
-    {
-        $this->load->model('items_mdl', 'items');
-        $this->load->model('attachment');
-
-        $items       = $this->items->get_item(
-            null,
-            $this->slug,
-            true,
-            $category_id,
-            $this->per_page,
-            $this->cur_page,
-            true
-        );
-
-        $items_count = $items['count'];
-        unset($items['count']);
-
-        if ($items) {
-            foreach ($items as $item) {
-                $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
-                if ($title && is_array($title)) {
-                    $item->attach = $title[0];
-                } else {
-                    $item->attach = null;
-                }
-            }
-        }
-
-        $category = $this->category->get_category($category_id);
-        if ($category && is_array($category)) {
-            $category = $category[0];
-        }
-
-        $data                = array();
-        $data['items']       = $items;
-        $data['category_id'] = $category_id;
-        $data['category']    = $category;
-
-        if ($category->category_title == 'Прайсы') {
-            $items_str = $this->load->view(
-                'all_items_price',
-                $data,
-                true
-            );
-        } else {
-            $items_str = $this->load->view('_all_items', $data, true);
-        }
-
-        return ['items_block' => $items_str, 'items_count' => $items_count];
+        $this->load->view('information/about.php', $data);
     }
 
     function get_map_tree($partner_id = null)
