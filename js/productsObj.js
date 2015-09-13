@@ -1,159 +1,160 @@
 /**
- * Created with PhpStorm.
- * User: Denis Popov
- * Email: pod@ciklum.com
- * Date: 1/22/14
- * Time: 10:25 AM
+ * User: Denis
+ * Date: 10.03.14
+ * Time: 13:30
  */
 var productsObj = {
 
-    init: function(itemId)
-    {
-        this.initImageGalleryUploader(itemId);
-        this.initImageTitleUploader(itemId);
+    paginate: function (page) {
+        $.ajax({
+            type: "POST",
+            url: '/ajax_handlers/products_handler/ajax_actions',
+            dataType: "json",
+            data: { 'action': 'paginate_items',
+                'page': page,
+                'category_id': $('#category_id').val()
+            },
+            beforeSend: function () {
+                $(".page_container").html('<div style="float:left;"><img border="0" src="<?php echo base_url(); ?>images/add-note-loader.gif" alt="loading..." style="padding-top: 7px;padding-left:145px;text-align:center;"/></div>');
+            },
+            success: function (data) {
+                $("#products_block").html(data.item_main);
+                $(".page_container").html(data.page_container);
+            },
+            error: function (data) {
+                $("#products_block").html('');
+                $(".page_container").html('');
+            }
+        });
+        return true;
     },
 
-    initImageGalleryUploader: function (itemId) {
-        if ($('#imggallery_' + itemId).length > 0) {
-            new AjaxUpload('#imggallery_' + itemId, {
-                action: '/admin/home/upload',
-                name: 'userfile',
-                data: {
-                    upload_type: 'item_gallery'
-                },
-                responseType: false,
-                onChange: function (file, extension) {
-                },
-                onSubmit: function (file, ext) {
-                },
-                onComplete: function (file, response) {
-                    var result = '';
-                    if (response) {
-                        result = window["eval"]("(" + response + ")");
-                        $.post("/admin/home/upload", { new_gal_title: $('#new_gal_title').val(), new_gal_desc: $('#new_gal_desc').val(), attach_id: result.attach_id, item_id: itemId, upload_type: 'item_gallery', file_type: $("#gallery_file_tyles option:selected").val() }, function (data) {
-                                var result = window["eval"]("(" + data + ")");
-                                $('#new_gal_title').val('');
-                                $('#new_gal_desc').val('');
-                                if ($("#gallery_file_tyles option:selected").val() == 'price') {
-                                    var img_del_gal = '<img title="Удалить картинку из текущей галереи" style="cursor:pointer;width:15px;height:15px;" src="/images/icons/cancel.png" onclick="javascript:if(confirm(\'Картинка будет удалена из текущей галереи. Вы уверены, что хотите удалить этот файл?\')) delete_img(\'' + result.attach_id + '\', \'' + result.item_id + '\', \'false\');return false;" /><img title="Удалить картинку из всех галерей" style="cursor:pointer;width:21px;height:21px;" src="/images/icons/trash.png" onclick="javascript:if(confirm(\'Картинка будет удалена из всех галерей. Вы уверены, что хотите удалить этот файл?\')) delete_img(\'' + result.attach_id + '\', \'null\', \'true\');return false;" />';
-                                    var file = '<div id="gallery_file_id_' + result.attach_id + '" class="gallery_image_block price_gal"><div class="heading">' + result.attach_title + '</div><span><img src="/images/icons/excel_48.png" /></span><br /><div>' + result.attach_desc + '</div><br />' + img_del_gal + '</div>';
-                                } else
-                                    if ($("#gallery_file_tyles option:selected").val() == 'image') {
-                                        var img_del_gal = '<img title="Удалить картинку из текущей галереи" style="cursor:pointer;width:15px;height:15px;" src="/images/icons/cancel.png" onclick="javascript:if(confirm(\'Картинка будет удалена из текущей галереи. Вы уверены, что хотите удалить этот файл?\')) delete_img(\'' + result.attach_id + '\', \'' + result.item_id + '\', \'false\');return false;" /><img title="Удалить картинку из всех галерей" style="cursor:pointer;width:21px;height:21px;" src="/images/icons/trash.png" onclick="javascript:if(confirm(\'Картинка будет удалена из всех галерей. Вы уверены, что хотите удалить этот файл?\')) delete_img(\'' + result.attach_id + '\', \'null\', \'true\');return false;" />';
-                                        var file = '<div id="gallery_img_id_' + result.attach_id + '" class="gallery_image_block image_gal"><div class="heading">' + result.attach_title + '</div><a href="/' + result.file_full_path + '" class="highslide" onclick="return hs.expand(this)"><img src="/' + result.file_path + '" title="Click to enlarge" /></a><div class="highslide-caption">' + result.attach_desc + '</div>' + img_del_gal + '</div>';
-                                    }
-                                $("#loader").hide();
-                                $("#new_gallery_block").hide();
-                                $('#imggallery_img').append(file);
-                            })
-                    } else {
-                        alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
-                    }
-                }
-            });
-        }
-    },
-
-    initImageTitleUploader: function (itemId) {
-        this.uploadHandler($("a[id^='imgtitle_']"));
-    },
-
-    uploadHandler: function (element, itemId) {
-        if (element.length > 0) {
-            itemId = (typeof itemId != "undefined") ? itemId : (element.attr('id').split('_')[1]);
-            new AjaxUpload(element.attr('id'), {
-                // Location of the server-side upload script
-                action: '/admin/home/upload',
-                // File upload name
-                name: 'userfile',
-                data: {
-                    item_id: itemId,
-                    upload_type: 'product_title'
-                },
-                responseType: false,
-                onChange: function (file, extension) {
-                },
-                onSubmit: function (file, ext) {
-                },
-                onComplete: function (file, response) {
-                    if (response) {
-                        var result = window["eval"]("(" + response + ")");
-                        $.post("/admin/home/upload", { attach_id: result.attach_id, item_id: itemId, upload_type: 'product_title'}, function (data) {
-                            result = window["eval"]("(" + data + ")");
-                            var file = '<img width="235" src="/' + result.file_path + '" />';
-                            $('#item_title_img').html(file);
-                        })
-                    } else {
-                        alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
-                    }
-                }
-            });
-        }
-    },
-
-    initImageCategoryUploader: function() {
-        this.uploadHandler($("a[id^='categoryid_']"));
-    },
-
-    initHighslide: function()
-    {
-        hs.graphicsDir = '/js/highslide/graphics/';
-        hs.align = 'center';
-        hs.transitions = ['expand', 'crossfade'];
-        hs.outlineType = 'rounded-white';
-        hs.fadeInOut = true;
-        hs.addSlideshow({
-            interval: 3000,
-            repeat: false,
-            useControls: true,
-            fixedControls: 'fit',
-            overlayOptions: {
-                opacity: .75,
-                position: 'bottom center',
-                hideOnMouseOut: true
+    search_by_manufacturer: function () {
+        $.ajax({
+            type: "POST",
+            url: '/ajax_handlers/products_handler/ajax_actions',
+            dataType: "json",
+            data: { 'action': 'quick_search',
+                'keywords': $('#quick_search_field').val(),
+                'category_id': $('#category_id').val()
+            },
+            beforeSend: function () {
+                $("#filter_img").show();
+            },
+            success: function (data) {
+                $("#filter_img").hide();
+                $("#products_block").html(data.items_block);
+                $(".page_container").html(data.page_container);
+            },
+            error: function (data) {
+                $("#filter_img").html('');
+                $("#products_block").html('');
+                $(".page_container").html('');
             }
         });
     },
 
-    initCKeditors: function()
-    {
-        var config = {
-            toolbar: 'Basic',
-            uiColor: '#CB6615',
-            filebrowserUploadUrl: '/ajax_handlers/admin_handler/upload'
-        };
-
-        if ($('#post_content').length > 0) {
-            this.initEditor('post_content', config);
-        }
-        if ($('#item_charecters').length > 0) {
-            this.initEditor('item_charecters', config);
-        }
-        if ($('#new_post_content').length > 0) {
-            this.initEditor('new_post_content', config);
-        }
-        if ($('#new_item_charecters').length > 0) {
-            this.initEditor('new_item_charecters', config);
-        }
-    },
-
-    initEditor: function(editorId, config) {
-        try {
-            var instance = CKEDITOR.instances[editorId];
-            if (instance) {
-                instance.destroy();
+    quick_search: function() {
+        $.ajax({
+            type: "POST",
+            url: '/ajax_handlers/products_handler/ajax_actions',
+            dataType: "json",
+            data: { 'action': 'quick_search',
+                'keywords': $('#quick_search_field').val(),
+                'category_id': $('#category_id').val()
+            },
+            beforeSend: function () {
+                $("#filter_img").show();
+            },
+            success: function (data) {
+                $("#filter_img").hide();
+                $("#products_block").html(data.items_block);
+                $(".page_container").html(data.page_container);
+            },
+            error: function (data) {
+                $("#filter_img").html('');
+                $("#products_block").html('');
+                $(".page_container").html('');
             }
-        }
-        catch(e) {}
-        finally {
-            CKEDITOR.replace(editorId, config);
-        }
+        });
+        return true;
     },
 
-    initDatePicker: function() {
-        var datePickerElement = $("input[id^='datepicker_']");
-        if (datePickerElement.length > 0) {
-            datePickerElement.datepicker({showOn: 'button', buttonImage: '/images/icons/calendar.png', buttonImageOnly: true});
-        }
+    open_compare: function(current_catid, item_id) {
+        $.ajax({
+            type: "POST",
+            url: '/ajax_handlers/products_handler/ajax_actions',
+            dataType: "html",
+            data: {
+                'action': 'compare',
+                'item_id': item_id
+            },
+            success: function (data) {
+                var url = '<?=base_url()?>comparison';
+                var win2 = window.open(url, '_compare');
+            }
+        });
+    },
+
+    loadItemsByCoordinates: function () {
+        var that = this;
+        $.ajax({
+            type: "POST",
+            url: '/products/getItemsByCoordinates',
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                if (response.items != undefined && response.items.length > 0) {
+                    for (var i = 0; i < 2; i++) {
+                        for (var j = 0; j < 7; j++) {
+                            if (response.items[i][j].item_title != undefined) {
+                                var item = response.items[i][j];
+                                var message =
+                                    '<span class="chess_message_preview">' + item.item_title + '</span>' +
+                                    '<div class="tooltip-container"><span class="tooltip-message">' + item.item_title + '</span></div>';
+                                var row = $('#row_' + i + '_' + j);
+                                row.html(message);
+                                that.bindQtipToElement(row);
+                                var url = item.item_type + '/subcat/' + item.category_id + '/about/' + item.item_id;
+                                row.wrapInner("<a href='/" + url + "'></a>");
+                            }
+                        }
+                    }
+                }
+            },
+            error: function (data) {}
+        });
+    },
+
+    bindQtipToElement: function (element) {
+        element.qtip({
+            content: {
+                text: element.find('.tooltip-container')
+            },
+            position: {
+                my: 'center left',
+                at: 'center right',
+                viewport: $(window),
+                adjust: {
+                    method: 'flip shift',
+                    resize: false,
+                    scroll: false,
+                    mouse: false
+                }
+            },
+            hide: {
+                //event: 'click'
+                //inactive: 5500
+            },
+            show: {
+                event: 'click mouseover'
+            },
+            style: {
+                classes: 'qtip-shadow qtip-rounded',
+                width: 150,
+                height: 100,
+                left: 100
+            }
+        });
     }
 };

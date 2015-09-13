@@ -29,7 +29,7 @@ function authorize() {
         success: function(data) {
             $("#login_process").hide();
             if (data.status == 1) {
-                window.location.href = base_url + 'admin';
+                window.location.href = base_url + 'admin/about';
             } else {
                 $("#login_email").css({'background-color':'#eecccc'});
                 $("#password").css({'background-color':'#eecccc'});

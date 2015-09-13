@@ -27,7 +27,7 @@ class Products extends Controller
     }
 
     // products submain
-    function category()
+    public function category()
     {
         $this->load->model('category_mdl', 'category');
         $this->load->helper('url');
@@ -50,9 +50,9 @@ class Products extends Controller
         if ($sub_categories && ! empty($sub_categories)) {
             foreach ($sub_categories as $category) {
                 $attachments = $this->category->get_category_attachment(
-                                              $category->category_id,
-                                                  null,
-                                                  'category_title'
+                    $category->category_id,
+                    null,
+                    'category_title'
                 );
                 if ($attachments && is_array($attachments)) {
                     $attachments = $attachments[0];
@@ -61,7 +61,6 @@ class Products extends Controller
             }
         }
         $header_links = $this->get_head_links($subcat_id);
-        $config['meta_tags']['title'] = $categories[0]->category_title;
 
         $val                    = array();
         $val['partners_block']  = get_partners_random();
@@ -70,7 +69,7 @@ class Products extends Controller
         $val['main_categories'] = $main_cats;
         $val['current_cat']     = $categories[0];
         $val['subcats']         = $sub_categories;
-        $val['meta_tags']       = build_meta_tags(null, $config['meta_tags']);
+        $val['meta_tags']       = build_meta_tags($categories[0]);
 
         $this->load->view('_cat', $val);
     }
@@ -79,7 +78,7 @@ class Products extends Controller
      * @desc products subMain
      * @return void
      */
-    function subcat()
+    public function subcat()
     {
         $this->load->model('attachment');
         $this->load->model('items_mdl', 'items');
@@ -285,7 +284,7 @@ class Products extends Controller
         $items_count = $items['count'];
         unset($items['count']);
         if ($items) {
-            foreach ($items as $item) {
+            foreach ($items as &$item) {
                 $title = $this->attachment->get_attach_item($item->item_id, 'product_title');
                 if ($title && is_array($title)) {
                     $item->attach = $title[0];
@@ -403,5 +402,27 @@ class Products extends Controller
         } else {
             redirect('product');
         }
+    }
+
+    public function getItemsByCoordinates()
+    {
+        $this->load->model('items_mdl', 'item');
+        $items = [];
+        for ($i = 0; $i < 2; $i++) {
+            for ($j = 0; $j < 7; $j++) {
+                $items[$i][$j] = $this->item->getItem(
+                    [
+                        'vOrder' => $i,
+                        'hOrder' => $j,
+                    ],
+                    true
+                );
+            }
+        }
+
+
+        echo json_encode([
+            'items' => $items
+        ]);
     }
 }

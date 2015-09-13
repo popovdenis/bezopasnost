@@ -32,11 +32,12 @@ class Items_mdl extends Model
         $page = 1,
         $with_count = false,
         $extras = '',
-        $orderby = 'order by i.item_added desc',
-        $groupby = 'group by i.item_id'
+        $orderby = '',
+        $groupby = 'group by i.item_id desc '
     ) {
         $page  = empty($page) ? 1 : $page;
         $limit = empty($per_page) ? '' : ' limit ' . $per_page * ($page - 1) . ',' . $per_page;
+
         $query = "select SQL_CALC_FOUND_ROWS i.*, it.item_type, a.*
         from items i
         left JOIN item_type it on (i.item_type_id = it.item_type_id)
@@ -56,13 +57,16 @@ class Items_mdl extends Model
         if (!empty($category_id)) {
             $query .= " and ic.category_id = " . clean($category_id);
         }
-        $query .= " " . $extras . " " . $groupby . " " . $orderby;
+        $query .= " " . $extras . ' ' . $groupby . ' ' . $orderby;
         $query .= $limit;
+
         $response = $this->db->query($query);
         if (!$response) {
             return false;
         }
+
         $result = $response->result();
+
         if ($with_count) {
             $response = $this->db->query("select found_rows() as count");
             if (!$response) {
@@ -70,6 +74,7 @@ class Items_mdl extends Model
             }
             $result['count'] = $response->row()->count;
         }
+
         return $result;
     }
 
@@ -333,28 +338,28 @@ class Items_mdl extends Model
         $category8 = $this->db->query($category8)->row();
         $query = "select SQL_CALC_FOUND_ROWS it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category1->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category2->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category3->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category4->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category5->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category6->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category7->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
     left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category8->category_id . "'
-    and (i.item_title LIKE '" . $keywords . "%' or i.item_content like '%" . $keywords . "%') order by category_title " . $limit;
+    and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') order by category_title " . $limit;
         $query = $this->db->query($query);
         if (!$query) {
             return false;
@@ -540,5 +545,51 @@ class Items_mdl extends Model
             log_message('error', $e->getMessage() . '\n' . $e->getFile() . '\n' . $e->getCode());
         }
         return false;
+    }
+
+    public function getItem(array $options = [], $single = false)
+    {
+        $this->db
+            ->select('items.*, categories.category_id, categories.item_type')
+            ->from('items')
+            ->join('item_category', 'item_category.item_id = items.item_id')
+            ->join('categories', 'item_category.category_id = categories.category_id')
+            ->groupBy('items.item_id');
+
+        if (isset($options['id'])) {
+            $this->db->where('item_id', intval($options['id']));
+        }
+        if (isset($options['hOrder'])) {
+            $this->db->where('item_category.hOrder', intval($options['hOrder']));
+        }
+        if (isset($options['vOrder'])) {
+            $this->db->where('item_category.vOrder', intval($options['vOrder']));
+        }
+        if (isset($options['category_id'])) {
+            $this->db->where('item_category.category_id', intval($options['category_id']));
+        }
+
+        $query = $this->db->get();
+
+        return $single ? $query->row_array() : $query->result_array();
+    }
+
+    public function saveItemCoordinates($itemId, $categoryId, array $options)
+    {
+        $this->db->update(
+            'item_category',
+            [
+                'vOrder' => NULL,
+                'hOrder' => NULL,
+            ],
+            [
+                'vOrder' => $options['vOrder'],
+                'hOrder' => $options['hOrder'],
+            ]
+        );
+
+        $this->db->where('item_id', $itemId);
+        $this->db->where('category_id', $categoryId);
+        $this->db->update('item_category', $options);
     }
 }

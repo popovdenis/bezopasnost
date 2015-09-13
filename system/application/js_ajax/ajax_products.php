@@ -1,10 +1,10 @@
 <script language="JavaScript" type="text/javascript">
 	var ajax_product_path;
-	var ajax_product_path = "<?php echo base_url(); ?>ajax_handlers/products_handler/ajax_actions";	
-	
+	var ajax_product_path = "<?php echo base_url(); ?>ajax_handlers/products_handler/ajax_actions";
+
 	function paginate(page){
 		$.ajax({
-			type: "POST", 
+			type: "POST",
 			url: ajax_product_path,
 			dataType: "json",
 			data: { 'action':'paginate_items',
@@ -21,12 +21,12 @@
 				$(".page_container").html(data.page_container);
 		    },
 		    error: function(data)
-			{	
+			{
 				$("#products_block").html('');
 				$(".page_container").html('');
 		    }
 		});
-		
+
 		return true;
 	}
 
@@ -35,7 +35,7 @@
 		var filter_size = $("#bysize option:selected").val();
 
 		$.ajax({
-			type: "POST", 
+			type: "POST",
 			url: ajax_product_path,
 			dataType: "json",
 			data: { 'action':'filter_products',
@@ -54,19 +54,19 @@
 				$(".page_container").html(data.page_container);
 		    },
 		    error: function(data)
-			{	
+			{
 		    	$("#filter_img").html('');
 				$("#products_block").html('');
 				$(".page_container").html('');
 		    }
 		});
-		
+
 		return true;
 	}
 
 	function quick_search(){
 		$.ajax({
-			type: "POST", 
+			type: "POST",
 			url: ajax_product_path,
 			dataType: "json",
 			data: { 'action':'quick_search',
@@ -84,19 +84,19 @@
 				$(".page_container").html(data.page_container);
 		    },
 		    error: function(data)
-			{	
+			{
 		    	$("#filter_img").html('');
 				$("#products_block").html('');
 				$(".page_container").html('');
 		    }
 		});
-		
+
 		return true;
 	}
-    
-    
-	
-	function open_compare(current_catid, item_id){	
+
+
+
+	function open_compare(current_catid, item_id){
 		$.ajax({
 			type: "POST",
 			url:  ajax_product_path,
@@ -107,8 +107,8 @@
 			},
 			beforeSend: function()
 			{
-				
-				
+
+
 			},
 			success: function(data)
 			{
@@ -117,12 +117,12 @@
 				alert(document.getElementById("compare_products").value);
 
 				wnd.focus();*/
-				
-				
+
+
 				var win2=window.open(url, '_compare');
-				
+
 			}
 		});
 	}
-	
+
 </script>

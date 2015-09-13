@@ -43,8 +43,8 @@
 $route['default_controller'] = "main";
 $route['scaffolding_trigger'] = "";
 
-$route['admin'] = "admin/home";
-//$route['admin/(.*)'] = "admin/home/$1";
+//$route['admin'] = "admin/home";
+$route['admin/(.*)'] = "admin/$1";
 
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */

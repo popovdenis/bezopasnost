@@ -7,10 +7,14 @@
  */
 var productsObj = {
 
+    base_url: "http://" + window.location.hostname + "/",
+    ajax_admin_path: "http://" + window.location.hostname + "/ajax_handlers/admin_handler/ajax_actions/",
+
     init: function(itemId)
     {
         this.initImageGalleryUploader(itemId);
         this.initImageTitleUploader(itemId);
+        this.initDeleteItemLogo();
     },
 
     initImageGalleryUploader: function (itemId) {
@@ -116,6 +120,7 @@ var productsObj = {
                                 var file = '<img width="235" src="/' + result.file_path + '" />';
                                 $('#item_title_img').html(file);
                             })
+                        $('.delete-item-logo').data('item-id', itemId).show();
                     } else {
                         alert('Ошибка! Файл не был загружен или загружен с ошибкой!');
                     }
@@ -149,7 +154,8 @@ var productsObj = {
         var config = {
             toolbar: 'Basic',
             uiColor: '#CB6615',
-            filebrowserUploadUrl: '/ajax_handlers/admin_handler/upload'
+            language: 'ru',
+            filebrowserUploadUrl: '/admin/home/doUpload'
         };
 
         if ($('#post_content').length > 0) {
@@ -180,6 +186,10 @@ var productsObj = {
         }
     },
 
+    uploadProcess: function () {
+
+    },
+
     initDatePicker: function() {
         var datePickerElement = $("input[id^='datepicker_']");
         if (datePickerElement.length > 0) {
@@ -190,5 +200,57 @@ var productsObj = {
                 dateFormat: 'dd-mm-yy'
             });
         }
+    },
+
+    initDeleteItemLogo: function () {
+        var that = this;
+        $('.delete-item-logo').click(function () {
+            var $this = $(this);
+            if (confirm('Вы подтверждаете удаление логотипа?')) {
+                $.ajax({
+                    url: adminObj.base_url + 'admin/home/deleteItemLogo',
+                    type: 'POST',
+                    dataType: "json",
+                    data: {
+                        itemId: $(this).data('item-id')
+                    },
+                    success: function (response) {
+                        if (response.success != undefined && response.success) {
+                            $('#item_title_img').empty();
+                            $this.hide();
+                            if (response.message != undefined) {
+                                alert(response.message);
+                            }
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
+    },
+
+    paginate_items: function(page_num) {
+        var item_type = $("#item_type").val();
+        $.ajax({
+            type: "POST",
+            url: this.ajax_admin_path,
+            dataType: "html",
+            data: { 'action': 'paginate_items',
+                'page_num': page_num,
+                'item_type': item_type
+            },
+            beforeSend: function () {
+                $("#paginate_img").show();
+            },
+            success: function (data) {
+                $("#paginate_img").hide();
+                $("#items_" + item_type).html(data);
+            },
+            error: function (data) {
+                $("#paginate_img").hide();
+                $("#items_" + item_type).html('');
+            }
+        });
+        return true;
     }
 };

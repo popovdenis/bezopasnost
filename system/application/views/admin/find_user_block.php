@@ -2,7 +2,7 @@
 	<div id="" class="left padAll5">Пользователи</div>
 	<div class="padAll5 right">
 		<img class="marRight5" src="<?=base_url()?>images/big-plus.gif" alt=""/>
-		<a id="" onclick="return add_form('user');" href="#">Добавить Нового Пользователя</a>
+		<a id="" onclick="return adminObj.add_form('user');" href="#">Добавить Нового Пользователя</a>
 	</div>
 </div>
 <div id="users_block_header">

@@ -59,9 +59,11 @@
         </div>
         <div style="float: right; width: 280px;">
             <?php require_once('_contacts_block.php'); ?>
-            <?php require_once('_new_products.php'); ?>
             <?php //require_once('_new_info.php'); ?>
         </div>
+    </div>
+    <div style="float: right; width: 280px;">
+        <?php require_once('_new_products.php'); ?>
     </div>
     <div class="main-content">
         <?=$main->item_content?>

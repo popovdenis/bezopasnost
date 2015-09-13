@@ -25,43 +25,58 @@ class Category_mdl extends Model
         return $query->result();
     }
 
-    function get_category( $category_id = null, $parent_id = null, $category_title = null, $orderby = "category_position" )
+    function get_category_by_slug($slug)
     {
-        try
-        {
+        $query = "select * from categories where 1=1 ";
+        if (!empty($slug)) {
+            $query .= " and category_slug = '$slug'";
+        }
+        $query = $this->db->query($query);
+        if (! $query) {
+            throw new Exception($this->db->_error_message());
+        }
+
+        return $query->result();
+    }
+
+    function get_category(
+        $category_id = null,
+        $parent_id = null,
+        $category_title = null,
+        $orderby = "category_position"
+    ) {
+        try {
             $query = "select * from categories ";
-            if ( isset( $category_id ) || isset( $parent_id ) || isset( $category_title ) ) {
+            if (isset($category_id) || isset($parent_id) || isset($category_title)) {
                 $query .= " where ";
             }
-            if ( isset( $category_id ) ) {
+            if (isset($category_id)) {
                 $query .= " category_id = '$category_id'";
             }
-            if ( isset( $parent_id ) )
-            {
-                if ( isset( $category_id ) ) {
+            if (isset($parent_id)) {
+                if (isset($category_id)) {
                     $query .= ' and ';
                 }
                 $query .= " category_parent = '$parent_id'";
             }
-            if ( isset( $category_title ) )
-            {
-                if ( isset( $parent_id ) || isset( $category_id ) ) {
+            if (isset($category_title)) {
+                if (isset($parent_id) || isset($category_id)) {
                     $query .= ' and ';
                 }
                 $query .= " category_title = '$category_title'";
             }
             $query .= ' order by ' . $orderby;
-            $query = $this->db->query( $query );
-            if ( !$query ) {
-                throw new Exception( $this->db->_error_message() );
+            $query = $this->db->query($query);
+            if (! $query) {
+                throw new Exception($this->db->_error_message());
             }
 
             return $query->result();
 
-        } catch ( Exception $e )
-        {
-            log_message( 'error', $e->getMessage() . '\n' . $e->getFile() . '\n' . $e->getCode() );
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage() . '\n' . $e->getFile() . '\n' . $e->getCode());
         }
+
         return false;
     }
 
@@ -157,7 +172,7 @@ class Category_mdl extends Model
             {
                 $query .= " and i.item_mode = 'open' and i.item_production <= now() ";
             }
-            $query .= ' order by i.item_title';
+            $query .= ' GROUP BY i.item_id order by i.item_title';
             $query = $this->db->query( $query );
             if ( !$query ) {
                 throw new Exception( $this->db->_error_message() );

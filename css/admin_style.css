@@ -19,7 +19,13 @@ legend, table, caption, tbody, thead, tr, th, td, button {
 :focus {
 	outline: 0;
 }
-
+.mrg10 {
+    clear: left;
+    margin: 10px 0;
+}
+select[disabled] {
+    background-color: #e3e3e3;
+}
 body {
 	line-height: 1;
 	color: #333;
@@ -51,9 +57,6 @@ caption, th, td {
 a, a:link, a:visited {
 	color: #3470a8;
 	text-decoration: none;
-}
-a:focus, a:hover, a:active {
-	text-decoration: underline;
 }
 
 select {
@@ -336,8 +339,8 @@ select {
 	margin:10px 0 0 0;
 	width:270px;
 }
-#categories_new{
-	margin:10px 0 0 0;
+#categories_new, .select-list{
+	margin:10px 0;
 	width:184px;
 }
 #map1_img, #map2_img{
@@ -742,4 +745,44 @@ div.page_number_selected {
 .seo_title span, .seo_keywords span, .seo_description span {
     display: block;
     margin-bottom: 5px;
+}
+.icon-delete {
+    background-image: url("../images/icons/delete.png");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    display: inline-block;
+    font-size: 1px;
+    height: 16px;
+    line-height: 16px;
+    overflow: hidden;
+    text-indent: -99px;
+    vertical-align: middle;
+    width: 16px;
+}
+.chess_header {
+    border: 1px solid #000000;
+    float: left;
+}
+.chess_header span {
+    cursor: pointer;
+    float:left;
+    height: 113px;
+    width: 113px;
+}
+.chess_header span.black_block {
+    background-color: #000000;
+}
+.clickers_apply_btn {
+    margin-left: 10px;
+}
+.flash_messages {
+    display: none;
+    font-size: 12px;
+    margin-left: 8px;
+}
+.success {
+    color: #478500;
+}
+.error {
+    color: #d60000;
 }

@@ -24,12 +24,12 @@ class Products_handler extends Controller
      *
      * @access  public
      */
-    function Products_handler()
+    public function Products_handler()
     {
         parent::Controller();
     }
 
-    function ajax_actions()
+    public function ajax_actions()
     {
         $action = $this->input->post('action');
         $data = '';
