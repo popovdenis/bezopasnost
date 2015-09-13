@@ -308,6 +308,27 @@ class Items_mdl extends Model
         return $query->result_array();
     }
 
+    public function get_items_by_manufacturer($brand_id)
+    {
+        if (!$brand_id) {
+            throw new Exception("all inputed data are null");
+        }
+        $duplicate = null;
+        $query =
+            "select items.* from items
+                INNER JOIN manufacturer as man ON (man.id = items.manufacturer_id)
+                INNER JOIN categories as cat ON (cat.category_id = man.category_id)
+                where
+                man.id = " . (int)$brand_id;
+
+        $query = $this->db->query($query);
+        if (!$query) {
+            throw new Exception($this->db->_error_message());
+        }
+
+        return $query->result();
+    }
+
     /**
      * @param string $keywords
      * @param int    $per_page

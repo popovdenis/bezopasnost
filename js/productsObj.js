@@ -36,8 +36,7 @@ var productsObj = {
             dataType: "html",
             data: {
                 'action': 'search_by_manufacturer',
-                'keywords': $('#search_by_manufacturer').val(),
-                'category_id': $('#category_id').val()
+                'brand_id': $('#search_by_manufacturer').val()
             },
             beforeSend: function () {
                 $("#filter_img").show();

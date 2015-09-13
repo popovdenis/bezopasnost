@@ -71,8 +71,8 @@ class Search_handler extends Controller
                 $data        = json_encode($data);
                 break;
             case "search_by_manufacturer":
-                $category_id = $this->input->post('category_id');
-                $data        = $this->_get_items_block(1, $keywords, $category_id, null);
+                $brand_id = $this->input->post('brand_id');
+                $data        = $this->get_items_by_manufacturer($brand_id);
                 break;
             case "main_quick_search":
                 $items_str = "";
@@ -126,6 +126,13 @@ class Search_handler extends Controller
                 break;
         }
         $this->output->set_output($data);
+    }
+
+    public function get_items_by_manufacturer($band_id)
+    {
+        $this->load->model('items_mdl', 'items');
+
+        return $this->items->get_items_by_manufacturer($band_id);
     }
 
     function _get_items_block($page = 1, $keywords = "", $category_id = null, $type = 'main')

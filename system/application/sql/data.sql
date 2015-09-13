@@ -4,3 +4,5 @@ CREATE TABLE `manufacturer` (
   `title` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `items` ADD `manufacturer_id` INT( 10 );
