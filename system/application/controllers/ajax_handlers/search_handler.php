@@ -70,6 +70,10 @@ class Search_handler extends Controller
                 $data        = (Object)$this->_get_items_block(1, $keywords, $category_id, null);
                 $data        = json_encode($data);
                 break;
+            case "search_by_manufacturer":
+                $category_id = $this->input->post('category_id');
+                $data        = $this->_get_items_block(1, $keywords, $category_id, null);
+                break;
             case "main_quick_search":
                 $items_str = "";
                 if (!empty($keywords)) {

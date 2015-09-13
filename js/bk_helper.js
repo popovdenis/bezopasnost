@@ -10,9 +10,9 @@ function trim(string) {
 	return string.replace(/(^\s+)|(\s+$)/g, "");
 }
 $(document).ready(function() {
-	$('input[id="quick_search_field"]').addClass("idleField");
+	$('input[id="quick_search_field"], input[id="search_by_manufacturer"]').addClass("idleField");
     $('input[id="main_keywords"]').addClass("idleField");
-	$('input[id="quick_search_field"]').focus(function() {
+	$('input[id="quick_search_field"], input[id="search_by_manufacturer"]').focus(function() {
 		$(this).removeClass("idleField").addClass("focusField");
 		if (this.value == this.defaultValue){
 			this.value = '';
@@ -36,7 +36,7 @@ $(document).ready(function() {
 		$(this).removeClass("focusField").addClass("idleField");
 		if (this.value == ''){
 			this.value = 'Быстрый поиск';
-		}		
+		}
 	});
 	$('input[id="main_keywords"]').blur(function() {
 		$(this).removeClass("focusField").addClass("idleField");
@@ -50,9 +50,9 @@ function go_to_search(){
 	window.location = general_url+"search";
 }
 
-function sort_search_result(trigger){	
+function sort_search_result(trigger){
 	$('div[id^="results"]').each(function () {
-				
+
 		if($(this).attr('id') != 'results-'+trigger) {
 			if(trigger != 'all') $(this).hide('fast');
 			else $(this).show('fast');
@@ -66,7 +66,7 @@ function sort_search_result(trigger){
 
 function search_other(category_id){
 	$.ajax({
-            type: "POST", 
+            type: "POST",
             url: ajax_general_path,
             dataType: "json",
             data: { 'action':'quick_search',
@@ -83,19 +83,19 @@ function search_other(category_id){
                 $("#count_result").html(data.count);
             },
             error: function(data)
-            {    
+            {
                 //$("#filter_img").html('');
                 $("#items_block").html('');
             }
         });
-        
+
         return true;
 }
 
 function main_quick_search(){
 //    alert(ajax_general_path + 'main_quick_search');
         $.ajax({
-            type: "POST", 
+            type: "POST",
             url: ajax_general_path,
             dataType: "html",
             data: { 'action':'main_quick_search',
@@ -115,6 +115,6 @@ function main_quick_search(){
                 $("#sub_search_menuitems").html('');
             }
         });
-        
+
         return true;
     }

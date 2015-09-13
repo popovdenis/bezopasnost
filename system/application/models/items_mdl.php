@@ -320,46 +320,59 @@ class Items_mdl extends Model
     {
         $page  = empty($page) ? 1 : $page;
         $limit = empty($per_page) ? '' : ' limit ' . $per_page * ($page - 1) . ',' . $per_page;
-        $category1 = "select category_id from categories where category_title = 'Двери'";
-        $category1 = $this->db->query($category1)->row();
-        $category2 = "select category_id from categories where category_title = 'Замки'";
-        $category2 = $this->db->query($category2)->row();
-        $category3 = "select category_id from categories where category_title = 'Сейфы'";
-        $category3 = $this->db->query($category3)->row();
-        $category4 = "select category_id from categories where category_title = 'Системы контроля доступа'";
-        $category4 = $this->db->query($category4)->row();
-        $category5 = "select category_id from categories where category_title = 'Цилиндры'";
-        $category5 = $this->db->query($category5)->row();
-        $category6 = "select category_id from categories where category_title = 'Комплектующие и аксессуары'";
-        $category6 = $this->db->query($category6)->row();
-        $category7 = "select category_id from categories where category_title = 'Бренды'";
-        $category7 = $this->db->query($category7)->row();
-        $category8 = "select category_id from categories where category_title = 'Информация'";
-        $category8 = $this->db->query($category8)->row();
+
+        $categorySlugs = array(
+            'door',
+            'lock',
+            'safe',
+            'skd',
+            'cylinder',
+            'hardware',
+            'brand',
+            'information'
+        );
+        $categories = "select category_id from categories where category_slug"
+            . " IN ('" . implode('\',\'', $categorySlugs) . "')";
+        list(
+            $category1,
+            $category2,
+            $category3,
+            $category4,
+            $category5,
+            $category6,
+            $category7,
+            $category8
+            ) =
+            array_column(
+                $this->db->query($categories)->result_array(),
+                'category_id'
+            );
+
         $query = "select SQL_CALC_FOUND_ROWS it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category1->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category1 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category2->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category2 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category3->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category3 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category4->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category4 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category5->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category5 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category6->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category6 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category7->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category7 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') ";
         $query .= "union select it.item_type, c.category_id, c.category_title, i.* from items i left JOIN item_category ic on ic.item_id=i.item_id
-    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category8->category_id . "'
+    left JOIN item_type it on it.item_type_id=i.item_type_id left JOIN categories c on ic.category_id=c.category_id where item_mode = 'open' and c.category_parent = '" . $category8 . "'
     and (i.item_title LIKE '%" . $keywords . "%' or i.item_content like '%" . $keywords . "%') order by category_title " . $limit;
+
         $query = $this->db->query($query);
         if (!$query) {
             return false;

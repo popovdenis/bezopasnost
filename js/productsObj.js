@@ -29,10 +29,37 @@ var productsObj = {
         return true;
     },
 
+    search_by_manufacturer: function() {
+        $.ajax({
+            type: "POST",
+            url: '/ajax_handlers/search_handler/ajax_actions',
+            dataType: "html",
+            data: {
+                'action': 'search_by_manufacturer',
+                'keywords': $('#search_by_manufacturer').val(),
+                'category_id': $('#category_id').val()
+            },
+            beforeSend: function () {
+                $("#filter_img").show();
+            },
+            success: function (data) {
+                $("#filter_img").hide();
+                $("#products_block").html(data.items_block);
+                $(".page_container").html(data.page_container);
+            },
+            error: function (data) {
+                $("#filter_img").html('');
+                $("#products_block").html('');
+                $(".page_container").html('');
+            }
+        });
+        return true;
+    },
+
     quick_search: function() {
         $.ajax({
             type: "POST",
-            url: '/ajax_handlers/products_handler/ajax_actions',
+            url: '/ajax_handlers/search_handler/ajax_actions',
             dataType: "json",
             data: { 'action': 'quick_search',
                 'keywords': $('#quick_search_field').val(),
